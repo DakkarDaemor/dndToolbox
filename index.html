@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D&D Toolbox — Forgotten Realms</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100dvh;background:#0f0d0b;color:#ddd0b5;font-family:'IM Fell English',Georgia,serif;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 16px}
+
+.wrap{width:100%;max-width:460px;text-align:center}
+
+.crest{font-size:48px;margin-bottom:16px;line-height:1;filter:drop-shadow(0 0 12px rgba(201,168,76,.3))}
+
+h1{font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:#d4b05a;letter-spacing:.06em;margin-bottom:6px}
+.sub{font-size:13px;color:#a89878;font-style:italic;margin-bottom:40px;line-height:1.6}
+
+.cards{display:flex;flex-direction:column;gap:14px;margin-bottom:40px}
+
+.card{display:block;text-decoration:none;background:#1a1612;border:1px solid #3a3228;border-radius:10px;padding:20px 20px 18px;text-align:left;transition:border-color .2s,background .2s;position:relative;overflow:hidden}
+.card:hover{background:#221e18;border-color:#7a6230}
+.card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,.04) 0%,transparent 60%);pointer-events:none}
+
+.card-header{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.card-icon{font-size:24px;line-height:1;flex-shrink:0}
+.card-title{font-family:'Cinzel',serif;font-size:15px;font-weight:600;color:#d4b05a;letter-spacing:.03em}
+.card-badge{margin-left:auto;font-family:'Cinzel',serif;font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px}
+.badge-offline{background:#1a2e22;color:#5cb87a;border:1px solid #2d5a3d}
+.badge-ai{background:#1a2535;color:#7db8d8;border:1px solid #4a7fa8}
+
+.card-desc{font-size:13px;color:#a89878;line-height:1.7;margin-bottom:12px}
+
+.card-features{display:flex;flex-wrap:wrap;gap:5px}
+.feat{font-family:'Cinzel',serif;font-size:10px;color:#7a6a52;border:1px solid #3a3228;border-radius:4px;padding:2px 7px}
+
+.divider{display:flex;align-items:center;gap:10px;margin:4px 0 12px;color:#5a5045;font-size:11px;font-family:'Cinzel',serif;letter-spacing:.1em}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:#3a3228}
+
+.footer{font-size:11px;color:#5a5045;font-style:italic;line-height:1.8}
+.footer a{color:#7a6a52;text-decoration:none}
+.footer a:hover{color:#a89878}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="crest">⚔</div>
+  <h1>D&D Toolbox</h1>
+  <p class="sub">Forgotten Realms · Waterdeep · Sottomonte · Costa della Spada</p>
+
+  <div class="cards">
+
+    <a class="card" href="dnd-toolbox-offline.html">
+      <div class="card-header">
+        <span class="card-icon">🎲</span>
+        <span class="card-title">Versione Offline</span>
+        <span class="card-badge badge-offline">100% locale</span>
+      </div>
+      <p class="card-desc">
+        Funziona senza connessione e senza chiave API. Nomi, loot, imprevisti, oggetti, PNG e luoghi generati da tabelle e motore semantico interno. Bottoni ✦ AI opzionali per chi vuole arricchire i risultati.
+      </p>
+      <div class="card-features">
+        <span class="feat">Nomi per razza</span>
+        <span class="feat">Oggetti + stats</span>
+        <span class="feat">Loot per livello</span>
+        <span class="feat">Imprevisti FR</span>
+        <span class="feat">PNG da template</span>
+        <span class="feat">Luoghi semantici</span>
+        <span class="feat">Idee narrative</span>
+        <span class="feat">Archivio sessione</span>
+      </div>
+    </a>
+
+    <div class="divider">oppure</div>
+
+    <a class="card" href="dnd-toolbox.html">
+      <div class="card-header">
+        <span class="card-icon">✦</span>
+        <span class="card-title">Versione AI</span>
+        <span class="card-badge badge-ai">richiede API key</span>
+      </div>
+      <p class="card-desc">
+        PNG, descrizioni luoghi e idee narrative generati da Claude. Richiede una chiave API Anthropic (configurabile al primo avvio). Le funzioni senza AI (nomi, loot, oggetti, imprevisti) funzionano sempre.
+      </p>
+      <div class="card-features">
+        <span class="feat">PNG con lore FR</span>
+        <span class="feat">Descrizioni evocative</span>
+        <span class="feat">Idee narrative AI</span>
+        <span class="feat">Dettaglio magico AI</span>
+        <span class="feat">Archivio sessione</span>
+      </div>
+    </a>
+
+  </div>
+
+  <p class="footer">
+    Salvataggi locali — nessun dato inviato a server.<br>
+    <a href="https://github.com/DakkarDaemor/dndToolbox" target="_blank">github.com/DakkarDaemor/dndToolbox</a>
+  </p>
+
+</div>
+</body>
+</html>
