@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" id="htmlroot">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -183,7 +183,8 @@ select option{background:var(--bg2)}
   </div>
   <div style="margin-left:auto;display:flex;align-items:center;gap:4px">
     <span id="key-status" title="API Key"></span>
-    <button class="hdr-export" onclick="exportJSON()">↓ Esporta</button>
+    <button id="btn-export" class="hdr-export" onclick="exportJSON()">↓ Esporta</button>
+  <button id="btn-lang" onclick="toggleLang()" style="background:transparent;border:1px solid #4a4238;border-radius:var(--radius);color:#9a8e78;font-family:'Cinzel',serif;font-size:10px;font-weight:600;padding:5px 9px;cursor:pointer;letter-spacing:.05em;margin-left:4px">EN</button>
   </div>
   <button class="hdr-cfg" onclick="openConfig()" title="Configurazione API Key">⚙</button>
 </div>
@@ -446,9 +447,7 @@ function deleteItem(i){
   if(!card)return;
   const dlg=document.createElement('div');
   dlg.className='del-confirm';
-  dlg.innerHTML='Eliminare?'+
-    '<button class="del-yes" onclick="confirmDelete('+i+')">Sì</button>'+
-    '<button class="del-no" onclick="this.parentElement.remove()">No</button>';
+  var _u=UI[lang]; dlg.innerHTML=_u.del_q+'<button class="del-yes" onclick="confirmDelete('+i+')">'+_u.del_y+'</button><button class="del-no" onclick="this.parentElement.remove()">'+_u.del_n+'</button>';
   card.appendChild(dlg);
 }
 function confirmDelete(i){
@@ -610,13 +609,14 @@ function showDiag(msg){
 
 // ── NOMI ──────────────────────────────────────────────────────────────────────
 function renderNomi(){
+  var u=UI[lang];
   document.getElementById('panel-nomi').innerHTML=`
-    <div class="ornament">— Nomi dei Reami —</div>
+    <div class="ornament">${u.orn.nomi}</div>
     <div class="ctrl">
-      <select id="n-g"><option value="m">Maschile</option><option value="f">Femminile</option></select>
-      <select id="n-rz">${Object.keys(NM).map(r=>`<option>${r.charAt(0).toUpperCase()+r.slice(1)}</option>`).join('')}</select>
+      <select id="n-g"><option value="m">${u.male}</option><option value="f">${u.female}</option></select>
+      <select id="n-rz">${Object.keys(NM).map(r=>`<option value="${r}">${UI[lang].races[r]||r}</option>`).join('')}</select>
     </div>
-    <button class="btn p btn-full" onclick="genNomi()">⚄ Genera nomi</button>
+    <button class="btn p btn-full" onclick="genNomi()">${u.gen}</button>
     <div id="n-res" style="margin-top:12px"></div>`;
 }
 function genNomi(){
@@ -628,9 +628,9 @@ function genNomi(){
   _cache.nomi=nomi.map(n=>({contenuto:n,genere:g,razza:rz}));
   document.getElementById('n-res').innerHTML='<div class="grid2">'+
     nomi.map((n,i)=>`<div class="card">
-      <div class="card-lbl">${esc(rz)} · ${g==='m'?'M':'F'}</div>
+      <div class="card-lbl">${UI[lang].races[rz]||rz} · ${g==='m'?'M':'F'}</div>
       <div class="card-big">${esc(n)}</div>
-      <button class="card-sav" onclick="saveNome(${i})">+ Salva</button>
+      <button class="card-sav" onclick="saveNome(${i})">${UI[lang].save}</button>
     </div>`).join('')+
   '</div>';
 }
@@ -644,7 +644,7 @@ function statRow(label,val){
 function aiDetailHTML(rows, id){
   // rows: [{lbl, val, lore?}]
   const inner=rows.map(r=>`<div class="ai-row${r.lore?' ai-lore':''}"><span class="ai-lbl">${esc(r.lbl)}</span><span class="ai-val">${esc(r.val)}</span></div>`).join('');
-  return `<div class="ai-toggle" id="ait-${id}" onclick="toggleAI('${id}')"><span class="arr">▶</span> Dettaglio magico</div><div class="ai-body" id="aib-${id}" style="display:none">${inner}</div>`;
+  return `<div class="ai-toggle" id="ait-${id}" onclick="toggleAI('${id}')"><span class="arr">▶</span> ${UI[lang].ai_toggle}</div><div class="ai-body" id="aib-${id}" style="display:none">${inner}</div>`;
 }
 function toggleAI(id){
   const tog=document.getElementById('ait-'+id);
@@ -656,13 +656,14 @@ function toggleAI(id){
 }
 
 function renderOggetti(){
+  var u=UI[lang];
   document.getElementById('panel-oggetti').innerHTML=`
-    <div class="ornament">— Armeria dei Reami —</div>
+    <div class="ornament">${u.orn.oggetti}</div>
     <div class="ctrl">
-      <select id="o-tipo">${Object.keys(OGG).map(t=>`<option>${t.charAt(0).toUpperCase()+t.slice(1)}</option>`).join('')}</select>
+      <select id="o-tipo">${Object.keys(OGG).map(k=>`<option value="${k}">${u.tipos[k]||k}</option>`).join('')}</select>
       <select id="o-rar">${RAR.map(r=>`<option>${r}</option>`).join('')}</select>
     </div>
-    <button class="btn p btn-full" onclick="genOggetti()">⚄ Genera oggetti</button>
+    <button class="btn p btn-full" onclick="genOggetti()">${u.gen}</button>
     <div id="o-res" style="margin-top:12px"></div>`;
   document.getElementById('o-rar').value='Raro';
 }
@@ -723,15 +724,15 @@ function genOggetti(){
           <span class="badge b-c">${esc(tipo)}</span>
         </div>
         <div class="stat-block">
-          ${obj.danno?statRow(tipo==='armatura'?'CA':'Danno',obj.danno):''}
-          ${obj.prop?statRow('Proprietà',obj.prop):''}
-          ${obj.peso?statRow('Peso',obj.peso):''}
-          ${obj.valore?statRow('Valore',obj.valore):''}
+          ${obj.danno?statRow(tipo==='armatura'?UI[lang].st.ca:UI[lang].st.danno,obj.danno):''}
+          ${obj.prop?statRow(UI[lang].st.prop,obj.prop):''}
+          ${obj.peso?statRow(UI[lang].st.peso,obj.peso):''}
+          ${obj.valore?statRow(UI[lang].st.valore,obj.valore):''}
         </div>
         <div id="oai-${i}"></div>
         <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
-          ${useAI?`<button class="btn btn-ai" style="font-size:11px" onclick="genDettaglioOgg(${i})" style="font-size:11px">✦ Dettaglio magico</button>`:''}
-          <button class="card-sav" onclick="saveOgg(${i})">+ Salva</button>
+          ${useAI?`<button class="btn btn-ai" style="font-size:11px" onclick="genDettaglioOgg(${i})" style="font-size:11px">${UI[lang].ai_toggle}</button>`:''}
+          <button class="card-sav" onclick="saveOgg(${i})">${UI[lang].save}</button>
         </div>
       </div>`).join('')+
   '</div>';
@@ -756,36 +757,32 @@ function saveLoot(){
 
 // ── LOOT ──────────────────────────────────────────────────────────────────────
 function renderLoot(){
+  var u=UI[lang];
   document.getElementById('panel-loot').innerHTML=`
-    <div class="ornament">— Tesori Nemici —</div>
+    <div class="ornament">${u.orn.loot}</div>
     <div class="ctrl">
-      <select id="l-lv">
-        <option value="0">Liv 1-4 (scarso)</option>
-        <option value="1">Liv 5-8 (medio)</option>
-        <option value="2">Liv 9-12 (ricco)</option>
-        <option value="3">Liv 13+ (epico)</option>
-      </select>
+      <select id="l-lv">${u.loot_lvls.map((l,i)=>`<option value="${i}">${l}</option>`).join('')}</select>
     </div>
-    <button class="btn p btn-full" onclick="genLoot()">⚄ Lancia i dadi</button>
+    <button class="btn p btn-full" onclick="genLoot()">${u.loot_btn}</button>
     <div id="l-res" style="margin-top:12px"></div>`;
 }
 function genLoot(){
   const lv=parseInt(document.getElementById('l-lv').value);
-  const entry=pick(LOOT[lv]);
+  const entry=pick(DATA.loot[lang][lv]);
   const useAI=!!entry.ai;
   delete _aiCache['loot'];  // reset on new generation
   _lootcache=entry;
   const saved=JSON.stringify(entry.d+' — '+entry.n);
   document.getElementById('l-res').innerHTML=`<div class="card">
-    <div class="card-lbl">Trovi addosso — Costa della Spada</div>
+    <div class="card-lbl">${UI[lang].loot_lbl}</div>
     <div class="card-val" style="font-weight:600;margin-bottom:6px">${esc(entry.d)}</div>
     <div class="stat-block" style="margin-bottom:8px">
-      ${statRow('Note',entry.n)}
+      ${statRow(UI[lang].st.note,entry.n)}
     </div>
     <div id="lai-detail"></div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
       ${useAI?'<button class="btn btn-ai" style="font-size:11px" onclick="genDettaglioLoot()">✦ Dettaglio magico</button>':''}
-      <button class="card-sav" onclick="saveLoot()">+ Salva</button>
+      <button class="card-sav" onclick="saveLoot()">${UI[lang].save}</button>
     </div>
   </div>`;
 }
@@ -794,35 +791,37 @@ function genLoot(){
 
 // ── IMPREVISTI ────────────────────────────────────────────────────────────────
 function renderImprevisti(){
+  var u=UI[lang];
   document.getElementById('panel-imprevisti').innerHTML=`
-    <div class="ornament">— Colpi di Scena —</div>
+    <div class="ornament">${u.orn.imp}</div>
     <div class="ctrl">
-      <select id="i-zona">${Object.keys(IMP).map(z=>`<option>${esc(z)}</option>`).join('')}</select>
+      <select id="i-zona">${Object.keys(u.imp_zones).map(k=>`<option value="${k}">${u.imp_zones[k]}</option>`).join('')}</select>
     </div>
-    <button class="btn p btn-full" onclick="genImprevisto()">⚡ Imprevisto!</button>
+    <button class="btn p btn-full" onclick="genImprevisto()">⚡ ${u.imp_btn}</button>
     <div id="i-res" style="margin-top:12px"></div>`;
 }
 function genImprevisto(){
   const zona=document.getElementById('i-zona').value;
-  const res=pick(IMP[zona]);
+  const res=pick(DATA.imp[lang][zona]);
   _cache.imprevisto={contenuto:res,zona};
   document.getElementById('i-res').innerHTML=`<div class="card">
-    <div class="card-lbl">${esc(zona)}</div>
+    <div class="card-lbl">${UI[lang].imp_zones[zona]||zona}</div>
     <div class="card-val">${esc(res)}</div>
-    <button class="card-sav" onclick="saveImprevisto()">+ Salva</button>
+    <button class="card-sav" onclick="saveImprevisto()">${UI[lang].save}</button>
   </div>`;
 }
 
 // ── PNG ───────────────────────────────────────────────────────────────────────
 function renderPNG(){
+  var u=UI[lang];
   document.getElementById('panel-png').innerHTML=`
-    <div class="ornament">— Personaggi dei Reami —</div>
+    <div class="ornament">${u.orn.png}</div>
     <div class="ctrl">
-      <select id="p-zona">${['Waterdeep','Sottomonte','Dock Ward','Castle Ward','Luskan','Costa della Spada'].map(z=>`<option>${z}</option>`).join('')}</select>
-      <select id="p-ruolo">${['mercante','guardia','spia','nobile','mago','chierico','assassino','fabbro','bardo','contrabbandiere','avventuriero','informatore','cultista','broker'].map(r=>`<option>${r.charAt(0).toUpperCase()+r.slice(1)}</option>`).join('')}</select>
+      <select id="p-zona">${Object.keys(u.png_zones).map(k=>`<option value="${k}">${u.png_zones[k]}</option>`).join('')}</select>
+      <select id="p-ruolo">${Object.keys(u.ruoli).map(k=>`<option value="${k}">${u.ruoli[k]}</option>`).join('')}</select>
     </div>
     <div class="ctrl">
-      <select id="p-tono">${['neutrale','amichevole','ostile','ambiguo','misterioso','corrotto','disperato','arrogante','timoroso','fanatico'].map(t=>`<option>${t.charAt(0).toUpperCase()+t.slice(1)}</option>`).join('')}</select>
+      <select id="p-tono">${Object.keys(u.toni).map(k=>`<option value="${k}">${u.toni[k]}</option>`).join('')}</select>
     </div>
     <div class="ctrl" style="gap:6px">
       <button class="btn p" style="flex:1" onclick="genPNG()">⚄ Locale</button>
@@ -843,33 +842,34 @@ function genPNG(){
       <span class="badge b-nc">${esc(d.ruolo)}</span>
     </div>
     <div class="png-detail" style="margin-top:10px">
-      <div class="png-row"><span class="fl">aspetto: </span>${esc(d.descrizione)}</div>
-      <div class="png-row"><span class="fl">obiettivi: </span>${esc(d.obiettivi)}</div>
-      <div class="png-row"><span class="fl">segreto: </span>${esc(d.segreto)}</div>
-      ${d.fr?`<div class="png-row"><span class="fl">FR: </span>${esc(d.fr)}</div>`:''}
+      <div class="png-row"><span class="fl">${UI[lang].fl.aspetto} </span>${esc(d.descrizione)}</div>
+      <div class="png-row"><span class="fl">${UI[lang].fl.obiettivi} </span>${esc(d.obiettivi)}</div>
+      <div class="png-row"><span class="fl">${UI[lang].fl.segreto} </span>${esc(d.segreto)}</div>
+      ${d.fr?`<div class="png-row"><span class="fl">${UI[lang].fl.fr} </span>${esc(d.fr)}</div>`:''}
     </div>
-    <button class="card-sav" onclick="savePNG()">+ Salva</button>
+    <button class="card-sav" onclick="savePNG()">${UI[lang].save}</button>
   </div>`;
 }
 
 // ── AMBIENTE ──────────────────────────────────────────────────────────────────
 function renderAmbiente(){
+  var u=UI[lang];
   document.getElementById('panel-ambiente').innerHTML=`
-    <div class="ornament">— Luoghi dei Reami —</div>
+    <div class="ornament">${u.orn.amb}</div>
     <div class="ctrl">
-      <select id="a-zona">${['Waterdeep','Sottomonte','Costa della Spada','Foresta di Neverwinter',"Baldur's Gate"].map(z=>`<option>${z}</option>`).join('')}</select>
-      <select id="a-tipo">${Object.keys(AMB_MOD).map(t=>`<option>${t.charAt(0).toUpperCase()+t.slice(1)}</option>`).join('')}</select>
+      <select id="a-zona">${Object.keys(u.amb_zones).map(k=>`<option value="${k}">${u.amb_zones[k]}</option>`).join('')}</select>
+      <select id="a-tipo">${Object.keys(u.amb_tipos).map(k=>`<option value="${k}">${u.amb_tipos[k]}</option>`).join('')}</select>
     </div>
     <div class="ctrl">
-      <input type="text" id="a-extra" placeholder="dettaglio opzionale...">
+      <input type="text" id="a-extra" placeholder="${u.amb_ph}">
     </div>
     <div class="ctrl" style="gap:6px">
-      <button class="btn p" style="flex:1" onclick="genAmbiente()">⚄ Locale</button>
-      <button class="btn btn-ai" style="flex:1" onclick="genAmbienteAI()">✦ AI</button>
+      <button class="btn p" style="flex:1" onclick="genAmbiente()">${u.amb_btn_loc}</button>
+      <button class="btn btn-ai" style="flex:1" onclick="genAmbienteAI()">${u.amb_btn_ai}</button>
     </div>
     <div id="a-res" style="margin-top:12px"></div>`;
-  document.getElementById('a-zona').value='Sottomonte';
-  document.getElementById('a-tipo').value='Sala di Sottomonte';
+  document.getElementById('a-zona').value='sottomonte';
+  document.getElementById('a-tipo').value='sala';
 }
 function genAmbiente(){
   const zona=document.getElementById('a-zona').value;
@@ -886,13 +886,14 @@ function genAmbiente(){
 
 // ── IDEE ──────────────────────────────────────────────────────────────────────
 function renderIdee(){
+  var u=UI[lang];
   document.getElementById('panel-idee').innerHTML=`
-    <div class="ornament">— Ispirazione Arcana —</div>
+    <div class="ornament">${u.orn.idee}</div>
     <div class="ctrl">
-      <select id="id-zona">${['Waterdeep','Sottomonte','Costa della Spada','Generico FR'].map(z=>`<option>${z}</option>`).join('')}</select>
+      <select id="id-zona">${Object.keys(u.idee_zones).map(k=>`<option value="${k}">${u.idee_zones[k]}</option>`).join('')}</select>
     </div>
     <div class="ctrl">
-      <input type="text" id="id-inp" placeholder="spunto (oggetto, luogo, fazione, evento)..." onkeydown="if(event.key==='Enter')genIdee()">
+      <input type="text" id="id-inp" placeholder="${u.idee_ph}" onkeydown="if(event.key==='Enter')genIdee()">
       <button class="btn p" onclick="genIdee()">⚄</button>
       <button class="btn btn-ai" onclick="genIdeeAI()">✦</button>
     </div>
@@ -915,22 +916,25 @@ function genIdee(){
 // ── SALVATI ───────────────────────────────────────────────────────────────────
 function renderSalvati(){
   const el=document.getElementById('panel-salvati');
+  var u=UI[lang];
+  var u=UI[lang];
   if(saved.length===0){
     el.innerHTML=`
-      <div class="ornament">— Archivio di Sessione —</div>
+      <div class="ornament">${u.orn.salv}</div>
       <div class="io-row">
-        <label class="file-btn">↑ Importa JSON<input type="file" accept=".json" style="display:none" onchange="importJSON(this.files[0])"></label>
+        <label class="file-btn">${u.salv_import}<input type="file" accept=".json" style="display:none" onchange="importJSON(this.files[0])"></label>
       </div>
-      <div class="empty"><div class="big">📜</div>Nessun elemento salvato.</div>`;
+      <div class="empty"><div class="big">📜</div>${u.salv_empty}</div>`;
     return;
   }
   const grouped=saved.reduce((acc,item,i)=>{if(!acc[item.tipo])acc[item.tipo]=[];acc[item.tipo].push({...item,_i:i});return acc;},{});
   let html=`
-    <div class="ornament">— Archivio di Sessione —</div>
+    <div class="ornament">${u.orn.salv}</div>
     <div class="io-row">
-      <button class="btn" onclick="exportJSON()">↓ Esporta JSON</button>
-      <label class="file-btn">↑ Importa<input type="file" accept=".json" style="display:none" onchange="importJSON(this.files[0])"></label>
-      <button class="btn" style="font-size:11px;color:var(--red2);border-color:var(--red)" onclick="if(confirm('Cancellare tutto?')){saved=[];persist();updateSavedBadge();renderSalvati();}">Cancella tutto</button>
+      <span style="font-size:12px;color:var(--text2);flex:1">${saved.length}${u.salv_count}</span>
+      <button class="btn" onclick="exportJSON()">${u.salv_export}</button>
+      <label class="file-btn">${u.salv_import}<input type="file" accept=".json" style="display:none" onchange="importJSON(this.files[0])"></label>
+      <button class="btn" style="font-size:11px;color:var(--red2);border-color:var(--red)" onclick="if(confirm(UI[lang].salv_clear+'?')){saved=[];persist();updateSavedBadge();renderSalvati();}}">${u.salv_clear}</button>
     </div>`;
   for(const [tipo,items] of Object.entries(grouped)){
     html+=`<div class="stit">${esc(tipo)}</div>`;
@@ -945,8 +949,8 @@ function renderSalvati(){
             ${d.ruolo?`<span class="badge b-nc">${esc(d.ruolo)}</span>`:''}
           </div>
           <div class="png-detail" style="margin-top:8px">
-            ${d.fr?`<div class="png-row"><span class="fl">FR: </span>${esc(d.fr)}</div>`:''}
-            ${d.segreto?`<div class="png-row"><span class="fl">segreto: </span>${esc(d.segreto)}</div>`:''}
+            ${d.fr?`<div class="png-row"><span class="fl">${UI[lang].fl.fr} </span>${esc(d.fr)}</div>`:''}
+            ${d.segreto?`<div class="png-row"><span class="fl">${UI[lang].fl.segreto} </span>${esc(d.segreto)}</div>`:''}
           </div>`;
       } else {
         if(item.zona)html+=`<div class="tags" style="margin-bottom:4px"><span class="badge b-zon">${esc(item.zona)}</span></div>`;
@@ -956,23 +960,23 @@ function renderSalvati(){
           html+=`<div class="card-big" style="font-size:14px;margin-bottom:6px">${esc(item.contenuto)}</div>`;
           html+=`<div class="tags" style="margin-bottom:8px"><span class="badge ${RAR_CLASS[item.rarità]||'b-c'}">${esc(item.rarità||'')}</span><span class="badge b-c">${esc(item.sottotipo||'')}</span></div>`;
           const rows=[];
-          if(item.danno) rows.push([item.sottotipo==='armatura'?'CA':'Danno', item.danno]);
-          if(item.prop)  rows.push(['Proprietà', item.prop]);
-          if(item.peso)  rows.push(['Peso', item.peso]);
-          if(item.valore)rows.push(['Valore', item.valore]);
+          if(item.danno) rows.push([item.sottotipo==='armatura'?UI[lang].st.ca:UI[lang].st.danno, item.danno]);
+          if(item.prop)  rows.push([UI[lang].st.prop, item.prop]);
+          if(item.peso)  rows.push([UI[lang].st.peso, item.peso]);
+          if(item.valore)rows.push([UI[lang].st.valore, item.valore]);
           if(rows.length) html+=`<div class="stat-block">${rows.map(([l,v])=>statRow(l,v)).join('')}</div>`;
           // AI fields
           const aiRows=[];
-          if(item.effetto)  aiRows.push(['Effetto', item.effetto]);
-          if(item.aspetto)  aiRows.push(['Aspetto', item.aspetto]);
-          if(item.lore||item.storia) aiRows.push(['Lore', item.lore||item.storia]);
+          if(item.effetto)  aiRows.push([UI[lang].ai_lbl.effetto, item.effetto]);
+          if(item.aspetto)  aiRows.push([UI[lang].ai_lbl.aspetto, item.aspetto]);
+          if(item.lore||item.storia) aiRows.push([UI[lang].ai_lbl.lore, item.lore||item.storia]);
           if(aiRows.length){const uid='sv'+item._i+'o';html+=aiDetailHTML(aiRows.map(([l,v])=>({lbl:l,val:v,lore:l==='Lore'})),uid);}
         } else if(item.tipo==='loot'){
           html+=`<div class="card-val" style="font-weight:600;margin-bottom:4px">${esc(item.contenuto)}</div>`;
-          if(item.note) html+=`<div class="stat-block">${statRow('Note',item.note)}</div>`;
+          if(item.note) html+=`<div class="stat-block">${statRow(UI[lang].st.note,item.note)}</div>`;
           const aiLootRows=[];
-          if(item.effetto)  aiLootRows.push(['Effetto', item.effetto]);
-          if(item.dettaglio)aiLootRows.push(['Dettaglio', item.dettaglio]);
+          if(item.effetto)  aiLootRows.push([UI[lang].ai_lbl.effetto, item.effetto]);
+          if(item.dettaglio)aiLootRows.push([UI[lang].ai_lbl.dettaglio, item.dettaglio]);
           if(aiLootRows.length){const uid='sv'+item._i+'l';html+=aiDetailHTML(aiLootRows.map(([l,v])=>({lbl:l,val:v,lore:l==='Dettaglio'})),uid);}
         } else {
           html+=`<div class="card-val" style="${item.tipo==='nome'?"font-family:'Cinzel',serif;color:var(--gold)":''}">${esc(item.contenuto)}</div>`;
@@ -1228,15 +1232,15 @@ function genPNGOffline(zona, ruolo, tono){
   const razzaKey=razza.toLowerCase();
   const cogPool=COG[razzaKey]||COG.umano;
   const nome=pick(nomePool)+' '+pick(cogPool);
-  const agg=pick(T.png.aggettivi[tono]||T.png.aggettivi.neutrale);
-  const fisico=pick(T.png.fisici);
+  const agg=pick((DATA.png.aggettivi[lang]||DATA.png.aggettivi.it)[tono]||(DATA.png.aggettivi[lang]||DATA.png.aggettivi.it).neutrale);
+  const fisico=pick(DATA.png.fisici[lang]||DATA.png.fisici.it);
   const descrizione=agg.charAt(0).toUpperCase()+agg.slice(1)+', '+fisico+'.';
-  const obiObjs=T.png.obiettivi[ruolo]||T.png.obiettivi.mercante;
+  const obiObjs=(DATA.png.obiettivi[lang]||DATA.png.obiettivi.it)[ruolo]||(DATA.png.obiettivi[lang]||DATA.png.obiettivi.it).mercante;
   const obiettivi=pick(obiObjs);
-  const segreto=pick(T.png.segreti);
-  const connPool=T.png.connFR[zona]||T.png.connFR.Waterdeep;
+  const segreto=pick(DATA.png.segreti[lang]||DATA.png.segreti.it);
+  const _cFR=DATA.png.connFR[lang]||DATA.png.connFR.it; const connPool=_cFR[zona]||_cFR.waterdeep;
   const fr=pick(connPool);
-  return {nome,razza,descrizione,ruolo:ruolo.charAt(0).toUpperCase()+ruolo.slice(1),obiettivi,segreto,fr};
+  return {nome,razza,descrizione,ruolo:UI[lang].ruoli[ruolo]||ruolo,obiettivi,segreto,fr};
 }
 
 // ── VOCABOLARIO SEMANTICO ─────────────────────────────────────────────────────
@@ -1588,11 +1592,12 @@ function genAmbienteOffline(zona, tipo, extra){
 function genIdeeOffline(spunto, zona){
   const temi = parseInput(spunto);
 
+  const _id=DATA.idee[lang]||DATA.idee.it;
   const allPools = [
-    {pool: T.idee.trame,       tags: IDEE_TAGS.trame,       w: 3},
-    {pool: T.idee.oggetti,     tags: IDEE_TAGS.oggetti,     w: 2},
-    {pool: T.idee.luoghi,      tags: IDEE_TAGS.luoghi,      w: 2},
-    {pool: T.idee.personaggi,  tags: IDEE_TAGS.personaggi,  w: 2},
+    {pool: _id.trame,       tags: IDEE_TAGS.trame,       w: 3},
+    {pool: _id.oggetti,     tags: IDEE_TAGS.oggetti,     w: 2},
+    {pool: _id.luoghi,      tags: IDEE_TAGS.luoghi,      w: 2},
+    {pool: _id.personaggi,  tags: IDEE_TAGS.personaggi,  w: 2},
   ];
 
   // Score every idea
@@ -1697,7 +1702,7 @@ async function genPNGai(){
         <div class="png-row"><span class="fl">aspetto: </span>${esc(d.descrizione)}</div>
         <div class="png-row"><span class="fl">obiettivi: </span>${esc(d.obiettivi)}</div>
         <div class="png-row"><span class="fl">segreto: </span>${esc(d.segreto)}</div>
-        ${d.fr?`<div class="png-row"><span class="fl">FR: </span>${esc(d.fr)}</div>`:''}
+        ${d.fr?`<div class="png-row"><span class="fl">${UI[lang].fl.fr} </span>${esc(d.fr)}</div>`:''}
       </div>
       <button class="card-sav" onclick="savePNG()">+ Salva</button>
     </div>`;
@@ -1714,9 +1719,9 @@ async function genAmbienteAI(){
     const testo=await ai(`Descrivi un/una ${tipo} D&D 5e. Zona: ${zona}, Forgotten Realms. Caratteristica: ${det}. ${extra?'Contesto: '+extra:''}\n3-4 frasi evocative in italiano. Includi un dettaglio specifico FR. Sintetico e immediato.`);
     _cache.ambiente={contenuto:testo,sottotipo:tipo,zona};
     document.getElementById('a-res').innerHTML=`<div class="card">
-      <div class="card-lbl">${esc(zona)} · ${esc(tipo)}</div>
+      <div class="card-lbl">${UI[lang].amb_zones[zona]||zona} · ${UI[lang].amb_tipos[tipo]||tipo}</div>
       <div class="card-val" style="font-style:italic;font-size:14px">${esc(testo)}</div>
-      <button class="card-sav" onclick="saveAmbiente()">+ Salva</button>
+      <button class="card-sav" onclick="saveAmbiente()">${UI[lang].save}</button>
     </div>`;
   }catch{document.getElementById('a-res').innerHTML='<div class="card"><span style="color:var(--red2)">Errore AI.</span></div>';}
 }
@@ -1736,10 +1741,232 @@ async function genIdeeAI(){
       data.map((r,i)=>`<div class="card">
         <div class="card-lbl">${esc(r.titolo)}</div>
         <div class="card-val">${esc(r.idea)}</div>
-        <button class="card-sav" onclick="saveIdea(${i})">+ Salva</button>
+        <button class="card-sav" onclick="saveIdea(${i})">${UI[lang].save}</button>
       </div>`).join('')+
     '</div>';
   }catch{document.getElementById('id-res').innerHTML='<div class="card"><span style="color:var(--red2)">Errore AI.</span></div>';}
+}
+
+
+// ── I18N ──────────────────────────────────────────────────────────────────────
+var lang = (function(){
+  try{ var s=localStorage.getItem('dnd_lang'); if(s==='en'||s==='it') return s; }catch{}
+  return navigator.language&&navigator.language.startsWith('it') ? 'it' : 'en';
+})();
+
+// UI strings indexed by lang
+var UI = {
+  it: {
+    nav:    ['Nomi','Oggetti','Loot','Imprev.','PNG','Luogo','Idee','Salvati'],
+    sub:    'Waterdeep · Sottomonte · Costa della Spada · 100% locale',
+    export: '↓ Esporta',
+    // nomi
+    male:'Maschile', female:'Femminile', gen:'Genera',
+    races:{umano:'Umano',elfo:'Elfo',nano:'Nano',halfling:'Halfling',tiefling:'Tiefling',orchide:'Orchide',draconide:'Draconide'},
+    // oggetti
+    tipos:{arma:'Arma',armatura:'Armatura',magico:'Magico',consumabile:'Consumabile',misc:'Vario'},
+    // loot
+    loot_lbl:'Trovi addosso — Costa della Spada',
+    loot_btn:'Lancia i dadi',
+    loot_lvls:['Liv 1-4 (scarso)','Liv 5-8 (medio)','Liv 9-12 (ricco)','Liv 13+ (epico)'],
+    // imprevisti zone labels
+    imp_zones:{wt_strade:'Waterdeep — strade',wt_taverna:'Waterdeep — taverna',sm_alti:'Sottomonte — alti',sm_profondi:'Sottomonte — profondità',costa:'Costa della Spada',neverwinter:'Foresta di Neverwinter'},
+    imp_btn:'Imprevisto!',
+    // png
+    ruoli:{mercante:'Mercante',guardia:'Guardia',spia:'Spia',nobile:'Nobile',mago:'Mago',chierico:'Chierico',assassino:'Assassino',fabbro:'Fabbro',bardo:'Bardo',contrabbandiere:'Contrabbandiere',avventuriero:'Avventuriero',informatore:'Informatore',cultista:'Cultista',broker:'Broker'},
+    toni:{neutrale:'Neutrale',amichevole:'Amichevole',ostile:'Ostile',ambiguo:'Ambiguo',misterioso:'Misterioso',corrotto:'Corrotto',disperato:'Disperato',arrogante:'Arrogante',timoroso:'Timoroso',fanatico:'Fanatico'},
+    png_zones:{waterdeep:'Waterdeep',sottomonte:'Sottomonte',dock:'Dock Ward',castle:'Castle Ward',luskan:'Luskan',costa:'Costa della Spada'},
+    fl:{aspetto:'aspetto:',obiettivi:'obiettivi:',segreto:'segreto:',fr:'FR:'},
+    // ambiente
+    amb_zones:{waterdeep:'Waterdeep',sottomonte:'Sottomonte',costa:'Costa della Spada',neverwinter:'Foresta di Neverwinter',baldur:"Baldur's Gate"},
+    amb_tipos:{corridoio:'Corridoio',stanza:'Stanza',caverna:'Caverna',bosco:'Bosco',vicolo:'Vicolo Waterdeep',locale:'Locale/Locanda',sala:'Sala di Sottomonte'},
+    amb_ph:'dettaglio opzionale...',
+    amb_btn_loc:'⚄ Locale', amb_btn_ai:'✦ AI',
+    // idee
+    idee_ph:'spunto (oggetto, luogo, fazione, evento)...',
+    idee_zones:{waterdeep:'Waterdeep',sottomonte:'Sottomonte',costa:'Costa della Spada',generico:'Generico FR'},
+    // salvati
+    salv_empty:'Nessun elemento salvato.',
+    salv_count:' elementi · sessione D&D',
+    salv_export:'↓ Esporta JSON', salv_import:'↑ Importa', salv_clear:'Cancella tutto',
+    del_q:'Eliminare?', del_y:'Sì', del_n:'No',
+    save:'+ Salva',
+    // stat labels
+    st:{danno:'Danno',ca:'CA',prop:'Proprietà',peso:'Peso',valore:'Valore',note:'Note'},
+    ai_toggle:'Dettaglio magico',
+    ai_lbl:{effetto:'Effetto',aspetto:'Aspetto',lore:'Lore',dettaglio:'Dettaglio'},
+    // ornaments
+    orn:{nomi:'— Nomi dei Reami —',oggetti:'— Armeria dei Reami —',loot:'— Tesori Nemici —',imp:'— Colpi di Scena —',png:'— Personaggi dei Reami —',amb:'— Luoghi dei Reami —',idee:'— Ispirazione Arcana —',salv:'— Archivio di Sessione —'},
+  },
+  en: {
+    nav:    ['Names','Items','Loot','Events','PNG','Place','Ideas','Saved'],
+    sub:    'Waterdeep · Undermountain · Sword Coast · 100% local',
+    export: '↓ Export',
+    male:'Male', female:'Female', gen:'Generate',
+    races:{umano:'Human',elfo:'Elf',nano:'Dwarf',halfling:'Halfling',tiefling:'Tiefling',orchide:'Orc',draconide:'Dragonborn'},
+    tipos:{arma:'Weapon',armatura:'Armor',magico:'Magic',consumabile:'Consumable',misc:'Misc'},
+    loot_lbl:'Found on the body — Sword Coast',
+    loot_btn:'Roll the dice',
+    loot_lvls:['Lvl 1-4 (poor)','Lvl 5-8 (common)','Lvl 9-12 (rich)','Lvl 13+ (epic)'],
+    imp_zones:{wt_strade:'Waterdeep — streets',wt_taverna:'Waterdeep — tavern',sm_alti:'Undermountain — upper',sm_profondi:'Undermountain — depths',costa:'Sword Coast',neverwinter:'Neverwinter Wood'},
+    imp_btn:'Random Event!',
+    ruoli:{mercante:'Merchant',guardia:'Guard',spia:'Spy',nobile:'Noble',mago:'Wizard',chierico:'Cleric',assassino:'Assassin',fabbro:'Blacksmith',bardo:'Bard',contrabbandiere:'Smuggler',avventuriero:'Adventurer',informatore:'Informant',cultista:'Cultist',broker:'Broker'},
+    toni:{neutrale:'Neutral',amichevole:'Friendly',ostile:'Hostile',ambiguo:'Ambiguous',misterioso:'Mysterious',corrotto:'Corrupt',disperato:'Desperate',arrogante:'Arrogant',timoroso:'Fearful',fanatico:'Fanatical'},
+    png_zones:{waterdeep:'Waterdeep',sottomonte:'Undermountain',dock:'Dock Ward',castle:'Castle Ward',luskan:'Luskan',costa:'Sword Coast'},
+    fl:{aspetto:'appearance:',obiettivi:'goals:',segreto:'secret:',fr:'FR:'},
+    amb_zones:{waterdeep:'Waterdeep',sottomonte:'Undermountain',costa:'Sword Coast',neverwinter:'Neverwinter Wood',baldur:"Baldur's Gate"},
+    amb_tipos:{corridoio:'Corridor',stanza:'Room',caverna:'Cave',bosco:'Forest',vicolo:'Waterdeep Alley',locale:'Tavern/Inn',sala:'Undermountain Hall'},
+    amb_ph:'optional detail...',
+    amb_btn_loc:'⚄ Local', amb_btn_ai:'✦ AI',
+    idee_ph:'hook (object, place, faction, event)...',
+    idee_zones:{waterdeep:'Waterdeep',sottomonte:'Undermountain',costa:'Sword Coast',generico:'Generic FR'},
+    salv_empty:'No saved items.',
+    salv_count:' items · D&D session',
+    salv_export:'↓ Export JSON', salv_import:'↑ Import', salv_clear:'Clear all',
+    del_q:'Delete?', del_y:'Yes', del_n:'No',
+    save:'+ Save',
+    st:{danno:'Damage',ca:'AC',prop:'Properties',peso:'Weight',valore:'Value',note:'Notes'},
+    ai_toggle:'Magic detail',
+    ai_lbl:{effetto:'Effect',aspetto:'Look',lore:'Lore',dettaglio:'Detail'},
+    orn:{nomi:'— Realms Names —',oggetti:'— Realms Armory —',loot:'— Enemy Treasure —',imp:'— Plot Twists —',png:'— Realms Characters —',amb:'— Realms Locations —',idee:'— Arcane Inspiration —',salv:'— Session Archive —'},
+  }
+};
+
+// Translated data pools
+var DATA = {
+  imp: {
+    it: {
+      wt_strade:["Borseggiatore degli Xanathar (PER)","Guardie della Magistratura chiedono documenti","Tumulto in piazza — propaganda della Mano Nascosta","Una maschera grigia vi osserva dall'ombra","Carro della Gilda dei Facchini rovesciato","Un ragazzo consegna un biglietto firmato 'M'","Grida da un vicolo — pestaggio in corso","Bandiera nera su una casa — quarantena o segnale?"],
+      wt_taverna:["Il bardo canta di voi con dettagli scomodi","Rissa tra marinai del Dock Ward imminente","Qualcuno ha drogato il vino (CON)","L'oste mostra un conto gonfiato","Figura incappucciata lascia una pergamena sul tavolo","Un Lord Mascherato entra — musica si ferma","Carta degli Xanathar sotto il bicchiere","L'oste Durnan sembra sapere troppo"],
+      sm_alti:["Trappola a botola (PER CD15 o 2d6)","Macerie dal soffitto (DES o 2d6)","Passi non umani da una galleria laterale","Incisioni in dethek — mappa parziale del livello","Torce si spengono: qualcosa si muove","Runa di Halaster sul muro — attiva o vecchia?","Odore di zolfo: gas (CON o avvelenato)","Teschio che rotola da un corridoio vuoto"],
+      sm_profondi:["Voce distante chiama un nome del gruppo","Luce che pulsa da una fessura nel muro","Acqua che sale lentamente","Struttura che trema — crollo in 1d4 round","Creatura morta di recente — cosa l'ha uccisa?","Runa di Halaster — effetto casuale","Eco amplificato: i mostri sentono tutto"],
+      costa:["Temporale improvviso — visibilità nulla","Pattuglia di orchi dalla Montagna del Drago","Sentiero biforcuto non sulla mappa, sangue fresco","Trappola da cacciatore (PER CD12)","Colonna di fumo a nord — villaggio o accampamento?","Tracce di gigante — di quale tipo?"],
+      neverwinter:["Folata di vento caldo innaturale","Un elfo ferito chiede aiuto in silqua","Alberi con corteccia nera — malattia o magia?","Uccelli improvvisamente silenziosi","Funghi bioluminescenti in cerchio","Radici che tentano di afferrare i piedi (SAL)"],
+    },
+    en: {
+      wt_strade:["Xanathar pickpocket (PER)","City Watch demands papers","Riot in the plaza — Black Hand propaganda","A gray mask watches from a doorway","Porters Guild cart overturned — brawl","A boy delivers an anonymous note signed 'M'","Shouts from an alley — someone being beaten","Black flag on a house — quarantine or signal?"],
+      wt_taverna:["The bard is singing about you — uncomfortably","Dock Ward sailors brawl about to break out","Someone drugged the wine (CON save)","The innkeeper shows an inflated bill","Hooded figure leaves a scroll on your table","A Masked Lord enters — music stops","Xanathar card under the mug","Durnan seems to know too much"],
+      sm_alti:["Trapdoor (PER DC15 or 2d6)","Ceiling debris (DEX or 2d6)","Non-human footsteps from a side passage","Dethek carvings — partial level map","Torches go out: something moves","Halaster rune on the wall — active or old?","Sulfur smell: gas (CON or poisoned)","Skull rolling from an empty corridor"],
+      sm_profondi:["A distant voice calls a party member's name","Light pulsing from a wall crack","Water rising slowly","Structure trembling — collapse in 1d4 rounds","Fresh corpse — what killed it?","Halaster rune — random effect","Amplified echo: monsters hear everything"],
+      costa:["Sudden storm — zero visibility","Orc patrol from the Sword Mountains","Unmarked fork in the road, fresh blood","Hunter's trap (PER DC12)","Smoke column to the north — village or camp?","Giant tracks — which kind?"],
+      neverwinter:["Unnatural warm wind gust","A wounded elf asks for help in Elvish","Trees with black bark — disease or magic?","Birds suddenly silent","Bioluminescent mushrooms in a circle","Roots trying to grab feet (STR save)"],
+    }
+  },
+  loot: {
+    it:[
+      [{d:"Qualche rame e pan biscotto ammuffito",n:"2d6 mr, oggetti senza valore"},{d:"Specchio rotto e pugnale arrugginito",n:"Pugnale: 1d4, −1 tiri (usurato)"},{d:"Tessera di gilda minore di Waterdeep",n:"Potrebbe aprire una porta, letteralmente"},{d:"Borsa vuota con tracce di sangue",n:"Di chi? Cosa conteneva?"}],
+      [{d:"3d6 mo e pergamena in nanesco",n:"Frammento di mappa o messaggio"},{d:"Piccola gemma (5 mo) e chiave con runa",n:"Runa dethek: 'quarto livello'"},{d:"Pozione di guarigione, 10 ma, medaglio",n:"Pozione: 2d4+2 PF. Waterdeep"},{d:"Stemma di casata minore (falso?)",n:"INT CD12 per riconoscerlo"}],
+      [{d:"Pozione superiore, 50 mo, emblema Xanathar",n:"4d4+4 PF. Membro o spia?",ai:true},{d:"Pergamena 1° liv, anello argento con sigillo",n:"CD15 ARC per identificare",ai:true},{d:"Arma +1, 2d10×5 mo, mappa di Sottomonte",n:"+1 att/danno. 1d4 stanze",ai:true},{d:"Amuleto +1 TS, lettera cifrata",n:"Sintonizzazione. Thieves' cant CD14",ai:true}],
+      [{d:"Arma +2, 500 mo, tessera delle Maschere",n:"+2. Accesso a un Lord Mascherato?",ai:true},{d:"Oggetto magico raro, chiave d'osso",n:"Apre una porta specifica",ai:true},{d:"Pergamena 3° liv, gemma 200 mo, anello",n:"3° liv. Casata riconoscibile",ai:true},{d:"Amuleto +2 TS, diario cifrato",n:"Sintonizzazione. Note su Sottomonte",ai:true}],
+    ],
+    en:[
+      [{d:"A few copper and a stale biscuit",n:"2d6 cp, worthless items"},{d:"Broken mirror and rusty dagger",n:"Dagger: 1d4, −1 rolls (worn)"},{d:"Minor Waterdeep guild token",n:"Could literally open a door"},{d:"Empty pouch with blood stains",n:"Whose? What was in it?"}],
+      [{d:"3d6 gp and torn Dwarvish parchment",n:"Map fragment or message"},{d:"Small gem (5 gp) and key with rune",n:"Dethek rune: 'fourth level'"},{d:"Healing potion, 10 sp, medal",n:"Potion: 2d4+2 HP. Waterdeep"},{d:"Minor noble crest (fake?)",n:"INT DC12 to spot forgery"}],
+      [{d:"Superior potion, 50 gp, Xanathar token",n:"4d4+4 HP. Member or spy?",ai:true},{d:"1st-level scroll, silver ring",n:"DC15 ARC to identify",ai:true},{d:"+1 weapon, 2d10×5 gp, Undermountain map",n:"+1 attack/damage. 1d4 rooms",ai:true},{d:"+1 ST amulet, coded letter",n:"Attunement. Thieves' cant DC14",ai:true}],
+      [{d:"+2 weapon, 500 gp, City Masks token",n:"+2. Masked Lord access?",ai:true},{d:"Rare magic item, bone key",n:"Opens a specific door",ai:true},{d:"3rd-level scroll, 200 gp gem, ring",n:"3rd level. Recognizable house",ai:true},{d:"+2 ST amulet, coded diary",n:"Attunement. Undermountain notes",ai:true}],
+    ]
+  },
+  png: {
+    segreti: {
+      it:["è un informatore degli Arpisti in copertura","deve una grossa somma agli Zhentarim","sa dove è nascosto un cadavere importante","è fuggito da un'altra città con un nome falso","ha tradito qualcuno che ora lo cerca","lavora per i Xanathar senza ammetterlo","ha accesso a un passaggio segreto di Sottomonte","porta sempre con sé una lettera compromettente","è sorvegliato da un Lord Mascherato senza saperlo","conosce la vera identità di uno dei Lord Mascherati","è maledetto — lo sa, non sa come togliersi la maledizione"],
+      en:["is an undercover Harper informant","owes a large sum to the Zhentarim","knows where an important body is hidden","fled another city under a false name","betrayed someone who is now hunting them","works for the Xanathar without admitting it","has a secret passage to Undermountain","always carries a compromising letter","is watched by a Masked Lord unknowingly","knows the true identity of one of the Masked Lords","is cursed and cannot lift it"],
+    },
+    fisici: {
+      it:["cicatrice sul mento","occhi di due colori","capelli prematuramente bianchi","mano sinistra fasciata","tatuaggio sul collo","zoppica leggermente","voce roca","dita macchiate di inchiostro","anello che non toglie mai","cappuccio sempre calato","sguardo irrequieto","dente d'oro","occhiaie profonde","profumo di tabacco e cuoio","parla poco e sottovoce"],
+      en:["scar on the chin","two different eye colors","prematurely white hair","left hand bandaged","tattoo on the neck","slight limp","raspy voice","ink-stained fingers","a ring they never remove","hood always pulled low","restless gaze","gold tooth","deep bags under their eyes","scent of tobacco and leather","speaks little and quietly"],
+    },
+    obiettivi: {
+      it:{
+        mercante:["accumulare oro per ritirarsi a Sembia","scalare la Gilda dei Mercanti","trovare un fornitore affidabile"],
+        guardia:["ottenere una promozione nella Magistratura","proteggere il quartiere dai Xanathar","scoprire chi corrompe i colleghi"],
+        spia:["rubare i piani della fazione rivale","trovare una via d'uscita dal servizio","vendere informazioni al miglior offerente"],
+        nobile:["mantenere il nome della casata","rovesciare una casata rivale","ottenere udienza dai Lord Mascherati"],
+        mago:["recuperare un tomo perduto di Halaster","completare un esperimento in segreto","trovare un apprendista degno"],
+        chierico:["costruire un santuario nel Dock Ward","estirpare il culto di Shar","trovare una reliquia rubata"],
+        assassino:["completare il contratto e sparire","scoprire chi ha tradito la gilda","vendicarsi del mandante"],
+        fabbro:["forgiare un'arma leggendaria","pagare un debito con gli Zhentarim","trovare del mithral dal mercato nero"],
+        bardo:["comporre la ballata definitiva su Waterdeep","infiltrarsi negli Arpisti","scoprire il segreto di un potente signore"],
+        contrabbandiere:["aprire una rotta attraverso Sottomonte","liberarsi dal debito con i Xanathar","nascondere un carico compromettente"],
+        avventuriero:["trovare l'entrata del terzo livello","reclutare un gruppo affidabile","recuperare l'oggetto rubato"],
+        informatore:["vendere questa informazione al prezzo giusto","sparire prima che qualcuno capisca","capire per chi lavora davvero il committente"],
+        cultista:["portare a termine il rituale","reclutare fedeli senza farsi notare","trovare il manufatto nei testi proibiti"],
+        broker:["ricattare un Lord con un segreto pesante","costruire una rete di debitori","capire chi comanda davvero in città"],
+      },
+      en:{
+        mercante:["save enough gold to retire in Sembia","rise through the Merchants Guild","find a reliable supplier"],
+        guardia:["earn a Magisters promotion","protect the ward from the Xanathar","expose whoever is bribing guards"],
+        spia:["steal the rival faction's plans","find a way out of the service","sell to the highest bidder"],
+        nobile:["preserve the family name","bring down a rival house","gain audience with the Masked Lords"],
+        mago:["recover a lost tome of Halaster's","complete an experiment in secret","find a worthy apprentice"],
+        chierico:["build a shrine in the Dock Ward","root out the Shar cult","recover a stolen relic"],
+        assassino:["finish the contract and disappear","find out who betrayed the guild","take revenge on the employer"],
+        fabbro:["forge a legendary weapon","pay off the Zhentarim debt","find mithral on the black market"],
+        bardo:["compose the definitive Waterdeep ballad","infiltrate the Harpers","uncover a powerful lord's secret"],
+        contrabbandiere:["open a route through Undermountain","break free from the Xanathar debt","hide a compromising shipment"],
+        avventuriero:["find the third level entrance","assemble a reliable party","recover the stolen item"],
+        informatore:["sell this at the right price","disappear before anyone realizes","figure out who the employer really serves"],
+        cultista:["complete the ritual","recruit faithful without being noticed","find the artifact in forbidden texts"],
+        broker:["blackmail a Lord with a heavy secret","build a debtor network","figure out who truly commands the city"],
+      }
+    },
+    connFR: {
+      it:{
+        waterdeep:["debiti con la Gilda dei Mercanti","contatto degli Arpisti","sorvegliato dagli Zhentarim","conosce un passaggio verso Palazzo Piergeiron","legato alla casata Cassalanter"],
+        sottomonte:["conosce l'entrata del quarto livello","sopravvissuto a un incontro con Halaster","mappa parziale del secondo livello"],
+        dock:["in affari con contrabbandieri del porto","paga protezione ai Xanathar","sa cosa arriva senza manifesto"],
+        castle:["contatti con la servitù del Palazzo","sorveglia i nobili per conto terzi"],
+        luskan:["fuggito dai Cinque Capitani","ex corsaro riconvertito"],
+        costa:["veterano di una carovana attaccata","conosce ogni locanda tra Waterdeep e Baldur's Gate"],
+      },
+      en:{
+        waterdeep:["in debt with the Merchants Guild","a Harper contact","watched by the Zhentarim","knows a passage to Piergeiron's Palace","linked to the Cassalanter family"],
+        sottomonte:["knows the fourth level entrance","survived an encounter with Halaster","partial map of the second level"],
+        dock:["deals with port smugglers","pays Xanathar protection","knows what arrives without manifests"],
+        castle:["Palace staff contacts","monitors nobles for hire"],
+        luskan:["fled the Five Captains","reformed privateer"],
+        costa:["veteran of an attacked caravan","knows every inn between Waterdeep and Baldur's Gate"],
+      }
+    },
+    aggettivi: {
+      it:{neutrale:['taciturno','riservato','pragmatico','distaccato','misurato'],amichevole:['cordiale','espansivo','generoso','sorridente','aperto'],ostile:['diffidente','aggressivo','scostante','brusco','sprezzante'],ambiguo:['enigmatico','evasivo','sfuggente','ambivalente','doppio'],misterioso:['schivo','oscuro','indecifrabile','silenzioso','velato'],corrotto:['avido','manipolatore','sleale','venale','subdolo'],disperato:['angosciato','frenetico','ansioso','esausto','teso'],arrogante:['altezzoso','sprezzante','borioso','superbo','impertinente'],timoroso:['nervoso','pavido','esitante','pallido','guardingo'],fanatico:['ossessionato','fervente','irremovibile','zelante','inflessibile']},
+      en:{neutrale:['taciturn','reserved','pragmatic','detached','measured'],amichevole:['cordial','outgoing','generous','cheerful','open'],ostile:['suspicious','aggressive','standoffish','blunt','disdainful'],ambiguo:['enigmatic','evasive','elusive','ambivalent','two-faced'],misterioso:['reclusive','dark','unreadable','silent','veiled'],corrotto:['greedy','manipulative','disloyal','venal','underhanded'],disperato:['anguished','frantic','anxious','exhausted','tense'],arrogante:['haughty','contemptuous','pompous','imperious','impertinent'],timoroso:['nervous','cowardly','hesitant','pale','wary'],fanatico:['obsessed','fervent','unyielding','zealous','inflexible']}
+    }
+  },
+  idee: {
+    it:{
+      trame:[["Il doppio","Qualcuno usa il nome o il volto di un membro del gruppo senza che loro lo sappiano."],["Il debito","Un PNG minore ricompare — in debito con i personaggi per qualcosa che non ricordano."],["La mappa","Una mappa trovata nel loot indica un luogo che su nessun'altra mappa esiste."],["L'erede","Qualcuno reclama la proprietà di qualcosa trovato dal gruppo — con documenti."],["Il prezzo","Un servizio passato viene riscosso nel momento peggiore."],["La sostituzione","Un PNG fidato si comporta diversamente — piccoli dettagli, ma costanti."],["Il messaggio","Una lettera indirizzata a un nome falso conteneva qualcosa di vero."],["L'offerta","Una fazione nemica offre qualcosa che il gruppo vuole. Nessuna trappola ovvia."],["Il ritorno","Qualcuno creduto morto ricompare — non nemico, non alleato."]],
+      oggetti:[["La chiave sbagliata","Apre una porta che il gruppo non ha ancora trovato."],["Lo specchio","Mostra un momento specifico del passato, non il presente."],["La medaglia","Insegna di un'unità sterminata trent'anni fa — ancora lucida."],["La bottiglia","Contiene qualcosa che si muove. Non è un liquido."],["La pergamena bianca","Rivela testo solo in presenza di sangue."]],
+      luoghi:[["Il vicolo che non torna","Più lungo di quanto le mappe dicano."],["La stanza sigillata","Cemento recente — dal lato interno."],["L'osteria fantasma","Non risulta in nessun registro fiscale."],["Il punto cieco","Un'area nel Dock Ward dove la magia smette di funzionare."]],
+      personaggi:[["L'ombra","Un PNG sa sempre dove si trova il gruppo — non li segue, è già lì."],["Il parlante","Un mendicante parla lingue che non dovrebbe conoscere."],["Il custode","Ha tenuto qualcosa al sicuro per decenni aspettando il gruppo."]],
+    },
+    en:{
+      trame:[["The Double","Someone uses a party member's name or face without them knowing."],["The Debt","A minor NPC reappears — owing the party for something they don't remember."],["The Map","A loot map marks a place that appears on no other map."],["The Heir","Someone claims ownership of something the party found — with documents."],["The Price","A past favor called in at the worst moment."],["The Switch","A trusted NPC behaves slightly differently — small details, but consistent."],["The Message","A letter to a false name contained something true."],["The Offer","An enemy faction offers something the party wants. No obvious trap."],["The Return","Someone thought dead reappears — neither enemy nor ally."]],
+      oggetti:[["The Wrong Key","Opens a door the party hasn't found yet."],["The Mirror","Shows a specific past moment, not the present."],["The Medal","Insignia of a unit wiped out thirty years ago — still polished."],["The Bottle","Contains something that moves. Not a liquid."],["The Blank Scroll","Reveals text only in the presence of blood."]],
+      luoghi:[["The Alley That Doesn't Add Up","Longer than the maps suggest."],["The Sealed Room","Fresh cement — from the inside."],["The Ghost Tavern","Appears in no tax records."],["The Dead Zone","An area in the Dock Ward where magic stops working."]],
+      personaggi:[["The Shadow","An NPC always knows where the party is — not following, already there."],["The Speaker","A beggar speaks languages they shouldn't know."],["The Keeper","Has kept something safe for decades waiting for the party."]],
+    }
+  },
+};
+
+function toggleLang(){
+  lang = lang==='it' ? 'en' : 'it';
+  try{ localStorage.setItem('dnd_lang', lang); }catch{}
+  applyLang();
+}
+
+function applyLang(){
+  var u = UI[lang];
+  // header
+  document.getElementById('htmlroot').lang = lang;
+  document.getElementById('btn-lang').textContent = lang==='it' ? 'EN' : 'IT';
+  document.querySelector('.hdr-sub').textContent = u.sub;
+  document.getElementById('btn-export').textContent = u.export;
+  // nav labels
+  var navBtns = document.querySelectorAll('.nav-btn');
+  u.nav.forEach(function(lbl,i){ if(navBtns[i]) navBtns[i].lastChild.textContent = lbl; });
+  // re-render current panel
+  var fn = {nomi:renderNomi,oggetti:renderOggetti,loot:renderLoot,imprevisti:renderImprevisti,png:renderPNG,ambiente:renderAmbiente,idee:renderIdee,salvati:renderSalvati};
+  if(fn[currentTab]) fn[currentTab]();
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
