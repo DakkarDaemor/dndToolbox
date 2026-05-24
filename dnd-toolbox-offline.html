@@ -195,6 +195,12 @@ select option{background:var(--bg2)}
     <div class="overlay-sub">Inserisci la tua API key di Anthropic per abilitare la generazione AI (PNG, Luoghi, Idee).</div>
     <label class="overlay-label">Anthropic API Key</label>
     <input class="overlay-input" type="password" id="cfg-key" placeholder="sk-ant-..." autocomplete="off" spellcheck="false">
+    <label class="overlay-label" style="margin-top:12px">Modello AI</label>
+    <select class="overlay-input" id="cfg-model" style="cursor:pointer">
+      <option value="claude-haiku-4-5-20251001">Haiku 4.5 — veloce ed economico (default)</option>
+      <option value="claude-sonnet-4-6">Sonnet 4.6 — bilanciato</option>
+      <option value="claude-opus-4-7">Opus 4.7 — più capace</option>
+    </select>
     <div class="overlay-hint">
       La chiave viene salvata solo in localStorage sul tuo dispositivo, mai trasmessa ad altri server.<br>
       Ottienila su <a href="https://console.anthropic.com/keys" target="_blank">console.anthropic.com</a>
@@ -485,11 +491,15 @@ function switchTab(tab){
 
 // ── API KEY (offline: not used) ─────────────────────────────────────────────
 const KEY_STORAGE='dnd_apikey';
+const MODEL_STORAGE='dnd_aimodel';
+const MODEL_DEFAULT='claude-haiku-4-5-20251001';
 let apiKey='';
+let aiModel=MODEL_DEFAULT;
 // Se siamo dentro Claude.ai la chiave non serve — il proxy autentica in automatico
 const IN_CLAUDE = window.location.hostname.includes('claude.ai') ||
                   window.parent !== window;  // iframe = widget Claude
-try{if(!IN_CLAUDE) apiKey=localStorage.getItem(KEY_STORAGE)||'';}catch{}
+try{if(!IN_CLAUDE) apiKey=localStorage.getItem(KEY_STORAGE)||'';}
+try{aiModel=localStorage.getItem(MODEL_STORAGE)||MODEL_DEFAULT;}catch{}
 
 function updateKeyStatus(){
   const el=document.getElementById('key-status');
@@ -508,6 +518,7 @@ function updateKeyStatus(){
 
 function openConfig(){
   document.getElementById('cfg-key').value=apiKey||'';
+  document.getElementById('cfg-model').value=aiModel;
   document.getElementById('overlay').style.display='flex';
   setTimeout(()=>document.getElementById('cfg-key').focus(),50);
 }
@@ -521,9 +532,11 @@ function saveConfig(){
   if(!v){showMsg('Chiave vuota — non salvata.');return;}
   apiKey=v;
   try{localStorage.setItem(KEY_STORAGE,v);}catch{}
+  aiModel=document.getElementById('cfg-model').value;
+  try{localStorage.setItem(MODEL_STORAGE,aiModel);}catch{}
   updateKeyStatus();
   closeConfig();
-  toast('API Key salvata');
+  toast('API Key e modello salvati');
 }
 
 // Chiudi overlay con tap fuori
@@ -551,7 +564,7 @@ async function ai(prompt,sys){
     r=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers,
-      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1000,
+      body:JSON.stringify({model:aiModel,max_tokens:1000,
         system:sys||'Sei un assistente D&D 5e per i Forgotten Realms (Waterdeep, Sottomonte, Costa della Spada). Rispondi in italiano, sintetico e evocativo.',
         messages:[{role:'user',content:prompt}]})
     });
