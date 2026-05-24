@@ -1,0 +1,137 @@
+name: Gemini PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  gemini-review:
+    # Esegui solo su PR aperte da claude[bot]
+    if: github.event.pull_request.user.login == 'claude[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get PR diff
+        id: diff
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }}
+          DIFF=$(git diff origin/${{ github.event.pull_request.base.ref }}...HEAD)
+          # Tronca a ~25000 caratteri per stare nei limiti del contesto
+          DIFF_TRUNCATED=$(echo "$DIFF" | head -c 25000)
+          echo "diff<<EOF" >> $GITHUB_OUTPUT
+          echo "$DIFF_TRUNCATED" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Get PR metadata
+        id: meta
+        run: |
+          echo "title=${{ github.event.pull_request.title }}" >> $GITHUB_OUTPUT
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          echo "${{ github.event.pull_request.body }}" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Call Gemini API
+        id: gemini
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          DIFF='${{ steps.diff.outputs.diff }}'
+          TITLE='${{ steps.meta.outputs.title }}'
+
+          PROMPT="You are an expert code reviewer. Review the following pull request focusing on:
+          1. BUGS: Logic errors, null/undefined issues, unhandled edge cases, async/await mistakes
+          2. SECURITY: XSS, injection, exposed secrets, insecure dependencies, unsafe eval/innerHTML usage
+
+          Languages in scope: HTML, CSS, JavaScript, TypeScript, React.
+
+          PR Title: ${TITLE}
+
+          Diff:
+          ${DIFF}
+
+          Respond in this exact format:
+          ## 🤖 Gemini Code Review
+
+          ### 🐛 Bugs
+          [List each bug with file, line reference if possible, and explanation. If none, write 'None found.']
+
+          ### 🔒 Security
+          [List each security issue with file, line reference if possible, and explanation. If none, write 'None found.']
+
+          ### ✅ Summary
+          [1-2 sentence overall assessment: APPROVE / REQUEST CHANGES]"
+
+          # Crea il payload JSON in modo sicuro tramite file
+          cat > /tmp/payload.json << 'JSONEOF'
+          {
+            "contents": [
+              {
+                "parts": [
+                  {
+                    "text": "PROMPT_PLACEHOLDER"
+                  }
+                ]
+              }
+            ],
+            "generationConfig": {
+              "temperature": 0.2,
+              "maxOutputTokens": 2048
+            }
+          }
+          JSONEOF
+
+          # Sostituisce il placeholder con il prompt reale (usa python per gestire caratteri speciali)
+          python3 -c "
+          import json, sys
+
+          with open('/tmp/payload.json', 'r') as f:
+              payload = json.load(f)
+
+          prompt = sys.stdin.read()
+          payload['contents'][0]['parts'][0]['text'] = prompt
+
+          with open('/tmp/payload_final.json', 'w') as f:
+              json.dump(payload, f)
+          " << PROMPTEOF
+          ${PROMPT}
+          PROMPTEOF
+
+          RESPONSE=$(curl -s -X POST \
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}" \
+            -H "Content-Type: application/json" \
+            -d @/tmp/payload_final.json)
+
+          # Estrai il testo dalla risposta
+          REVIEW=$(echo "$RESPONSE" | python3 -c "
+          import json, sys
+          data = json.load(sys.stdin)
+          try:
+              text = data['candidates'][0]['content']['parts'][0]['text']
+              print(text)
+          except (KeyError, IndexError) as e:
+              print('❌ Gemini review failed. Raw response: ' + json.dumps(data))
+          ")
+
+          echo "review<<EOF" >> $GITHUB_OUTPUT
+          echo "$REVIEW" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Post review comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const review = `${{ steps.gemini.outputs.review }}`;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: review
+            });
