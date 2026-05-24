@@ -434,6 +434,9 @@ const AMB_MOD={
   'locale/locanda':["fumoso e rumoroso, pieno di marinai","con zona riservata oltre una tenda pesante","con barista che sembra ricordare tutto","con palco per musica — menestrello stonato"],
   'sala di Sottomonte':["con soffitto a volta irraggiungibile","con trono di pietra e ossa","piena di alchimia abbandonata — ancora attiva?","con portale arcano spento... o quasi"],
 };
+AMB_MOD.vicolo=AMB_MOD['vicolo Waterdeep'];
+AMB_MOD.locale=AMB_MOD['locale/locanda'];
+AMB_MOD.sala=AMB_MOD['sala di Sottomonte'];
 
 // ── HELPERS ──────────────────────────────────────────────────────────────────
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
@@ -498,7 +501,7 @@ let aiModel=MODEL_DEFAULT;
 // Se siamo dentro Claude.ai la chiave non serve — il proxy autentica in automatico
 const IN_CLAUDE = window.location.hostname.includes('claude.ai') ||
                   window.parent !== window;  // iframe = widget Claude
-try{if(!IN_CLAUDE) apiKey=localStorage.getItem(KEY_STORAGE)||'';}
+try{if(!IN_CLAUDE) apiKey=localStorage.getItem(KEY_STORAGE)||'';}catch{}
 try{aiModel=localStorage.getItem(MODEL_STORAGE)||MODEL_DEFAULT;}catch{}
 
 function updateKeyStatus(){
@@ -1132,12 +1135,12 @@ const T = {
       'Costa della Spada':['veterano di una carovana attaccata','conosce ogni locanda tra Waterdeep e Baldur\'s Gate','ha seppellito qualcosa lungo la strada'],
     },
     razzePerZona: {
-      Waterdeep:    ['Umano','Umano','Umano','Elfo','Nano','Halfling','Tiefling','Draconide'],
-      Sottomonte:   ['Umano','Umano','Nano','Elfo','Halfling','Tiefling','Orchide'],
-      'Dock Ward':  ['Umano','Umano','Umano','Halfling','Tiefling','Nano'],
-      'Castle Ward':['Umano','Umano','Elfo','Halfling'],
-      Luskan:       ['Umano','Umano','Orchide','Tiefling','Nano'],
-      'Costa della Spada':['Umano','Umano','Umano','Elfo','Halfling'],
+      waterdeep:    ['Umano','Umano','Umano','Elfo','Nano','Halfling','Tiefling','Draconide'],
+      sottomonte:   ['Umano','Umano','Nano','Elfo','Halfling','Tiefling','Orchide'],
+      dock:         ['Umano','Umano','Umano','Halfling','Tiefling','Nano'],
+      castle:       ['Umano','Umano','Elfo','Halfling'],
+      luskan:       ['Umano','Umano','Orchide','Tiefling','Nano'],
+      costa:        ['Umano','Umano','Umano','Elfo','Halfling'],
     },
   },
 
@@ -1577,8 +1580,9 @@ function pickByTemi(pool, tagPool, temi){
 }
 
 // ── OFFLINE GENERATORS ────────────────────────────────────────────────────────
+const TIPO_ALIASES = {vicolo:'vicolo waterdeep', locale:'locale/locanda', sala:'sala di sottomonte'};
 function genAmbienteOffline(zona, tipo, extra){
-  const tipoKey = tipo.toLowerCase();
+  const tipoKey = (TIPO_ALIASES[tipo] || tipo).toLowerCase();
   const pool    = T.amb[tipoKey] || T.amb.corridoio;
   const tagPool = AMB_TAGS[tipoKey] || null;
   const temi    = parseInput(extra);
