@@ -496,7 +496,7 @@ let aiModel=MODEL_DEFAULT;
 // Se siamo dentro Claude.ai la chiave non serve — il proxy autentica in automatico
 const IN_CLAUDE = window.location.hostname.includes('claude.ai') ||
                   window.parent !== window;  // iframe = widget Claude
-try{if(!IN_CLAUDE) apiKey=localStorage.getItem(KEY_STORAGE)||'';}
+try{if(!IN_CLAUDE) apiKey=localStorage.getItem(KEY_STORAGE)||'';}catch{}
 try{aiModel=localStorage.getItem(MODEL_STORAGE)||MODEL_DEFAULT;}catch{}
 
 function updateKeyStatus(){
