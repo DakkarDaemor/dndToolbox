@@ -1,0 +1,523 @@
+{
+  "version": "3.0",
+  "nomi": {
+    "m": {
+      "umano": ["Aldric","Borin","Cassian","Dorian","Edric","Falk","Gareth","Halvar","Jarek","Keldan","Loric","Maron","Nael","Orin","Rolan","Seren","Talvyn","Varro","Wellan","Durnan","Renaer","Mirt","Aldred","Beaumont","Daveth","Errol","Fentris","Ganner","Havard","Ivander","Jondal","Keleth","Lorgan","Morvain","Nalvar","Osric","Peryn","Quentin","Renn","Sulwar","Tarvin","Ulvar","Vance","Walder","Brannar","Calder","Derron","Evren","Forwick","Gerrin","Harlan"],
+      "elfo": ["Aelindor","Caladrel","Eiravel","Faelindor","Galanor","Halithel","Kaelar","Larenthal","Mirendel","Nalathar","Thalindel","Elminster","Danilo","Khelben","Aerindor","Fendar","Galadhor","Halimel","Kaenadel","Lalindor","Melindir","Rhonadar","Sariendel","Thalidor","Valandel","Arandel","Celeborn","Druindel","Elarion","Fyrandel"],
+      "nano": ["Arok","Brunn","Dolgrin","Ezgar","Forgek","Grumbor","Helgrak","Imrak","Kolgrin","Murgok","Norgrim","Rorgrak","Skalgur","Tordrak","Bofri","Dain","Durgin","Gimrin","Gordek","Hathrak","Irkrim","Katrak","Luthrin","Marek","Nori","Olrik","Ruvrak","Stigur","Torik","Warrak","Balin","Dwalin","Gloin","Oin","Thorin"],
+      "halfling": ["Andwise","Bobbin","Corrin","Everard","Folco","Griffo","Hamfast","Jago","Lotho","Olo","Rosco","Ailric","Bingo","Dinkin","Elric","Fin","Gorbald","Hiram","Kelkin","Lyle","Mikin","Norkin","Osbin","Perkin","Tomkin"],
+      "tiefling": ["Akmenos","Barakas","Damakos","Iados","Kairon","Leucis","Melech","Pelaios","Skamos","Therai","Xantos","Amnon","Draven","Emrys","Fenrath","Gavein","Hadriel","Izel","Jexan","Kaxan","Lorcan","Mordai","Nemros"],
+      "orchide": ["Dench","Feng","Gell","Henk","Krusk","Mhurren","Ront","Thokk","Urrgos","Grum","Gort","Korz","Mog","Nog","Rog","Skag","Shog","Trog","Varg"],
+      "draconide": ["Arjhan","Balasar","Donaar","Ghesh","Heskan","Kriv","Medrash","Nadarr","Rhogar","Torinn","Baraskar","Dhorand","Ghaiath","Kharash","Marvosh","Narkath","Pharash","Sorrath","Thivar"]
+    },
+    "f": {
+      "umano": ["Alara","Brenna","Calla","Dara","Elara","Fiona","Gwenna","Hala","Ilara","Jessa","Kira","Lyra","Mara","Reva","Sera","Talia","Laeral","Vajra","Aelynn","Brielle","Corwen","Delwyn","Eresta","Faren","Grenna","Haylin","Jorell","Karida","Lunara","Nara","Orenna","Pressa","Rhenne","Sareth","Tavin","Vesper","Wenna","Amara","Cerra","Dessa","Evara","Farris","Gwendal","Hesla"],
+      "elfo": ["Aelindra","Caladwen","Eirindel","Faelindra","Galaniel","Halindrel","Ilindra","Kaelindra","Miralindel","Thalindriel","Qilue","Dove","Aerindel","Caladwynn","Eirinthal","Falindir","Galindra","Halineth","Kaelindir","Meliwen","Nalineth","Salindir","Thaliwen","Valadhel","Aranel","Elendir","Galawen","Lindira"],
+      "nano": ["Agna","Brenna","Dagra","Fenna","Grunna","Helga","Ingra","Jagna","Lorna","Marga","Torgra","Bila","Dagni","Disa","Edda","Frigg","Greta","Hilda","Ingrid","Kara","Lofna","Nala","Runa","Sigrid","Thyra","Urna","Vidra"],
+      "halfling": ["Amaranth","Berylla","Callie","Daisy","Esme","Gilly","Hanna","Lavinia","Melia","Nora","Rosemary","Tilly","Ada","Bette","Clara","Dessa","Etta","Fern","Ida","Jane","Ketty","Lila","Mabel","Nelly","Opal","Pearl","Rosy","Sally"],
+      "tiefling": ["Akta","Bryseis","Criella","Damara","Kallista","Lerissa","Makaria","Nemeia","Orianna","Surina","Ashrael","Beleth","Cressida","Dressa","Elspeth","Fyra","Gadriel","Helitha","Isira","Jendara","Kessa","Lorinda","Mordrea"],
+      "orchide": ["Arha","Baggi","Emen","Engong","Kansif","Myev","Neega","Ovak","Vola","Augra","Bagra","Enga","Graug","Hogga","Katga","Lura","Noga","Orga","Ugra"],
+      "draconide": ["Akra","Biri","Farideh","Harann","Havilar","Kava","Korinn","Mishann","Nala","Perra","Raiann","Thava","Akara","Birsha","Desharra","Ferra","Harasha","Mishara","Pershar","Tharash"]
+    },
+    "cognomi": {
+      "umano": ["Amcathra","Brokengulf","Crommor","Dezlentyr","Hawkwinter","Ilzimmer","Jardeth","Kormallis","Majarra","Nesher","Phylund","Tesper","Wands","Cassalanter","Bladesemmer","Anteos","Raventree","Aldbridge","Bainwick","Callender","Dunmore","Elwick","Fairwell","Garton","Haldwick","Ironmoor","Kemble","Langford","Moorbridge","Northwick","Oldfield","Pembrook","Raywick","Stanwell","Thurwick","Underwood"],
+      "elfo": ["Brightwood","Dawnwhisper","Goldleaf","Moonwhisper","Silversong","Stardancer","Sunshadow","Windsong","Dawnmantle","Evenstar","Fernwhisper","Gloryfall","Highbrook","Ivywhisper","Leafcrown","Moonfall","Nightsong","Oakwhisper","Riverbend","Silverleaf","Starmantle","Twilightfall","Woodwhisper"],
+      "nano": ["Anvildoom","Battlehammer","Copperkettle","Fireforge","Goldmantle","Hammerfall","Ironbrew","Mithralvein","Rockseeker","Bouldercrush","Coinbreaker","Deepdrinker","Emberbrew","Flamecraft","Gravelstep","Highstone","Ironkeeper","Jadepick","Kegbreaker","Lodelight","Metalstrike","Netherbrew","Orebreaker"],
+      "halfling": ["Brushgather","Chubb","Goodbarrel","Greenbottle","Lightfoot","Merryweather","Tealeaf","Underfoot","Applewood","Berryfoot","Copperfield","Dustfoot","Fernfield","Goodhaven","Hearthfoot","Kettlefoot","Longfield","Meadowfoot"],
+      "tiefling": ["Ankh","Crowe","Fiercewind","Grimshaw","Shadowmend","Voidwalker","Ashborn","Bloodcrown","Cindermark","Darkmantle","Emberveil","Flameborn","Grimveil","Hexmark"],
+      "orchide": ["Bloodskull","Darkfang","Ironjaw","Painbringer","Warbringer","Bloodtusk","Bonecrunch","Darkfist","Earthshaker","Firepaw","Goreaxe","Hawkstrike","Ironblood"],
+      "draconide": ["Daardendrian","Delmirev","Fenkenkabradon","Myastan","Nemmonis","Norixius","Shestendeliath","Baerythrix","Chesseranthian","Drokthannan","Esharanthrix","Garthonak","Hesshanthrix"]
+    }
+  },
+  "rarita": {
+    "lista": ["Comune","Non comune","Raro","Molto raro","Leggendario","Artefatto"],
+    "classe": {"Comune":"b-c","Non comune":"b-nc","Raro":"b-r","Molto raro":"b-mr","Leggendario":"b-l","Artefatto":"b-a"},
+    "bonus": {"Non comune":"+1","Raro":"+2","Molto raro":"+3","Leggendario":"+3 (leggendaria)","Artefatto":"+3 (artefatto)"},
+    "valore_per_tipo": {
+      "arma":       {"Comune":"base (non magica)","Non comune":"500-1.000 mo","Raro":"2.000-5.000 mo","Molto raro":"10.000-30.000 mo","Leggendario":"50.000+ mo","Artefatto":"inestimabile"},
+      "armatura":   {"Comune":"base (non magica)","Non comune":"1.500-3.000 mo","Raro":"6.000-12.000 mo","Molto raro":"20.000-50.000 mo","Leggendario":"100.000+ mo","Artefatto":"inestimabile"},
+      "magico":     {"Comune":"50-100 mo","Non comune":"101-500 mo","Raro":"501-5.000 mo","Molto raro":"5.001-50.000 mo","Leggendario":"50.000+ mo","Artefatto":"inestimabile"},
+      "consumabile":{"Comune":"25-100 mo","Non comune":"101-500 mo","Raro":"501-2.000 mo","Molto raro":"2.001-10.000 mo","Leggendario":"10.000+ mo","Artefatto":"inestimabile"},
+      "misc":       {"Comune":"valore intrinseco","Non comune":"100-500 mo","Raro":"500-5.000 mo","Molto raro":"5.000-50.000 mo","Leggendario":"50.000+ mo","Artefatto":"inestimabile"}
+    }
+  },
+  "oggetti": {
+    "arma": [
+      {"n":"Spada corta","d":"1d6 perforante","p":"fine, leggera","w":"0.9 kg","v":"10 mo"},
+      {"n":"Spada lunga","d":"1d8 tagl./1d10","p":"versatile","w":"1.4 kg","v":"15 mo"},
+      {"n":"Pugnale","d":"1d4 perforante","p":"fine, leggera, gettabile (20/60)","w":"0.5 kg","v":"2 mo"},
+      {"n":"Ascia da guerra","d":"1d8 tagl./1d10","p":"versatile","w":"2 kg","v":"15 mo"},
+      {"n":"Martello da guerra","d":"1d8 c./1d10","p":"versatile","w":"2 kg","v":"15 mo"},
+      {"n":"Arco corto","d":"1d6 perforante","p":"a due mani, munizioni (80/320)","w":"1 kg","v":"25 mo"},
+      {"n":"Arco lungo","d":"1d8 perforante","p":"pesante, a due mani, munizioni (150/600)","w":"1 kg","v":"50 mo"},
+      {"n":"Balestra leggera","d":"1d8 perforante","p":"munizioni (80/320), carica, a due mani","w":"2.5 kg","v":"25 mo"},
+      {"n":"Lancia","d":"1d6 perforante","p":"gettabile (20/60), versatile (1d8)","w":"1.4 kg","v":"1 mo"},
+      {"n":"Falcione","d":"1d10 tagliente","p":"pesante, raggiungimento, a due mani","w":"3 kg","v":"20 mo"},
+      {"n":"Mazza ferrata","d":"1d8 perforante","p":"pesante, a due mani","w":"3 kg","v":"15 mo"},
+      {"n":"Stocco","d":"1d8 perforante","p":"fine","w":"1 kg","v":"25 mo"},
+      {"n":"Giavellotto","d":"1d6 perforante","p":"gettabile (30/120)","w":"1 kg","v":"5 mr"},
+      {"n":"Randello chiodato","d":"1d6 perforante","p":"--","w":"2 kg","v":"2 mo"},
+      {"n":"Alabarda","d":"1d10 tagliente","p":"pesante, raggiungimento, a due mani","w":"2.7 kg","v":"20 mo"},
+      {"n":"Balestra pesante","d":"1d10 perforante","p":"pesante, munizioni (100/400), carica, a due mani","w":"4.5 kg","v":"50 mo"},
+      {"n":"Frombola","d":"1d4 perforante","p":"munizioni (30/120)","w":"--","v":"1 mr"},
+      {"n":"Roncone","d":"1d10 tagliente","p":"pesante, raggiungimento, a due mani","w":"2.5 kg","v":"20 mo"}
+    ],
+    "armatura": [
+      {"n":"Armatura di cuoio","d":"CA 11+DES","p":"leggera","w":"5 kg","v":"10 mo"},
+      {"n":"Cotta di maglia","d":"CA 13+DES","p":"leggera","w":"6 kg","v":"45 mo"},
+      {"n":"Armatura a maglie","d":"CA 14+DES(max2)","p":"media, svantaggio furtivita","w":"20 kg","v":"50 mo"},
+      {"n":"Corazza di piastre","d":"CA 18","p":"pesante, svantaggio furtivita, FOR 15","w":"32 kg","v":"1500 mo"},
+      {"n":"Scudo di legno","d":"+2 CA","p":"--","w":"3 kg","v":"10 mo"},
+      {"n":"Scudo metallico","d":"+2 CA","p":"--","w":"3 kg","v":"20 mo"},
+      {"n":"Elmo di ferro","d":"+0 CA","p":"impedisce critici avversari (opzionale)","w":"1.5 kg","v":"5 mo"},
+      {"n":"Gambali di cuoio","d":"CA 11+DES","p":"leggera, solo gambe","w":"2 kg","v":"5 mo"},
+      {"n":"Armatura di scaglie","d":"CA 14+DES(max2)","p":"media, svantaggio furtivita","w":"22 kg","v":"50 mo"},
+      {"n":"Piastrone di cuoio","d":"CA 13+DES(max2)","p":"media","w":"8 kg","v":"45 mo"},
+      {"n":"Mezza armatura","d":"CA 15+DES(max2)","p":"media, svantaggio furtivita","w":"20 kg","v":"750 mo"},
+      {"n":"Cotta di mithral","d":"CA 13+DES","p":"leggera, non penalizza furtivita","w":"5 kg","v":"1000 mo","rar":"Raro"}
+    ],
+    "magico": [
+      {"n":"Pozione di guarigione","d":"2d4+2 PF","p":"azione per bere","w":"--","v":"50 mo"},
+      {"n":"Pergamena di mago","d":"1 incantesimo","p":"bruciata dopo uso","w":"--","v":"25-500 mo"},
+      {"n":"Anello di protezione","d":"+1 CA e TS","p":"sintonizzazione","w":"--","v":"3500 mo","rar":"Raro"},
+      {"n":"Amuleto di fortuna","d":"+1 TS","p":"sintonizzazione","w":"--","v":"2000 mo","rar":"Non comune"},
+      {"n":"Bacchetta di dardi magici","d":"7 cariche, 1d4+1","p":"si ricarica 1d6+1/alba","w":"--","v":"5000 mo","rar":"Non comune"},
+      {"n":"Borsa senza fondo","d":"500 oggetti / 64 kg","p":"estradimensionale","w":"0.5 kg","v":"1000 mo","rar":"Non comune"},
+      {"n":"Corda animata","d":"60 piedi, CA 20, 20 PF","p":"comandi verbali","w":"5 kg","v":"1000 mo","rar":"Non comune"},
+      {"n":"Mantello di elvenkind","d":"svantaggio PER contro di te","p":"sintonizzazione","w":"0.5 kg","v":"500 mo","rar":"Non comune"},
+      {"n":"Stivali di velocita","d":"velocita x2, azione bonus: scatto","p":"sintonizzazione","w":"0.5 kg","v":"4000 mo","rar":"Raro"},
+      {"n":"Cappa della magia","d":"rileva magia sul portatore","p":"sintonizzazione","w":"0.5 kg","v":"1000 mo","rar":"Non comune"},
+      {"n":"Sfera di cristallo","d":"sfera di chiaroveggenza","p":"sintonizzazione, azione","w":"1 kg","v":"50000 mo","rar":"Molto raro"},
+      {"n":"Occhio di aquila","d":"vantaggio PER passive, scurovisione 60 piedi","p":"sintonizzazione","w":"--","v":"2500 mo","rar":"Non comune"},
+      {"n":"Guanti dell'orchide","d":"FOR 19 mentre indossati","p":"sintonizzazione","w":"0.5 kg","v":"8000 mo","rar":"Molto raro"},
+      {"n":"Mantello di protezione","d":"+1 CA e TS","p":"sintonizzazione","w":"0.5 kg","v":"3500 mo","rar":"Non comune"},
+      {"n":"Cintura della forza del gigante","d":"FOR 21","p":"sintonizzazione","w":"0.5 kg","v":"25000 mo","rar":"Molto raro"}
+    ],
+    "consumabile": [
+      {"n":"Pozione di guarigione","d":"2d4+2 PF","p":"azione","w":"--","v":"50 mo"},
+      {"n":"Pozione di guarigione superiore","d":"4d4+4 PF","p":"azione","w":"--","v":"500 mo","rar":"Non comune"},
+      {"n":"Pozione di guarigione suprema","d":"8d4+8 PF","p":"azione","w":"--","v":"1350 mo","rar":"Raro"},
+      {"n":"Pozione di veleno","d":"2d4 veleno (CON CD10 dimezza)","p":"azione o arma","w":"--","v":"100 mo"},
+      {"n":"Olio di scivolamento","d":"10x10 piedi, DES CD10","p":"azione","w":"--","v":"150 mo"},
+      {"n":"Sacca fumogena","d":"sfera fumo 10 piedi, 1 minuto","p":"azione","w":"--","v":"20 mo"},
+      {"n":"Antitossina","d":"vantaggio TS veleno per 1 ora","p":"azione","w":"--","v":"50 mo"},
+      {"n":"Elisir di salute","d":"rimuove malattie e veleni","p":"azione","w":"--","v":"120 mo","rar":"Non comune"},
+      {"n":"Pozione di resistenza","d":"res. a un tipo di danno per 1 ora","p":"azione","w":"--","v":"300 mo","rar":"Non comune"},
+      {"n":"Pozione di velocita","d":"come incantesimo velocita, 1 minuto","p":"azione","w":"--","v":"400 mo","rar":"Raro"},
+      {"n":"Pozione di volo","d":"velocita di volo 18 m per 1 ora","p":"azione","w":"--","v":"500 mo","rar":"Molto raro"},
+      {"n":"Pozione di invisibilita","d":"invisibilita fino a 1 ora o attacco","p":"azione","w":"--","v":"180 mo","rar":"Molto raro"}
+    ],
+    "misc": [
+      {"n":"Gemma di rubino","d":"pietra preziosa","p":"--","w":"--","v":"500 mo"},
+      {"n":"Lingotto d'oro","d":"500 grammi oro","p":"--","w":"0.5 kg","v":"25 mo"},
+      {"n":"Perla nera","d":"pietra preziosa","p":"componente arcaico","w":"--","v":"500 mo"},
+      {"n":"Monete d'argento","d":"2d10 ma","p":"--","w":"var.","v":"2d10 ma"},
+      {"n":"Mappa parziale di Sottomonte","d":"indica un settore del livello","p":"rara","w":"--","v":"200 mo"},
+      {"n":"Lettera sigillata","d":"informazione sconosciuta","p":"--","w":"--","v":"?"},
+      {"n":"Chiave di ferro nero","d":"apre serratura di Sottomonte","p":"--","w":"--","v":"50 mo"},
+      {"n":"Sigillo della Magistratura","d":"prova FOR o DES per forzare serratura +2","p":"--","w":"--","v":"50 mo"},
+      {"n":"Statuetta di avorio di Tyr","d":"oggetto sacro","p":"componente divino","w":"0.3 kg","v":"150 mo"},
+      {"n":"Diario cifrato di esploratore","d":"note su Sottomonte","p":"INT CD14 per decifrare","w":"0.3 kg","v":"75 mo"},
+      {"n":"Medaglione degli Arpisti","d":"ID riconoscimento","p":"accesso a rete Arpisti","w":"--","v":"?"},
+      {"n":"Frammento di runa di Halaster","d":"emana magia debole","p":"fonte di potere residuo","w":"0.1 kg","v":"300 mo"},
+      {"n":"Tessera degli Xanathar","d":"passa frontiere del Gatto Cieco","p":"pericolosa","w":"--","v":"500 mo"},
+      {"n":"Fiala di sangue di drago","d":"componente per rituali draconici","p":"rara","w":"--","v":"800 mo"}
+    ]
+  },
+  "loot": {
+    "it": [
+      [
+        {"d":"Qualche rame e pan biscotto ammuffito","n":"2d6 mr, oggetti senza valore"},
+        {"d":"Specchio rotto e pugnale arrugginito","n":"Pugnale: danno 1d4, -1 tiri (usurato)"},
+        {"d":"Tessera di gilda minore di Waterdeep","n":"Potrebbe aprire una porta, letteralmente"},
+        {"d":"Borsa vuota con tracce di sangue","n":"Di chi? Cosa conteneva?"},
+        {"d":"Dadi da gioco truccati e 12 rame","n":"I dadi danno sempre 1 meno del risultato"},
+        {"d":"Lettera strappata, un nome leggibile","n":"Il nome e' di qualcuno in citta' -- o di una vittima"},
+        {"d":"Stivale singolo con suola rinforzata","n":"Dentro, cuciti, 5 mr"},
+        {"d":"Fischietto d'osso con incisione strana","n":"Un animale risponde quando lo si soffia -- quale?"}
+      ],
+      [
+        {"d":"3d6 mo e pergamena strappata in nanesco","n":"Pergamena: frammento di mappa o messaggio"},
+        {"d":"Piccola gemma (5 mo) e chiave con runa","n":"La runa e' dethek -- significa 'quarto livello'"},
+        {"d":"Pozione di guarigione, 10 ma, medaglio","n":"Pozione: 2d4+2 PF. Medaglio: soldato di Waterdeep"},
+        {"d":"Stemma di casata minore (falso?)","n":"INT CD12 per riconoscere la contraffazione"},
+        {"d":"Orecchino d'argento con pietra verde","n":"Marchio di un bordello del Dock Ward"},
+        {"d":"Pergamena con lista di nomi e prezzi","n":"Lista di debitori -- o di bersagli"},
+        {"d":"Bussola che punta sempre a nord-est","n":"Ma il nord magnetico e' altrove -- punta a qualcosa"},
+        {"d":"30 mo in monete di tre valute diverse","n":"Include monete di Luskan -- qui sono rare"}
+      ],
+      [
+        {"d":"Pozione superiore, 50 mo, emblema Xanathar","n":"4d4+4 PF. Membro (o spia?) degli Xanathar","ai":true},
+        {"d":"Pergamena 1 livello, anello argento sigillo","n":"Anello: CD15 ARC per identificare, sigillo di casata","ai":true},
+        {"d":"Arma +1, 2d10x5 mo, mappa Sottomonte","n":"Arma +1 att/danno. Mappa: 1d4 stanze del livello","ai":true},
+        {"d":"Amuleto +1 TS, lettera cifrata","n":"Amuleto: sintonizzazione. Lettera: thieves' cant CD14","ai":true},
+        {"d":"Cristallo magico pulsante, 80 mo","n":"Emana trasmutazione; componente per 1d4 spell 2 livello","ai":true},
+        {"d":"Chiave d'osso con incisioni, 40 mo","n":"Apre una porta specifica in Sottomonte -- quale?","ai":true},
+        {"d":"Borsa con 120 mo e sigillo di Cassalanter","n":"La casata e' coinvolta. Tenere o restituire?","ai":true},
+        {"d":"Tomo parziale di Halaster, 200 mo","n":"Tre incantesimi illeggibili + mappa del 3 livello","ai":true}
+      ],
+      [
+        {"d":"Arma +2, 500 mo, tessera Maschere","n":"Arma +2. Tessera: accesso a un Lord Mascherato?","ai":true},
+        {"d":"Oggetto magico raro, chiave d'osso","n":"Chiave: apre una porta specifica -- quale?","ai":true},
+        {"d":"Pergamena 3 livello, gemma 200 mo, anello","n":"Pergamena: incantesimo 3 livello. Anello: casata riconoscibile","ai":true},
+        {"d":"Amuleto +2 TS, diario cifrato","n":"Amuleto: sintonizzazione. Diario: note su Sottomonte","ai":true},
+        {"d":"Pergamena 5 livello, 700 mo, anello raro","n":"Anello: +1 CA e TS, sintonizzazione","ai":true},
+        {"d":"Tomo completo di Jhesiyra, 1200 mo","n":"Contiene 3 incantesimi di 4-5 livello + lore FR","ai":true},
+        {"d":"Chiave del quinto livello, gemma 500 mo","n":"Accesso al quinto livello di Sottomonte","ai":true},
+        {"d":"Artefatto frammentato, 2000 mo stimati","n":"Frammento di un artefatto dei Reami -- di cosa fa parte?","ai":true}
+      ]
+    ],
+    "en": [
+      [
+        {"d":"A few copper and a stale biscuit","n":"2d6 cp, worthless items"},
+        {"d":"Broken mirror and rusty dagger","n":"Dagger: 1d4, -1 rolls (worn)"},
+        {"d":"Minor Waterdeep guild token","n":"Could literally open a door"},
+        {"d":"Empty pouch with blood stains","n":"Whose? What was in it?"},
+        {"d":"Loaded dice and 12 copper","n":"Dice always roll 1 less than shown"},
+        {"d":"Torn letter, one readable name","n":"The name is someone in the city -- or a victim"},
+        {"d":"Single boot with reinforced sole","n":"Five copper stitched inside"},
+        {"d":"Bone whistle with strange markings","n":"An animal responds when blown -- which one?"}
+      ],
+      [
+        {"d":"3d6 gp and torn Dwarvish parchment","n":"Map fragment or message"},
+        {"d":"Small gem (5 gp) and key with rune","n":"Dethek rune: fourth level"},
+        {"d":"Healing potion, 10 sp, medal","n":"Potion: 2d4+2 HP. Waterdeep soldier"},
+        {"d":"Minor noble crest (fake?)","n":"INT DC12 to spot forgery"},
+        {"d":"Silver earring with green stone","n":"Mark of a Dock Ward establishment"},
+        {"d":"Parchment with names and prices","n":"Debtor list -- or target list"},
+        {"d":"Compass that always points northeast","n":"Magnetic north is elsewhere -- it points to something"},
+        {"d":"30 gp in coins of three currencies","n":"Includes Luskan coin -- rare here"}
+      ],
+      [
+        {"d":"Superior potion, 50 gp, Xanathar token","n":"4d4+4 HP. Member or spy?","ai":true},
+        {"d":"1st-level scroll, silver ring with seal","n":"DC15 ARC to identify, noble house seal","ai":true},
+        {"d":"+1 weapon, 2d10x5 gp, Undermountain map","n":"+1 attack/damage. Map: 1d4 rooms","ai":true},
+        {"d":"+1 ST amulet, coded letter","n":"Attunement. Thieves' cant DC14","ai":true},
+        {"d":"Pulsing magic crystal, 80 gp","n":"Emits transmutation; component for 1d4 2nd-level spells","ai":true},
+        {"d":"Bone key with carvings, 40 gp","n":"Opens a specific door in Undermountain","ai":true},
+        {"d":"Pouch of 120 gp, Cassalanter seal","n":"The family is involved. Keep or return?","ai":true},
+        {"d":"Partial Halaster tome, 200 gp","n":"Three unreadable spells + 3rd level map","ai":true}
+      ],
+      [
+        {"d":"+2 weapon, 500 gp, City Masks token","n":"+2. Masked Lord access?","ai":true},
+        {"d":"Rare magic item, bone key","n":"Opens a specific door","ai":true},
+        {"d":"3rd-level scroll, 200 gp gem, ring","n":"3rd level. Recognizable house","ai":true},
+        {"d":"+2 ST amulet, coded diary","n":"Attunement. Undermountain notes","ai":true},
+        {"d":"5th-level scroll, 700 gp, rare ring","n":"Ring: +1 AC and saves, attunement","ai":true},
+        {"d":"Complete Jhesiyra tome, 1200 gp","n":"Contains 3 spells lvl 4-5 + FR lore","ai":true},
+        {"d":"Fifth level key, 500 gp gem","n":"Access to Undermountain fifth level","ai":true},
+        {"d":"Fragmented artifact, est. 2000 gp","n":"Fragment of a Realms artifact -- what is it part of?","ai":true}
+      ]
+    ]
+  },
+  "imprevisti": {
+    "it": {
+      "wt_strade":["Borseggiatore degli Xanathar (PER)","Guardie della Magistratura chiedono documenti","Tumulto in piazza -- propaganda della Mano Nascosta","Una maschera grigia vi osserva dall'ombra","Carro della Gilda dei Facchini rovesciato","Un ragazzo consegna un biglietto firmato M","Grida da un vicolo -- pestaggio in corso","Bandiera nera su una casa -- quarantena o segnale?","Figura in armatura corre e sparisce in un vicolo","Il canale vicino straripa -- fognature ostruite o sabotaggio?","Una carrozza nobile sfreccia senza rallentare -- qualcuno e' inseguito","Mercante morto trovato con simbolo degli Zhentarim"],
+      "wt_taverna":["Il bardo canta di voi con dettagli scomodi","Rissa tra marinai del Dock Ward imminente","Qualcuno ha drogato il vino (CON)","L'oste mostra un conto gonfiato","Figura incappucciata lascia una pergamena sul tavolo","Un Lord Mascherato entra -- musica si ferma","Carta degli Xanathar sotto il bicchiere","L'oste Durnan sembra sapere troppo","Un avventore mormora un nome -- il vostro -- prima di svenire","Il vino costa il triplo stasera -- e tutti pagano senza lamentarsi","La candela sul vostro tavolo non si consuma mai","Qualcuno ha lasciato un pacchetto sigillato sotto la sedia"],
+      "sm_alti":["Trappola a botola (PER CD15 o 2d6)","Macerie dal soffitto (DES o 2d6)","Passi non umani da una galleria laterale","Incisioni in dethek -- mappa parziale del livello","Torce si spengono: qualcosa si muove","Runa di Halaster sul muro -- attiva o vecchia?","Odore di zolfo: gas (CON o avvelenato)","Teschio che rotola da un corridoio vuoto","Porta che si chiude da sola alle spalle del gruppo","Il pavimento risuona vuoto sotto i piedi -- passaggio segreto?","Eco di voci in lingua incomprensibile -- vicine o lontane?","Un ragno di pietra cade dal soffitto -- costrutto o creatura?"],
+      "sm_profondi":["Voce distante chiama un nome del gruppo","Luce che pulsa da una fessura nel muro","Acqua che sale lentamente","Struttura che trema -- crollo in 1d4 round","Creatura morta di recente -- cosa l'ha uccisa?","Runa di Halaster -- effetto casuale","Eco amplificato: i mostri sentono tutto","Specchio incassato nel muro -- il riflesso ritarda di un secondo","Temperatura scende improvvisamente di dieci gradi","Sangue fresco sul pavimento -- le tracce portano in su, non in giu'","Un portale fioco sussurra coordinate incomprensibili","Il silenzio assoluto dura tre round poi torna -- cosa lo ha causato?"],
+      "costa":["Temporale improvviso -- visibilita' nulla","Pattuglia di orchi dalla Montagna del Drago","Sentiero biforcuto non sulla mappa, sangue fresco","Trappola da cacciatore (PER CD12)","Colonna di fumo a nord -- villaggio o accampamento?","Tracce di gigante -- di quale tipo?","Carovana abbandonata con merci intatte -- nessun segno di lotta","Figura solitaria sul ciglio -- si gira e sparisce prima che si avvicini","Ponte sull'affluente crollato -- guadare o aggirare?","Uccelli in stormo denso segnalano qualcosa sotto"],
+      "neverwinter":["Folata di vento caldo innaturale","Un elfo ferito chiede aiuto in silqua","Alberi con corteccia nera -- malattia o magia?","Uccelli improvvisamente silenziosi","Funghi bioluminescenti in cerchio","Radici che tentano di afferrare i piedi (SAL)","Una voce canta in una lingua elfica morta -- la fonte e' invisibile","Il sentiero gira su se stesso -- la stessa roccia due volte","Cervo bianco osserva immobile poi sparisce tra gli alberi","Il muschio cresce solo su un lato degli alberi -- non quello atteso"]
+    },
+    "en": {
+      "wt_strade":["Xanathar pickpocket (PER)","City Watch demands papers","Riot in the plaza -- Black Hand propaganda","A gray mask watches from a doorway","Porters Guild cart overturned","A boy delivers a note signed M","Shouts from an alley -- someone being beaten","Black flag on a house -- quarantine or signal?","Armored figure runs and vanishes down an alley","Nearby canal overflows -- blocked sewers or sabotage?","A noble carriage races past without slowing -- someone is chased","Dead merchant found with Zhentarim symbol"],
+      "wt_taverna":["The bard is singing about you -- uncomfortably","Dock Ward sailors brawl about to break out","Someone drugged the wine (CON save)","The innkeeper shows an inflated bill","Hooded figure leaves a scroll on your table","A Masked Lord enters -- music stops","Xanathar card under the mug","Durnan seems to know too much","A patron whispers your name before collapsing","Wine costs triple tonight -- everyone pays without complaint","The candle on your table never burns down","Someone left a sealed package under the chair"],
+      "sm_alti":["Trapdoor (PER DC15 or 2d6)","Ceiling debris (DEX or 2d6)","Non-human footsteps from a side passage","Dethek carvings -- partial level map","Torches go out: something moves","Halaster rune on the wall -- active or old?","Sulfur smell: gas (CON or poisoned)","Skull rolling from an empty corridor","Door closes on its own behind the party","Floor sounds hollow underfoot -- secret passage?","Echo of voices in unknown language -- near or far?","Stone spider falls from ceiling -- construct or creature?"],
+      "sm_profondi":["A distant voice calls a party member's name","Light pulsing from a wall crack","Water rising slowly","Structure trembling -- collapse in 1d4 rounds","Fresh corpse -- what killed it?","Halaster rune -- random effect","Amplified echo: monsters hear everything","Mirror set in wall -- reflection lags by one second","Temperature drops ten degrees suddenly","Fresh blood on floor -- tracks lead up not down","A dim portal whispers incomprehensible coordinates","Absolute silence for three rounds then returns"],
+      "costa":["Sudden storm -- zero visibility","Orc patrol from the Sword Mountains","Unmarked fork in the road, fresh blood","Hunter's trap (PER DC12)","Smoke column to the north -- village or camp?","Giant tracks -- which kind?","Abandoned caravan with intact goods -- no sign of struggle","Lone figure on the ridge -- vanishes before you close in","Bridge over tributary collapsed -- ford or go around?","Dense bird flock signals something below"],
+      "neverwinter":["Unnatural warm wind gust","A wounded elf asks for help in Elvish","Trees with black bark -- disease or magic?","Birds suddenly silent","Bioluminescent mushrooms in a circle","Roots trying to grab feet (STR save)","A voice sings in a dead Elven tongue -- source invisible","The path doubles back -- the same rock twice","White stag watches motionless then vanishes","Moss grows only on one side of the trees -- not the expected side"]
+    }
+  },
+  "png": {
+    "razzePerZona": {
+      "waterdeep": ["Umano","Umano","Umano","Elfo","Nano","Halfling","Tiefling","Draconide"],
+      "sottomonte": ["Umano","Umano","Nano","Elfo","Halfling","Tiefling","Orchide"],
+      "dock":       ["Umano","Umano","Umano","Halfling","Tiefling","Nano"],
+      "castle":     ["Umano","Umano","Elfo","Halfling"],
+      "luskan":     ["Umano","Umano","Orchide","Tiefling","Nano"],
+      "costa":      ["Umano","Umano","Umano","Elfo","Halfling"]
+    },
+    "aggettivi": {
+      "it": {
+        "neutrale":   ["taciturno","riservato","pragmatico","distaccato","misurato","controllato","sobrio","silenzioso"],
+        "amichevole": ["cordiale","espansivo","generoso","sorridente","aperto","affabile","caloroso","loquace"],
+        "ostile":     ["diffidente","aggressivo","scostante","brusco","sprezzante","minaccioso","freddo","tagliente"],
+        "ambiguo":    ["enigmatico","evasivo","sfuggente","ambivalente","doppio","indecifrabile","reticente","calcolatore"],
+        "misterioso": ["schivo","oscuro","indecifrabile","silenzioso","velato","insolito","imperscrutabile","tetro"],
+        "corrotto":   ["avido","manipolatore","sleale","venale","subdolo","cinico","opportunista","falso"],
+        "disperato":  ["angosciato","frenetico","ansioso","esausto","febbricitante","teso","spavaldo per paura","frenetico"],
+        "arrogante":  ["altezzoso","sprezzante","borioso","superbo","impertinente","sdegnoso","pomposo","condiscendente"],
+        "timoroso":   ["nervoso","pavido","esitante","pallido","tremante","guardingo","timoroso","schivo"],
+        "fanatico":   ["ossessionato","fervente","irremovibile","zelante","inflessibile","accecato","fanatico","intransigente"]
+      },
+      "en": {
+        "neutrale":   ["taciturn","reserved","pragmatic","detached","measured","controlled","sober","quiet"],
+        "amichevole": ["cordial","outgoing","generous","cheerful","open","affable","warm","talkative"],
+        "ostile":     ["suspicious","aggressive","standoffish","blunt","disdainful","threatening","cold","cutting"],
+        "ambiguo":    ["enigmatic","evasive","elusive","ambivalent","two-faced","unreadable","cagey","calculating"],
+        "misterioso": ["reclusive","dark","unreadable","silent","veiled","unusual","inscrutable","brooding"],
+        "corrotto":   ["greedy","manipulative","disloyal","venal","underhanded","cynical","opportunistic","false"],
+        "disperato":  ["anguished","frantic","anxious","exhausted","feverish","tense","reckless","manic"],
+        "arrogante":  ["haughty","contemptuous","pompous","imperious","impertinent","disdainful","condescending","patronizing"],
+        "timoroso":   ["nervous","cowardly","hesitant","pale","trembling","wary","fearful","skittish"],
+        "fanatico":   ["obsessed","fervent","unyielding","zealous","inflexible","blinded","fanatical","uncompromising"]
+      }
+    },
+    "fisici": {
+      "it": ["cicatrice sul mento","occhi di due colori diversi","capelli prematuramente bianchi","mano sinistra fasciata","tatuaggio sul collo","zoppica leggermente","voce roca","dita macchiate di inchiostro","anello che non toglie mai","cappuccio sempre calato","sguardo irrequieto","cicatrice da ustione sul dorso della mano","dente d'oro","occhiaie profonde","baffi curati con cura maniacale","unghie lunghe e nere","profumo di tabacco e cuoio","parla poco e sottovoce","orecchio sinistro mancante","cicatrice orizzontale sul naso","tatuaggio di una costellazione sul polso","porta sempre un guanto solo","rosario di ossi tra le dita","capelli intrecciati con filo d'argento","pelle segnata da vecchi geloni","movimento che ricorda quello di un soldato","non si siede mai con le spalle alla porta","gesti lenti e studiati anche sotto pressione"],
+      "en": ["scar on the chin","two different eye colors","prematurely white hair","left hand bandaged","tattoo on the neck","slight limp","raspy voice","ink-stained fingers","a ring they never remove","hood always pulled low","restless gaze","burn scar on back of hand","gold tooth","deep bags under eyes","meticulously groomed mustache","long black nails","scent of tobacco and leather","speaks little and quietly","missing left ear","horizontal scar across nose","constellation tattoo on wrist","always wears only one glove","bone rosary between fingers","hair braided with silver thread","skin marked by old frostbite","moves like a soldier","never sits with back to the door","slow deliberate gestures even under pressure"]
+    },
+    "voce": {
+      "it": ["voce profonda e lenta, ogni parola pesata","tono tagliente -- nessuna sillaba sprecata","bisbiglio che obbliga ad avvicinarsi","voce allegra che non si abbassa mai","accento straniero, difficile da identificare","parlata veloce, sovrappone i pensieri","silenzioso a lungo, poi parla tutto in una volta","tono neutro che non rivela mai l'emozione","voce roca da anni di fumo","cadenza quasi musicale","pronuncia le consonanti con eccessiva precisione","interrompe le frasi a meta' e le riprende dopo una pausa"],
+      "en": ["deep slow voice, every word weighed","sharp tone -- no syllable wasted","a whisper that forces you to lean in","cheerful voice that never lowers","foreign accent, hard to place","fast talker, thoughts overlapping","silent for long stretches then speaks all at once","flat tone that reveals nothing","gravelly from years of smoke","almost musical cadence","pronounces consonants with excessive precision","interrupts sentences and picks them up after a pause"]
+    },
+    "obiettivi": {
+      "it": {
+        "mercante":        ["accumulare oro per ritirarsi a Sembia","scalare la Gilda dei Mercanti","trovare un fornitore affidabile","aprire una seconda bottega nel North Ward","diventare membro del Consiglio del Molo"],
+        "guardia":         ["ottenere una promozione nella Magistratura","proteggere il quartiere dai Xanathar","scoprire chi corrompe i colleghi","trasferirsi nel Castle Ward","radunare prove su un corrotto con potere"],
+        "spia":            ["rubare i piani della fazione rivale","trovare una via d'uscita dal servizio","vendere informazioni al miglior offerente","smascherare un doppio agente","bruciare la propria identita' e sparire"],
+        "nobile":          ["mantenere il nome della casata","rovesciare una casata rivale","ottenere udienza dai Lord Mascherati","coprire uno scandalo prima che esploda","ottenere un contratto commerciale esclusivo"],
+        "mago":            ["recuperare un tomo perduto di Halaster","completare un esperimento in segreto","trovare un apprendista degno","costruire un laboratorio sicuro fuori dalla citta'","decifrare un frammento di runa di Halaster"],
+        "chierico":        ["costruire un santuario nel Dock Ward","estirpare il culto di Shar","trovare una reliquia rubata","convertire un nobile influente","scoprire l'origine di un'anomalia divina"],
+        "assassino":       ["completare il contratto e sparire","scoprire chi ha tradito la gilda","vendicarsi del mandante","cancellare ogni prova della propria esistenza","uscire dal mestiere con un ultimo lavoro"],
+        "fabbro":          ["forgiare un'arma leggendaria","pagare un debito con gli Zhentarim","trovare del mithral dal mercato nero","scoprire la formula di un metallo dimenticato","addestrare un successore prima di morire"],
+        "bardo":           ["comporre la ballata definitiva su Waterdeep","infiltrarsi negli Arpisti","scoprire il segreto di un potente signore","ottenere un'esibizione davanti ai Lord Mascherati","raccogliere storie di ogni distretto della citta'"],
+        "contrabbandiere": ["aprire una rotta attraverso Sottomonte","liberarsi dal debito con i Xanathar","nascondere un carico compromettente","trovare un socio fidato senza legami con le gilde","consegnare un carico che nessun altro vuole toccare"],
+        "avventuriero":    ["trovare l'entrata del terzo livello","reclutare un gruppo affidabile","recuperare l'oggetto rubato","cartografare un settore inesplorato","sopravvivere abbastanza a lungo da andare in pensione"],
+        "informatore":     ["vendere questa informazione al prezzo giusto","sparire prima che qualcuno capisca","capire per chi lavora davvero il committente","costruire una rete di fonti proprie","smettere prima di finire come i suoi predecessori"],
+        "cultista":        ["portare a termine il rituale","reclutare fedeli senza farsi notare","trovare il manufatto nei testi proibiti","sopravvivere allo scioglimento del culto","contattare l'entita' senza intermediari"],
+        "broker":          ["ricattare un Lord con un segreto pesante","costruire una rete di debitori","capire chi comanda davvero in citta'","vendere un segreto di stato al prezzo massimo","ritirarsi prima che il suo stesso gioco lo ingoi"]
+      },
+      "en": {
+        "mercante":        ["save enough gold to retire in Sembia","rise through the Merchants Guild","find a reliable supplier","open a second shop in the North Ward","become a member of the Dock Council"],
+        "guardia":         ["earn a Magisters promotion","protect the ward from the Xanathar","expose whoever is bribing guards","transfer to Castle Ward","gather evidence on a corrupt official"],
+        "spia":            ["steal the rival faction's plans","find a way out of the service","sell to the highest bidder","unmask a double agent in their own group","burn their identity and disappear"],
+        "nobile":          ["preserve the family name","bring down a rival house","gain audience with the Masked Lords","cover up a scandal before it erupts","secure an exclusive trade contract"],
+        "mago":            ["recover a lost tome of Halaster's","complete an experiment in secret","find a worthy apprentice","build a safe laboratory outside the city","decipher a Halaster rune fragment"],
+        "chierico":        ["build a shrine in the Dock Ward","root out the Shar cult","recover a stolen relic","convert an influential noble","uncover the source of a divine anomaly"],
+        "assassino":       ["finish the contract and disappear","find out who betrayed the guild","take revenge on the employer","erase all proof of their existence","get out with one last job"],
+        "fabbro":          ["forge a legendary weapon","pay off the Zhentarim debt","find mithral on the black market","discover a forgotten metal formula","train a successor before dying"],
+        "bardo":           ["compose the definitive Waterdeep ballad","infiltrate the Harpers","uncover a powerful lord's secret","perform before the Masked Lords","collect stories from every district"],
+        "contrabbandiere": ["open a route through Undermountain","break free from the Xanathar debt","hide a compromising shipment","find a trustworthy partner with no guild ties","deliver cargo nobody else will touch"],
+        "avventuriero":    ["find the third level entrance","assemble a reliable party","recover the stolen item","map an unexplored sector","survive long enough to retire"],
+        "informatore":     ["sell this at the right price","disappear before anyone realizes","figure out who the employer really serves","build their own source network","quit before ending up like their predecessors"],
+        "cultista":        ["complete the ritual","recruit faithful without being noticed","find the artifact in forbidden texts","survive the cult's dissolution","contact the entity without intermediaries"],
+        "broker":          ["blackmail a Lord with a heavy secret","build a debtor network","figure out who truly commands the city","sell a state secret at maximum price","retire before their own game swallows them"]
+      }
+    },
+    "segreti": {
+      "it": ["e' un informatore degli Arpisti in copertura","deve una grossa somma agli Zhentarim","sa dove e' nascosto un cadavere importante","e' fuggito da un'altra citta' con un nome falso","ha tradito qualcuno che ora lo cerca","lavora per i Xanathar senza ammetterlo","ha accesso a un passaggio segreto di Sottomonte","porta sempre con se' una lettera compromettente","e' sorvegliato da un Lord Mascherato senza saperlo","conosce la vera identita' di uno dei Lord Mascherati","e' maledetto -- lo sa, non sa come togliersi la maledizione","ha rubato qualcosa alla Magistratura","e' in realta' un nobile decaduto che si nasconde","conosce la vera identita' del proprio committente e non puo' dirla","ha un figlio illegittimo che non sa della sua esistenza","e' sopravvissuto a un'esecuzione -- ufficialmente e' morto","ha mentito su un crimine che un innocente sta scontando","possiede una prova che incastrerebbe un Lord Mascherato","era presente quando e' stato commesso il crimine chiave della campagna","ha visto Halaster -- e ne e' tornato diverso"],
+      "en": ["is an undercover Harper informant","owes a large sum to the Zhentarim","knows where an important body is hidden","fled another city under a false name","betrayed someone who is now hunting them","works for the Xanathar without admitting it","has a secret passage to Undermountain","always carries a compromising letter","is watched by a Masked Lord unknowingly","knows the true identity of one of the Masked Lords","is cursed and cannot lift it","stole something from the Magisters","is actually a fallen noble in hiding","knows the true identity of their employer and cannot say","has an illegitimate child unaware of their existence","survived an execution -- officially dead","lied about a crime an innocent person is serving time for","holds proof that would implicate a Masked Lord","was present when the campaign's key crime was committed","has seen Halaster -- and came back different"]
+    },
+    "connFR": {
+      "it": {
+        "waterdeep": ["debiti con la Gilda dei Mercanti","contatto degli Arpisti","sorvegliato dagli Zhentarim","conosce un passaggio verso Palazzo Piergeiron","legato alla casata Cassalanter","cliente abituale della Locanda dello Spadone","ha accesso al porto fuori dalle ore ufficiali","deve un favore a un membro del Consiglio dei Lord"],
+        "sottomonte": ["conosce l'entrata del quarto livello","sopravvissuto a un incontro con Halaster","mappa parziale del secondo livello","membro superstite di una spedizione andata male","commercia con chi scende e chi sale","sa quale bestia abita il livello tre nord"],
+        "dock":       ["in affari con contrabbandieri del porto","paga protezione ai Xanathar","sa cosa arriva senza manifesto","informatore della Magistratura sul porto","conosce il capomastro dei magazzini"],
+        "castle":     ["contatti con la servitu' del Palazzo","sorveglia i nobili per conto terzi","ex membro della guardia del castello","sa quando cambia la guardia","conosce il nome del sarto di corte"],
+        "luskan":     ["fuggito dai Cinque Capitani","ex corsaro riconvertito","porta un marchio che i marinai di Luskan riconoscono","sa il nome del capitano che controlla il porto"],
+        "costa":      ["veterano di una carovana attaccata","conosce ogni locanda tra Waterdeep e Baldur's Gate","sa dove i briganti tendono agguati","ha seppellito qualcosa lungo la strada"]
+      },
+      "en": {
+        "waterdeep": ["in debt with the Merchants Guild","a Harper contact","watched by the Zhentarim","knows a passage to Piergeiron's Palace","linked to the Cassalanter family","regular at the Yawning Portal","has port access outside official hours","owes a favor to a Council member"],
+        "sottomonte": ["knows the fourth level entrance","survived an encounter with Halaster","partial map of the second level","survivor of a failed expedition","trades with those who go down and come up","knows which beast inhabits north level three"],
+        "dock":       ["deals with port smugglers","pays Xanathar protection","knows what arrives without manifests","Magisters informant at the port","knows the warehouse master"],
+        "castle":     ["Palace staff contacts","monitors nobles for hire","former castle guard","knows the guard rotation","knows the name of the court tailor"],
+        "luskan":     ["fled the Five Captains","reformed privateer","bears a mark Luskan sailors recognize","knows the name of the captain controlling the port"],
+        "costa":      ["veteran of an attacked caravan","knows every inn between Waterdeep and Baldur's Gate","knows where brigands set ambushes","buried something along the road"]
+      }
+    }
+  },
+  "idee": {
+    "it": {
+      "trame": [
+        ["Il doppio","Qualcuno usa il nome o il volto di un membro del gruppo senza che loro lo sappiano."],
+        ["Il debito","Un PNG minore ricompare -- in debito con i personaggi per qualcosa che non ricordano."],
+        ["La mappa","Una mappa trovata nel loot indica un luogo che su nessun'altra mappa esiste."],
+        ["L'erede","Qualcuno reclama la proprieta' di qualcosa trovato dal gruppo -- con documenti."],
+        ["Il testimone","Qualcuno ha visto i personaggi in un posto in cui non erano -- o forse si'."],
+        ["Il prezzo","Un servizio passato viene riscosso nel momento peggiore."],
+        ["La sostituzione","Un PNG fidato si comporta diversamente -- piccoli dettagli, ma costanti."],
+        ["Il messaggio","Una lettera indirizzata a un nome falso conteneva qualcosa di vero."],
+        ["L'offerta","Una fazione nemica offre qualcosa che il gruppo vuole. Nessuna trappola ovvia."],
+        ["Il ritorno","Qualcuno creduto morto ricompare -- non nemico, non alleato."],
+        ["Il vuoto","Un luogo familiare e' sparito -- non distrutto, come se non fosse mai esistito."],
+        ["Il contratto","Qualcuno ha gia' pagato per far fare al gruppo qualcosa che non gli e' ancora stato chiesto."],
+        ["La profezia","Un mendicante recita versi che descrivono esattamente quello che e' successo ieri."],
+        ["L'alleanza","Due fazioni rivali chiedono separatamente aiuto per la stessa cosa -- contro la stessa persona."]
+      ],
+      "oggetti": [
+        ["La chiave sbagliata","Apre una porta che il gruppo non ha ancora trovato."],
+        ["Lo specchio","Mostra un momento specifico del passato, non il presente."],
+        ["La medaglia","Insegna di un'unita' sterminata trent'anni fa -- ancora lucida."],
+        ["La bottiglia","Contiene qualcosa che si muove. Non e' un liquido."],
+        ["La pergamena bianca","Rivela testo solo in presenza di sangue."],
+        ["Il dado","Ogni volta che lo si lancia, esce sempre il risultato che il lanciatore non voleva."],
+        ["Il libro","Un tomo in lingua sconosciuta ha pagine di recente compilazione nella stessa mano."],
+        ["Il sigillo","Impresso su ogni acquisto fatto dal gruppo negli ultimi tre giorni -- da quando?"]
+      ],
+      "luoghi": [
+        ["Il vicolo che non torna","Piu' lungo di quanto le mappe dicano -- e porta dove non dovrebbe."],
+        ["La stanza sigillata","Cemento recente -- dal lato interno."],
+        ["L'osteria fantasma","Non risulta in nessun registro fiscale della citta'."],
+        ["Il punto cieco","Un'area nel Dock Ward dove la magia smette di funzionare."],
+        ["La camera d'eco","Una stanza in Sottomonte ripete le ultime parole dette fuori da essa."],
+        ["Il crocevia sparito","Un bivio usato dal gruppo la settimana scorsa non c'e' piu' -- la strada e' dritta."]
+      ],
+      "personaggi": [
+        ["L'ombra","Un PNG sa sempre dove si trova il gruppo -- non li segue, e' gia' li'."],
+        ["Il parlante","Un mendicante parla lingue che non dovrebbe conoscere."],
+        ["Il custode","Ha tenuto qualcosa al sicuro per decenni aspettando il gruppo."],
+        ["Il sosia","Un personaggio incontra qualcuno identico a se stesso -- piu' vecchio, cicatrici diverse."],
+        ["L'esperto","Il miglior esperto in citta' dell'oggetto che cercano e' scomparso tre giorni fa."],
+        ["Il prigioniero","Qualcuno chiede aiuto attraverso la porta chiusa -- il nome che dice e' quello di un amico morto."]
+      ]
+    },
+    "en": {
+      "trame": [
+        ["The Double","Someone uses a party member's name or face without them knowing."],
+        ["The Debt","A minor NPC reappears -- owing the party for something they don't remember."],
+        ["The Map","A loot map marks a place that appears on no other map."],
+        ["The Heir","Someone claims ownership of something the party found -- with documents."],
+        ["The Witness","Someone saw the party somewhere they weren't -- or maybe they were."],
+        ["The Price","A past favor called in at the worst moment."],
+        ["The Switch","A trusted NPC behaves slightly differently -- small details, but consistent."],
+        ["The Message","A letter to a false name contained something true."],
+        ["The Offer","An enemy faction offers something the party wants. No obvious trap."],
+        ["The Return","Someone thought dead reappears -- neither enemy nor ally."],
+        ["The Void","A familiar place is gone -- not destroyed, as if it never existed."],
+        ["The Contract","Someone has already paid for the party to do something they haven't been asked yet."],
+        ["The Prophecy","A beggar recites verses describing exactly what happened yesterday."],
+        ["The Alliance","Two rival factions separately ask for help with the same thing -- against the same person."]
+      ],
+      "oggetti": [
+        ["The Wrong Key","Opens a door the party hasn't found yet."],
+        ["The Mirror","Shows a specific past moment, not the present."],
+        ["The Medal","Insignia of a unit wiped out thirty years ago -- still polished."],
+        ["The Bottle","Contains something that moves. Not a liquid."],
+        ["The Blank Scroll","Reveals text only in the presence of blood."],
+        ["The Die","Every time it's rolled, it shows exactly what the roller didn't want."],
+        ["The Book","A tome in an unknown language has recently written pages in the same handwriting."],
+        ["The Seal","Stamped on every purchase the party made in the last three days -- since when?"]
+      ],
+      "luoghi": [
+        ["The Alley That Doesn't Add Up","Longer than the maps suggest -- and leads somewhere it shouldn't."],
+        ["The Sealed Room","Fresh cement -- from the inside."],
+        ["The Ghost Tavern","Appears in no tax records."],
+        ["The Dead Zone","An area in the Dock Ward where magic stops working."],
+        ["The Echo Chamber","A room in Undermountain repeats the last words spoken outside it."],
+        ["The Missing Crossroads","A fork the party used last week is gone -- the road is straight now."]
+      ],
+      "personaggi": [
+        ["The Shadow","An NPC always knows where the party is -- not following, already there."],
+        ["The Speaker","A beggar speaks languages they shouldn't know."],
+        ["The Keeper","Has kept something safe for decades waiting for the party."],
+        ["The Double","A character meets someone identical to themselves -- older, different scars."],
+        ["The Expert","The city's best expert on the thing they need vanished three days ago."],
+        ["The Prisoner","Someone asks for help through a locked door -- the name they give is a dead friend's."]
+      ]
+    }
+  },
+  "ambiente": {
+    "corridoio": [
+      ["Le pietre sono state levigate da secoli di mani che le sfioravano","una torcia magica agonizzante proietta ombre lunghe","l'aria ristagna con odore di muffa e ferro arrugginito","rumori lontani si moltiplicano nell'eco"],
+      ["Il soffitto si abbassa obbligando a chinarsi","sul pavimento tracce di sandali -- passaggio recente","una runa di Halaster e' incisa al centro dell'arco","da qui si vedono tre incroci, tutti bui"],
+      ["Pareti di pietra viva solcate da vene di quarzo","una porta sbarrata a meta' corridoio -- il verrou e' forzato dall'interno","odore di zolfo","la fiamma della torcia si piega senza vento"],
+      ["Pavimento coperto di sabbia fine nonostante il sottosuolo","sulle pareti graffiti in dethek, troppo sbiaditi per leggerli","una botola aperta nel mezzo -- buio sotto","passi lontani che si avvicinano"],
+      ["Il corridoio piega a novanta gradi in modo innaturale -- la pietra e' perfetta","acqua filtra da una crepa alta e scende in filo sottile","il pavimento ha un dislivello impercettibile verso il basso","due porte identiche, una di fronte all'altra -- nessun segno di quale sia usata"],
+      ["Il soffitto e' coperto di stalattiti arancioni -- residuo di alchimia","le pareti risuonano se si parla ad alta voce tre secondi dopo","un gancio da cui pende una catena spezzata ad altezza petto","aria che tira da destra -- c'e' un'apertura non visibile"]
+    ],
+    "stanza": [
+      ["Al centro una vasca circolare ricolma d'acqua nera immobile","quattro nicchie, ciascuna con una statua decapitata","il pavimento e' caldo sotto i piedi","il silenzio e' assoluto -- non passano suoni dall'esterno"],
+      ["Il mosaico sul pavimento raffigura la Citta' degli Splendori vista dall'alto","alcune tessere sono state rimosse di recente con cura","lungo le pareti scaffali vuoti tranne per un libro incatenato","una porta nascosta e' visibile solo da un angolo preciso della stanza"],
+      ["Casse ammassate con simboli di casate mercantili di Waterdeep","alcune aperte e svaligiate, altre ancora sigillate con cera nera","odore forte di spezie e qualcosa di marcio","una scala di corda pende dal soffitto verso il buio sopra"],
+      ["L'altare e' ancora in uso -- candele consumate da ore","sopra un simbolo che non appartiene ad alcuna divinita' conosciuta","sangue secco sul pavimento -- non umano","tre uscite, una murata di fresco"],
+      ["Scaffali che arrivano al soffitto, tutti vuoti tranne l'ultimo ripiano","sulla volta un affresco di una battaglia non identificata -- ancora vivido","al centro un tavolo con quattro sedie -- un pasto a meta', ancora caldo","le porte sono tutte prive di maniglie dal lato interno"],
+      ["La stanza e' rotonda -- ogni superficie curva riflette il suono","al centro una colonna con incisioni a spirale in alto elvish","il pavimento e' diviso in settori di colori diversi non uniformi","da una fessura nella parete entra luce che non corrisponde all'ora"]
+    ],
+    "caverna": [
+      ["Stalattiti che toccano il suolo come denti rotti","il lago al centro e' completamente immobile, nero come inchiostro","qualcosa si muove sotto la superficie -- onda sottile","il riflesso non corrisponde a quello che si vede sopra"],
+      ["Cristalli di calcite bioluminescenti blu-verdi","il suono dei passi si raddoppia in modo innaturale","ossa di animali grandi impilate lungo le pareti","una corrente d'aria calda sale da una fessura nel pavimento"],
+      ["La caverna si allarga improvvisamente dopo un cunicolo stretto","al centro una colonna stalagmitica con qualcosa incastonato dentro","tracce di accampamento recente -- fuoco spento da giorni","sulle pareti dipinti rozzi ma riconoscibili: Waterdeep vista dal mare"],
+      ["Stretta e soffocante, poi si apre su un precipizio senza fondo","la roccia e' lucida come vetro -- fusa da qualcosa di molto caldo","scheletri di avventurieri recenti -- equipaggiamento ancora addosso","dall'abisso sotto sale un vento gelido e ininterrotto"],
+      ["Il soffitto e' coperto di pipistrelli che non si muovono -- immobili come pietrificati","una cascata entra da una fessura e sparisce senza toccare il fondo","tre aperture, ognuna delle dimensioni di un uomo inginocchiato","le stalattiti sono disposte in modo troppo regolare per essere naturali"],
+      ["Il fondale e' ricoperto di conchiglie -- a cento metri sottoterra","la temperatura e' costante di due gradi, perfetta -- innaturale","le pareti sono state scavate da mani, non dall'acqua -- scalpello grosso","al centro, marcato con pietre, il perimetro di qualcosa di grande -- seppellito"]
+    ],
+    "bosco": [
+      ["Gli alberi si stringono fino a bloccare la luce","il sottobosco e' innaturalmente silenzioso -- nemmeno insetti","sul terreno tracce di qualcosa di grande trascinato di recente","un cerchio di funghi bioluminescenti segna il centro di una radura"],
+      ["Rovine elfiche emergono tra le radici, quasi riassorbite","le pietre portano incisioni in Qualinesti che parlano di una guardia","qualcuno ha lasciato offerte fresche -- fiori recisi, nessun morto vicino","la nebbia sale da terra anche con sole alto"],
+      ["Alberi centenari con nodi che sembrano volti","corteccia nera su meta' dei tronchi -- malattia o magia","il sentiero sparisce e ricompare venti passi avanti","la direzione nord sembra sbagliata -- la bussola non concorda"],
+      ["Radura improvvisa con un albero solitario fulminato","alla base un cumulo di pietre -- troppo preciso per essere naturale","sul tronco bruciato una runa recente, incisa con coltello","di notte da qui si vede la luce di Waterdeep, troppo vicina"],
+      ["Tutti gli alberi di questa sezione pendono nella stessa direzione","il muschio cresce verso il basso -- impossibile, ma lo fa","un ruscello scorre verso monte","ai piedi degli alberi piu' vecchi piccole pietre colorate in file precise"],
+      ["La neve e' ghiacciata ai lati del sentiero ma morbida al centro -- calpestata di recente","un campanello di vento nascosto suona anche senza vento","le ombre proiettate dagli alberi non corrispondono alla posizione del sole","radici emerse dal suolo in forma di mano -- o quasi"]
+    ],
+    "vicolo waterdeep": [
+      ["Stretto tra due magazzini del Dock Ward che si toccano quasi in cima","sul pavimento mattoni scivolosi e acqua stagnante che non drena","il simbolo degli Xanathar e' graffiato a meta' muro -- fresco","una botola arrugginita nel mezzo -- non sbarrata"],
+      ["Tre lanterne magiche, due spente, una a luce arancione agonizzante","casse accatastate che nascondono una porta secondaria","odore di pesce salato e qualcosa di chimico","dall'alto, su un davanzale, qualcuno vi osserva poi sparisce"],
+      ["Vicolo cieco con pozzetto aperto -- accesso alle fogne di Waterdeep","graffiti sovrapposti: simboli di quattro gilde diverse","gancio conficcato nel muro ad altezza uomo -- uso recente","il passaggio e' troppo stretto per due persone affiancate"],
+      ["Sbocca in una corte privata sorvegliata da due guardie in borghese","pavimento coperto di cenere -- bruciato qualcosa stanotte","una borsa abbandonata appoggiata al muro -- vuota, ancora calda","al fondo una porta chiusa con tre lucchetti diversi"],
+      ["Un filo teso a meta' altezza -- trappola o segnale?","le finestre che si affacciano sul vicolo sono tutte sbarrate dall'interno","pavimento con dislivello verso il centro -- scolo a vista","scritta a carbone sul muro: un nome e un numero, nient'altro"],
+      ["Due ceste di pesci davanti a una porta -- nessuno le viene a prendere","l'eco qui e' strano: i passi sembrano venire dalla direzione opposta","una bandiera degli Arpisti in codice pende dalla finestra del secondo piano","il vicolo finisce in un muro con un orologio dipinto -- le lancette si muovono"]
+    ],
+    "locale/locanda": [
+      ["Il locale e' pieno nonostante l'ora -- troppo pieno per essere casuale","il bardo si ferma quando entrate, riprende con un'altra canzone","al bancone Durnan pulisce un boccale senza guardarvi","il tavolo nell'angolo e' sempre libero, sempre"],
+      ["Fumo denso di pipa nasconde meta' del locale","tre conversazioni si abbassano quando vi avvicinate","sul pavimento sabbia fresca sopra una macchia scura","la stanza al piano di sopra ha la porta socchiusa -- dentro, silenzio"],
+      ["Mezza dozzina di marinai di Luskan occupano meta' del locale","dietro il bancone una porta con lucchetto nuovo su serratura vecchia","la cameriera porta messaggi oltre alle bevande -- non cerca discrezione","qualcuno ha gia' pagato da bere per voi -- nessuno ammette di sapere chi"],
+      ["Il locale e' quasi deserto -- di sera, strano","l'oste conta monete senza alzare lo sguardo","sul tavolo accanto al vostro: una lettera sigillata con tre impronte di dita untuose","le candele sono di due tipi -- alcune non bruciano mai fino in fondo"],
+      ["Un cuoco entra dalla cucina con la mano fasciata -- la benda e' troppo spessa per un taglio","la scala per il piano di sopra e' bloccata con un banco rovesciato -- da stamattina","la tabella dei prezzi sul muro ha un articolo cancellato con cura","ogni ospite ha ordinato la stessa cosa senza che l'altro potesse sentire"],
+      ["Il locale e' illuminato da luci che non hanno una fonte visibile","il caminetto e' acceso ma non produce fumo -- il camino e' chiuso?","tre clienti giocano a carte ma nessuno ha vinto da quando siete arrivati","l'oste conosce gia' i vostri nomi e li pronuncia correttamente"]
+    ],
+    "sala di sottomonte": [
+      ["Il soffitto e' cosi' alto che la torcia non lo raggiunge","al centro un trono di pietra nera -- le braccia sono consumate dall'uso","sulle pareti sei porte, cinque sbarrate, una aperta sul buio","il pavimento risuona diversamente al centro -- vuoto sotto"],
+      ["Un portale arcano spento occupa l'intera parete nord","le rune intorno pulsano debolmente -- non e' del tutto inattivo","sul pavimento cerchio rituale ancora leggibile -- usato di recente","l'aria e' immobile ma le fiamme tremano"],
+      ["Scaffali di alchimia -- la maggior parte ancora piena","etichette in Midani, Espruaan e Dethek mischiati","uno dei fornelli e' ancora caldo -- qualcuno era qui ore fa","una formula e' aperta su un leggio, a meta'"],
+      ["La stanza e' perfettamente quadrata -- troppo perfetta","ogni muro ha un'incisione diversa: Halaster, Jhesiyra, Trobriand, Muiral","al centro una pedana rialzata con quattro anelli di ferro nel pavimento","il silenzio e' totale -- nemmeno i propri respiri sembrano uscire"],
+      ["Il pavimento e' coperto di sabbia fine distribuita uniformemente -- nessuna impronta","una fontana di pietra asciutta al centro -- il bordo e' consumato dall'uso","ogni angolo ha un braciere spento con cenere di colori diversi","le pareti sono state dipinte di bianco sopra decorazioni piu' antiche -- si intravedono"],
+      ["La stanza continua oltre quello che la mappa dovrebbe permettere","al centro un obelisco di ossidiana senza iscrizioni -- levigato come uno specchio","dal pavimento emergono anelli di metallo disposti in pattern astronomico","l'uscita che avete usato per entrare non e' piu' dove la ricordate"]
+    ]
+  },
+  "ambiente_inject": {
+    "corridoio": [
+      "Sul pavimento tracce di {extra} -- passaggio recente.",
+      "Sulle pareti incisioni che ritraggono {extra} con sorprendente dettaglio.",
+      "L'odore di {extra} e' inconfondibile nonostante la distanza.",
+      "Una runa accanto all'arco sembra collegata a {extra}."
+    ],
+    "stanza": [
+      "Al centro, chiaramente collegato a {extra}, un simbolo inciso nel pavimento.",
+      "Sullo scaffale piu' alto qualcosa che ricorda {extra} -- fuori posto in questo contesto.",
+      "Il mosaico sul pavimento include, quasi nascosto, un riferimento a {extra}.",
+      "La porta sul fondo porta un sigillo che gli esperti di {extra} riconoscerebbero."
+    ],
+    "caverna": [
+      "Tra le stalattiti, una formazione che assomiglia stranamente a {extra}.",
+      "L'acqua sul fondo trasporta frammenti di {extra} da qualche parte piu' profonda.",
+      "Sulle pareti, graffiti rozzi ma riconoscibili -- parlano di {extra}.",
+      "Il suono che sale dal basso ricorda, vagamente, {extra}."
+    ],
+    "bosco": [
+      "Tra le radici, sepolto di recente: qualcosa legato a {extra}.",
+      "Il sentiero devia improvvisamente attorno a {extra}.",
+      "Gli alberi intorno portano i segni di {extra} -- non naturali.",
+      "Una radura rivela tracce inequivocabili di {extra}."
+    ],
+    "vicolo waterdeep": [
+      "Sul muro, accanto al simbolo, la parola {extra} graffiata con un coltello.",
+      "Una delle casse porta un marchio che gli esperti di {extra} riconoscerebbero.",
+      "Qualcuno ha lasciato qui qualcosa legato a {extra} -- di proposito o in fretta?",
+      "La botola sul fondo porta inciso un riferimento a {extra}."
+    ],
+    "locale/locanda": [
+      "Il bardo ha appena smesso di cantare una canzone su {extra}.",
+      "Sul tavolo nell'angolo, aperto su una pagina che parla di {extra}.",
+      "L'oste abbassa la voce quando menzionate {extra}.",
+      "Qualcuno ha pagato da bere -- il biglietto dice solo: {extra}."
+    ],
+    "sala di sottomonte": [
+      "Sul portale, tra le rune, il nome di {extra} compare tre volte.",
+      "Sullo scaffale dell'alchimia, un'etichetta recente riporta: {extra}.",
+      "Il trono di pietra porta inciso, sul bracciolo, un riferimento a {extra}.",
+      "Al centro del cerchio rituale, al posto del simbolo principale: {extra}."
+    ]
+  }
+}

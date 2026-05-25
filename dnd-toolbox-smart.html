@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="it" id="htmlroot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Smart D&amp;D Toolbox — Forgotten Realms</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #0f0d0b;
+  --bg2:      #1a1612;
+  --bg3:      #221e18;
+  --bg4:      #2a2520;
+  --gold:     #d4b05a;
+  --gold2:    #ecd070;
+  --gold-dim: #a07c3a;
+  --red:      #8b2020;
+  --red2:     #e05040;
+  --green:    #2d5a3d;
+  --green2:   #4a9060;
+  --purple:   #4a3060;
+  --purple2:  #7a50a0;
+  --text:     #ddd0b5;
+  --text2:    #a89878;
+  --text3:    #8a7a62;
+  --border:   #3a3228;
+  --border2:  #4a4238;
+  --radius:   6px;
+  --radius2:  10px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'IM Fell English',Georgia,serif;overflow-x:hidden}
+body{display:flex;flex-direction:column;min-height:100dvh}
+
+/* HEADER */
+.hdr{padding:12px 16px 10px;background:var(--bg2);border-bottom:1px solid var(--gold-dim);display:flex;align-items:center;gap:10px;flex-shrink:0}
+.hdr-icon{font-size:22px;line-height:1}
+.hdr-title{font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--gold);letter-spacing:.04em;line-height:1.2}
+.hdr-sub{font-size:12px;color:#a89878;font-style:italic;line-height:1.3}
+.hdr-export{margin-left:auto;background:transparent;border:1px solid var(--gold-dim);border-radius:var(--radius);padding:6px 10px;color:var(--gold);font-family:'Cinzel',serif;font-size:11px;cursor:pointer;white-space:nowrap}
+.hdr-export:active{background:var(--bg3)}
+
+/* MAIN SCROLL AREA */
+.main{flex:1;overflow-y:auto;padding:14px 14px 80px;-webkit-overflow-scrolling:touch}
+
+/* BOTTOM NAV */
+.nav{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--gold-dim);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 2px;gap:3px;background:transparent;border:none;cursor:pointer;color:#9a8e78;transition:color .15s;font-size:9px;font-family:'Cinzel',serif;letter-spacing:.03em;min-height:52px}
+.nav-btn .ico{font-size:18px;line-height:1}
+.nav-btn.on{color:var(--gold)}
+.nav-btn.on .ico{text-shadow:0 0 8px rgba(201,168,76,.4)}
+
+/* PANEL */
+.panel{animation:fi .2s ease}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* CONTROLS */
+.ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+select,input[type=text]{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:9px 12px;color:var(--text);font-family:'IM Fell English',serif;font-size:14px;flex:1;min-width:0;appearance:none;-webkit-appearance:none;outline:none}
+select:focus,input:focus{border-color:var(--gold-dim)}
+.btn{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:10px 16px;color:var(--text);font-family:'Cinzel',serif;font-size:12px;cursor:pointer;white-space:nowrap;letter-spacing:.03em;transition:all .12s}
+.btn:active{background:var(--bg4);transform:scale(.97)}
+.btn.p{border-color:var(--gold-dim);color:var(--gold);font-weight:600}
+.btn.p:active{border-color:var(--gold)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-ai{border-color:#4a7fa8;color:#7db8d8}
+.btn-ai:hover{background:rgba(74,127,168,.12);border-color:#6aafd4}
+.btn-full{width:100%;justify-content:center}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:14px;margin-bottom:10px;position:relative}
+.card-lbl{font-family:'Cinzel',serif;font-size:10px;color:#9a8c72;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.card-val{font-size:13px;color:var(--text);line-height:1.6}
+.card-big{font-family:'Cinzel',serif;font-size:15px;color:var(--gold);line-height:1.3}
+.card-del{position:absolute;top:10px;right:10px;background:transparent;border:none;color:#7a6e58;font-size:18px;cursor:pointer;padding:2px 6px;line-height:1;border-radius:var(--radius)}
+.card-del:active{color:var(--red2)}
+.del-confirm{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--red);border-radius:var(--radius);padding:6px 10px;margin-top:6px;font-size:12px;font-family:'Cinzel',serif;color:#e8a090}
+.del-confirm button{background:transparent;border:1px solid currentColor;border-radius:var(--radius);padding:3px 10px;cursor:pointer;font-family:'Cinzel',serif;font-size:11px}
+.del-confirm .del-yes{color:var(--red2);border-color:var(--red)}
+.del-confirm .del-no{color:var(--text2)}
+.card-sav{background:transparent;border:1px solid var(--border2);border-radius:var(--radius);padding:5px 12px;color:#a89878;font-family:'Cinzel',serif;font-size:11px;cursor:pointer;margin-top:8px}
+.card-sav:active{border-color:var(--gold-dim);color:var(--gold)}
+
+/* GRIDS */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:360px){.grid2{grid-template-columns:1fr}}
+
+/* BADGES */
+.tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.badge{font-family:'Cinzel',serif;font-size:10px;padding:3px 8px;border-radius:4px;font-weight:600}
+.b-c  {background:#2a2520;color:#a89878;border:1px solid #4a4238}
+.b-nc {background:#1a2e22;color:#5cb87a;border:1px solid #2d5a3d}
+.b-r  {background:#1a2035;color:#6090d8;border:1px solid #2a3560}
+.b-mr {background:#251a35;color:#a070e0;border:1px solid #4a3060}
+.b-l  {background:#2a2010;color:#d4b05a;border:1px solid #a07c3a}
+.b-a  {background:#2a1510;color:#f06050;border:1px solid #8b2020}
+.b-zon{background:#1e1a14;color:#a89878;border:1px solid #4a4238}
+
+/* PNG DETAIL */
+.png-detail{border-left:2px solid var(--gold-dim);padding-left:12px;margin:8px 0}
+.png-row{margin-bottom:4px;font-size:13px;color:var(--text)}
+.png-row .fl{color:#a89878;font-size:12px;font-style:italic}
+
+/* SECTION TITLE */
+.stit{font-family:'Cinzel',serif;font-size:12px;font-weight:600;color:#a07c3a;margin:14px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.06em}
+
+/* LOADING */
+.loading::after{content:'.';animation:dt 1.2s steps(3,end) infinite}
+@keyframes dt{0%,20%{content:'.'}40%,60%{content:'..'}80%,100%{content:'...'}}
+.loading{color:#a89878;font-size:14px;font-style:italic;padding:8px 0}
+
+/* MSG TOAST */
+.toast-wrap{position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:200;pointer-events:none}
+.toast{background:var(--bg3);border:1px solid var(--gold-dim);border-radius:var(--radius);padding:6px 16px;font-family:'Cinzel',serif;font-size:12px;color:var(--gold);white-space:nowrap;animation:tIn .2s ease,tOut .3s ease 1.6s forwards}
+@keyframes tIn{from{opacity:0;top:-10px}to{opacity:1;top:0}}
+@keyframes tOut{to{opacity:0}}
+
+/* IO ROW */
+.io-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.file-btn{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:9px 14px;color:#a89878;font-family:'Cinzel',serif;font-size:12px;cursor:pointer;display:inline-block}
+.file-btn:active{border-color:var(--gold-dim);color:var(--gold)}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:3rem 1rem;color:#8a7a62;font-style:italic;font-size:14px}
+.empty .big{font-family:'Cinzel',serif;font-size:32px;margin-bottom:8px;opacity:.3}
+
+/* ORNAMENT */
+.ornament{text-align:center;color:#c9983a;font-size:12px;letter-spacing:.25em;margin:6px 0 14px;font-family:'Cinzel',serif}
+
+/* MSG BAR */
+.msgbar{background:var(--bg3);border:1px solid var(--gold-dim);border-radius:var(--radius);padding:8px 12px;font-family:'Cinzel',serif;font-size:12px;color:var(--gold);margin-bottom:12px}
+
+/* DIVIDER */
+.div{height:1px;background:var(--border);margin:12px 0}
+
+/* SCROLL FIX */
+select option{background:var(--bg2)}
+/* STAT BLOCK */
+.stat-block{display:table;width:100%;margin:6px 0;border-collapse:collapse}
+.stat-row{display:table-row}
+.stat-lbl{display:table-cell;font-family:'Cinzel',serif;font-size:10px;color:#9a8c72;text-transform:uppercase;letter-spacing:.06em;padding:3px 10px 3px 0;white-space:nowrap;vertical-align:top;width:1%}
+.stat-val{display:table-cell;font-size:13px;color:var(--text);padding:3px 0;line-height:1.4;vertical-align:top}
+
+/* AI DETAIL */
+.ai-detail{border-top:1px solid var(--border);margin-top:10px;padding-top:8px;display:table;width:100%;border-collapse:collapse}
+.ai-row{display:table-row}
+.ai-lbl{display:table-cell;font-family:'Cinzel',serif;font-size:12px;color:#c9983a;text-transform:uppercase;letter-spacing:.06em;padding:3px 10px 3px 0;white-space:nowrap;vertical-align:top;width:1%}
+.ai-val{display:table-cell;font-size:14px;color:var(--text);padding:3px 0;line-height:1.5;vertical-align:top}
+.ai-lore .ai-val{font-style:italic;color:#a89878;font-size:15px}
+.ai-toggle{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none;border-top:1px solid var(--border);margin-top:8px;padding-top:6px;font-family:'Cinzel',serif;font-size:10px;color:#c9983a;text-transform:uppercase;letter-spacing:.06em}
+.ai-toggle .arr{font-size:10px;transition:transform .2s;display:inline-block}
+.ai-toggle.open .arr{transform:rotate(90deg)}
+.ai-body{display:none;padding-top:4px}
+.ai-body.open{display:table;width:100%;border-collapse:collapse}
+
+/* CONFIG OVERLAY */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px}
+.overlay-box{background:var(--bg2);border:1px solid var(--gold-dim);border-radius:var(--radius2);padding:24px 20px;width:100%;max-width:380px}
+.overlay-title{font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--gold);margin-bottom:6px}
+.overlay-sub{font-size:14px;color:#a89878;font-style:italic;margin-bottom:18px;line-height:1.6}
+.overlay-label{font-family:'Cinzel',serif;font-size:11px;color:#9a8c72;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;display:block}
+.overlay-input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:10px 12px;color:var(--text);font-family:'IM Fell English',serif;font-size:14px;outline:none;margin-bottom:6px}
+.overlay-input:focus{border-color:var(--gold-dim)}
+.overlay-hint{font-size:12px;color:#a89878;margin-bottom:18px;line-height:1.6}
+.overlay-hint a{color:var(--gold);text-decoration:none}
+.overlay-btns{display:flex;gap:8px}
+.key-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:5px;vertical-align:middle}
+.key-ok{background:#4a9060}.key-no{background:#8b2020}
+.hdr-cfg{background:transparent;border:none;color:#9a8e78;font-size:16px;cursor:pointer;padding:4px 7px;border-radius:var(--radius);line-height:1;margin-left:2px}
+.hdr-cfg:active{background:var(--bg3)}
+
+/* offline: hide ai detail buttons */
+</style>
+</head>
+<body>
+
+<div id="loading-overlay" style="position:fixed;inset:0;background:#0f0d0b;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:20px">
+  <div style="font-family:'Cinzel',serif;font-size:22px;color:#d4b05a;letter-spacing:.06em">Smart D&D Toolbox</div>
+  <div style="font-family:'IM Fell English',serif;font-size:14px;color:#a89878;font-style:italic" id="load-msg">Caricamento dati in corso...</div>
+  <div style="width:200px;height:2px;background:#3a3228;border-radius:2px;overflow:hidden">
+    <div id="load-bar" style="height:100%;width:0;background:#d4b05a;transition:width .4s ease"></div>
+  </div>
+  <div id="load-err" style="display:none;max-width:320px;text-align:center;background:#2a1510;border:1px solid #8b2020;border-radius:6px;padding:14px 16px;font-size:13px;color:#e8a090;font-family:monospace;line-height:1.6"></div>
+</div>
+
+<div class="hdr">
+  <div class="hdr-icon">⚔</div>
+  <div>
+    <div class="hdr-title">Smart D&amp;D Toolbox <span style="font-size:10px;color:#c9a038;letter-spacing:.04em">SMART</span></div>
+    <div class="hdr-sub" id="hdr-sub-el">Forgotten Realms · JSON Data · 100% locale</div>
+  </div>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:4px">
+    <span id="key-status" title="API Key"></span>
+    <button id="btn-export" class="hdr-export" onclick="exportJSON()">↓ Esporta</button>
+  <button id="btn-lang" onclick="toggleLang()" style="background:transparent;border:1px solid #4a4238;border-radius:var(--radius);color:#9a8e78;font-family:'Cinzel',serif;font-size:10px;font-weight:600;padding:5px 9px;cursor:pointer;letter-spacing:.05em;margin-left:4px">EN</button>
+  </div>
+  <button class="hdr-cfg" onclick="openConfig()" title="Configurazione API Key">⚙</button>
+</div>
+
+<div class="overlay" id="overlay" style="display:none">
+  <div class="overlay-box">
+    <div class="overlay-title">⚙ Configurazione API</div>
+    <div class="overlay-sub">Inserisci la tua API key di Anthropic per abilitare la generazione AI (PNG, Luoghi, Idee).</div>
+    <label class="overlay-label">Anthropic API Key</label>
+    <input class="overlay-input" type="password" id="cfg-key" placeholder="sk-ant-..." autocomplete="off" spellcheck="false">
+    <label class="overlay-label" style="margin-top:12px">Modello AI</label>
+    <select class="overlay-input" id="cfg-model" style="cursor:pointer">
+      <option value="claude-haiku-4-5-20251001">Haiku 4.5 — veloce ed economico (default)</option>
+      <option value="claude-sonnet-4-6">Sonnet 4.6 — bilanciato</option>
+      <option value="claude-opus-4-7">Opus 4.7 — più capace</option>
+    </select>
+    <div class="overlay-hint">
+      La chiave viene salvata solo in localStorage sul tuo dispositivo, mai trasmessa ad altri server.<br>
+      Ottienila su <a href="https://console.anthropic.com/keys" target="_blank">console.anthropic.com</a>
+    </div>
+    <div class="overlay-btns">
+      <button class="btn p" style="flex:1" onclick="saveConfig()">Salva</button>
+      <button class="btn" onclick="closeConfig()">Annulla</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+<div id="msgbar" style="display:none" class="msgbar"></div>
+
+<div class="main" id="main">
+  <div id="panel-nomi" class="panel"></div>
+  <div id="panel-oggetti" class="panel" style="display:none"></div>
+  <div id="panel-loot" class="panel" style="display:none"></div>
+  <div id="panel-imprevisti" class="panel" style="display:none"></div>
+  <div id="panel-png" class="panel" style="display:none"></div>
+  <div id="panel-ambiente" class="panel" style="display:none"></div>
+  <div id="panel-idee" class="panel" style="display:none"></div>
+  <div id="panel-salvati" class="panel" style="display:none"></div>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn on" data-tab="nomi" onclick="switchTab('nomi')"><span class="ico">𝔑</span>Nomi</button>
+  <button class="nav-btn" data-tab="oggetti" onclick="switchTab('oggetti')"><span class="ico">⚒</span>Oggetti</button>
+  <button class="nav-btn" data-tab="loot" onclick="switchTab('loot')"><span class="ico">💰</span>Loot</button>
+  <button class="nav-btn" data-tab="imprevisti" onclick="switchTab('imprevisti')"><span class="ico">⚡</span>Imprev.</button>
+  <button class="nav-btn" data-tab="png" onclick="switchTab('png')"><span class="ico">👤</span>PNG</button>
+  <button class="nav-btn" data-tab="ambiente" onclick="switchTab('ambiente')"><span class="ico">🗺</span>Luogo</button>
+  <button class="nav-btn" data-tab="idee" onclick="switchTab('idee')"><span class="ico">✦</span>Idee</button>
+  <button class="nav-btn" data-tab="salvati" onclick="switchTab('salvati')" id="nav-salvati"><span class="ico">📜</span>Salvati</button>
+</nav>
+
+<script>
+// ── DATA (loaded from dnd-data.json) ────────────────────────────────────────
+let NM={}, NF={}, COG={}, OGG={};
+let RAR=[], RAR_CLASS={}, BONUS_BY_RAR={}, VALORE_BY_RAR={};
+let AMB_INJECT={};
+let T = { png:{ razzePerZona:{} }, amb:{} };
+let DATA = { imp:{}, loot:{}, png:{}, idee:{} };
+// ── HELPERS ──────────────────────────────────────────────────────────────────
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function pickN(a,n){return [...a].sort(()=>Math.random()-.5).slice(0,n);}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+const STORAGE_KEY='dnd_fr_items';
+let saved=[];
+try{const r=localStorage.getItem(STORAGE_KEY);if(r)saved=JSON.parse(r);}catch{}
+function persist(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(saved));}catch{}}
+function saveItem(item){saved.unshift({...item,savedAt:new Date().toISOString()});persist();updateSavedBadge();}
+function deleteItem(i){
+  // Remove any existing confirm dialogs
+  document.querySelectorAll('.del-confirm').forEach(el=>el.remove());
+  const card=document.getElementById('card-'+i);
+  if(!card)return;
+  const dlg=document.createElement('div');
+  dlg.className='del-confirm';
+  var _u=UI[lang]; dlg.innerHTML=_u.del_q+'<button class="del-yes" onclick="confirmDelete('+i+')">'+_u.del_y+'</button><button class="del-no" onclick="this.parentElement.remove()">'+_u.del_n+'</button>';
+  card.appendChild(dlg);
+}
+function confirmDelete(i){
+  saved.splice(i,1);persist();updateSavedBadge();renderSalvati();
+}
+function updateSavedBadge(){
+  const btn=document.getElementById('nav-salvati');
+  btn.querySelector('.ico').textContent=saved.length>0?'📜':'📜';
+  const lbl=btn.lastChild;
+  lbl.textContent=saved.length>0?'Salvati('+saved.length+')':'Salvati';
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────────────────
+function toast(msg){
+  const w=document.getElementById('toastWrap');
+  w.innerHTML='<div class="toast">'+esc(msg)+'</div>';
+  setTimeout(()=>{if(w.firstChild)w.innerHTML='';},2000);
+}
+function showMsg(msg,ms=3000){
+  const el=document.getElementById('msgbar');
+  el.textContent=msg;el.style.display='block';
+  setTimeout(()=>{el.style.display='none';},ms);
+}
+
+// ── TABS ──────────────────────────────────────────────────────────────────────
+let currentTab='nomi';
+function switchTab(tab){
+  document.querySelectorAll('.panel').forEach(p=>p.style.display='none');
+  document.querySelectorAll('.nav-btn').forEach(b=>{b.classList.toggle('on',b.dataset.tab===tab);});
+  document.getElementById('panel-'+tab).style.display='block';
+  currentTab=tab;
+  document.getElementById('main').scrollTop=0;
+  if(tab==='salvati')renderSalvati();
+}
+
+// ── API KEY (offline: not used) ─────────────────────────────────────────────
+const KEY_STORAGE='dnd_apikey';
+const MODEL_STORAGE='dnd_aimodel';
+const MODEL_DEFAULT='claude-haiku-4-5-20251001';
+let apiKey='';
+let aiModel=MODEL_DEFAULT;
+// Se siamo dentro Claude.ai la chiave non serve — il proxy autentica in automatico
+const IN_CLAUDE = window.location.hostname.includes('claude.ai') ||
+                  window.parent !== window;  // iframe = widget Claude
+try{if(!IN_CLAUDE) apiKey=localStorage.getItem(KEY_STORAGE)||'';}catch{}
+try{aiModel=localStorage.getItem(MODEL_STORAGE)||MODEL_DEFAULT;}catch{}
+
+function updateKeyStatus(){
+  const el=document.getElementById('key-status');
+  if(!el)return;
+  if(IN_CLAUDE){
+    el.innerHTML='<span class="key-dot key-ok"></span>';
+    el.title='Modalità Claude.ai — autenticazione automatica';
+  } else if(apiKey&&apiKey.startsWith('sk-ant-')){
+    el.innerHTML='<span class="key-dot key-ok"></span>';
+    el.title='API Key configurata';
+  }else{
+    el.innerHTML='<span class="key-dot key-no"></span>';
+    el.title='API Key mancante — clicca ⚙';
+  }
+}
+
+function openConfig(){
+  document.getElementById('cfg-key').value=apiKey||'';
+  document.getElementById('cfg-model').value=aiModel;
+  document.getElementById('overlay').style.display='flex';
+  setTimeout(()=>document.getElementById('cfg-key').focus(),50);
+}
+
+function closeConfig(){
+  document.getElementById('overlay').style.display='none';
+}
+
+function saveConfig(){
+  const v=document.getElementById('cfg-key').value.trim();
+  if(!v){showMsg('Chiave vuota — non salvata.');return;}
+  apiKey=v;
+  try{localStorage.setItem(KEY_STORAGE,v);}catch{}
+  aiModel=document.getElementById('cfg-model').value;
+  try{localStorage.setItem(MODEL_STORAGE,aiModel);}catch{}
+  updateKeyStatus();
+  closeConfig();
+  toast('API Key e modello salvati');
+}
+
+// Chiudi overlay con tap fuori
+document.getElementById('overlay').addEventListener('click',function(e){
+  if(e.target===this)closeConfig();
+});
+document.getElementById('cfg-key').addEventListener('keydown',function(e){
+  if(e.key==='Enter')saveConfig();
+  if(e.key==='Escape')closeConfig();
+});
+
+// ── AI ────────────────────────────────────────────────────────────────────────
+async function ai(prompt,sys){
+  if(!IN_CLAUDE && (!apiKey||!apiKey.startsWith('sk-ant-'))){
+    openConfig();
+    throw new Error('API Key mancante');
+  }
+  const headers={'Content-Type':'application/json','anthropic-version':'2023-06-01'};
+  if(!IN_CLAUDE){
+    headers['x-api-key']=apiKey;
+    headers['anthropic-dangerous-direct-browser-access']='true';
+  }
+  let r;
+  try{
+    r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers,
+      body:JSON.stringify({model:aiModel,max_tokens:1000,
+        system:sys||'Sei un assistente D&D 5e per i Forgotten Realms (Waterdeep, Sottomonte, Costa della Spada). Rispondi in italiano, sintetico e evocativo.',
+        messages:[{role:'user',content:prompt}]})
+    });
+  }catch(fetchErr){
+    // Network error or CORS block
+    const isCors=fetchErr.message&&(fetchErr.message.includes('fetch')||fetchErr.message.includes('CORS')||fetchErr.message.includes('network'));
+    if(isCors||fetchErr instanceof TypeError){
+      showDiag('Errore di rete. Se stai aprendo il file con file://, prova a usarlo tramite un server HTTP (es. GitHub Pages, o un server locale). Dettaglio: '+fetchErr.message);
+    } else {
+      showDiag('Errore fetch: '+fetchErr.message);
+    }
+    throw fetchErr;
+  }
+  if(!r.ok){
+    let errBody={};
+    try{errBody=await r.json();}catch{}
+    const msg=errBody.error?.message||('Errore HTTP '+r.status);
+    if(r.status===401){
+      apiKey='';
+      try{localStorage.removeItem(KEY_STORAGE);}catch{}
+      updateKeyStatus();
+      showDiag('API Key non valida (401). Controlla che la chiave sia corretta e attiva su console.anthropic.com');
+      openConfig();
+    } else if(r.status===403){
+      showDiag('Accesso negato (403). Potrebbe essere un blocco CORS. Prova a servire il file via HTTP invece di file://');
+    } else {
+      showDiag('Errore API '+r.status+': '+msg);
+    }
+    throw new Error(msg);
+  }
+  const d=await r.json();
+  return d.content?.[0]?.text||'Errore.';
+}
+
+function showDiag(msg){
+  // Show persistent diagnostic message with copy button
+  let diag=document.getElementById('diag-bar');
+  if(!diag){
+    diag=document.createElement('div');
+    diag.id='diag-bar';
+    diag.style.cssText='position:fixed;bottom:60px;left:0;right:0;background:#2a1510;border-top:1px solid #8b2020;padding:10px 14px;z-index:150;font-size:12px;color:#e8a090;font-family:monospace;line-height:1.5;display:flex;gap:10px;align-items:flex-start';
+    document.body.appendChild(diag);
+  }
+  const span=document.createElement('span');
+  span.style.flex='1';
+  span.textContent='⚠ '+msg;
+  const closeBtn=document.createElement('button');
+  closeBtn.textContent='×';
+  closeBtn.style.cssText='background:transparent;border:none;color:#e8a090;font-size:16px;cursor:pointer;padding:0 4px;flex-shrink:0';
+  closeBtn.onclick=()=>diag.remove();
+  diag.innerHTML='';
+  diag.appendChild(span);
+  diag.appendChild(closeBtn);
+}
+
+// ── NOMI ──────────────────────────────────────────────────────────────────────
+function renderNomi(){
+  var u=UI[lang];
+  document.getElementById('panel-nomi').innerHTML=`
+    <div class="ornament">${u.orn.nomi}</div>
+    <div class="ctrl">
+      <select id="n-g"><option value="m">${u.male}</option><option value="f">${u.female}</option></select>
+      <select id="n-rz">${Object.keys(NM).map(r=>`<option value="${r}">${UI[lang].races[r]||r}</option>`).join('')}</select>
+    </div>
+    <button class="btn p btn-full" onclick="genNomi()">${u.gen}</button>
+    <div id="n-res" style="margin-top:12px"></div>`;
+}
+function genNomi(){
+  const g=document.getElementById('n-g').value;
+  const rz=document.getElementById('n-rz').value.toLowerCase();
+  const pool=g==='m'?NM[rz]:NF[rz];
+  const cg=COG[rz]||COG.umano;
+  const nomi=pickN(pool,6).map(n=>n+' '+pick(cg));
+  _cache.nomi=nomi.map(n=>({contenuto:n,genere:g,razza:rz}));
+  document.getElementById('n-res').innerHTML='<div class="grid2">'+
+    nomi.map((n,i)=>`<div class="card">
+      <div class="card-lbl">${UI[lang].races[rz]||rz} · ${g==='m'?'M':'F'}</div>
+      <div class="card-big">${esc(n)}</div>
+      <button class="card-sav" onclick="saveNome(${i})">${UI[lang].save}</button>
+    </div>`).join('')+
+  '</div>';
+}
+
+// ── OGGETTI ───────────────────────────────────────────────────────────────────
+const RAR_AI=new Set(['Raro','Molto raro','Leggendario','Artefatto']);
+
+function statRow(label,val){
+  return `<div class="stat-row"><span class="stat-lbl">${esc(label)}</span><span class="stat-val">${esc(val)}</span></div>`;
+}
+function aiDetailHTML(rows, id){
+  // rows: [{lbl, val, lore?}]
+  const inner=rows.map(r=>`<div class="ai-row${r.lore?' ai-lore':''}"><span class="ai-lbl">${esc(r.lbl)}</span><span class="ai-val">${esc(r.val)}</span></div>`).join('');
+  return `<div class="ai-toggle" id="ait-${id}" onclick="toggleAI('${id}')"><span class="arr">▶</span> ${UI[lang].ai_toggle}</div><div class="ai-body" id="aib-${id}" style="display:none">${inner}</div>`;
+}
+function toggleAI(id){
+  const tog=document.getElementById('ait-'+id);
+  const bod=document.getElementById('aib-'+id);
+  if(!tog||!bod)return;
+  const open=bod.style.display==='table';
+  bod.style.display=open?'none':'table';
+  tog.classList.toggle('open',!open);
+}
+
+function renderOggetti(){
+  var u=UI[lang];
+  document.getElementById('panel-oggetti').innerHTML=`
+    <div class="ornament">${u.orn.oggetti}</div>
+    <div class="ctrl">
+      <select id="o-tipo">${Object.keys(OGG).map(k=>`<option value="${k}">${u.tipos[k]||k}</option>`).join('')}</select>
+      <select id="o-rar">${RAR.map(r=>`<option>${r}</option>`).join('')}</select>
+    </div>
+    <button class="btn p btn-full" onclick="genOggetti()">${u.gen}</button>
+    <div id="o-res" style="margin-top:12px"></div>`;
+  document.getElementById('o-rar').value='Raro';
+}
+
+// Cache per i dati oggetti/loot correnti (evita JSON inline negli onclick)
+let _ogcache=[];
+let _lootcache=null;
+let _aiCache={};  // keyed by "og0","og1","loot"
+let _cache={};  // generic cache for png, ambiente, imprevisto, idee, nomi
+
+function applyRarToObj(obj, tipo, rar){
+  // Clone and adjust nome/danno/valore based on rarity
+  let nome=obj.n||obj;
+  let danno=obj.d||'';
+  let prop=obj.p||'';
+  const peso=obj.w||'';
+  // For weapons and armour apply bonus suffix to name and damage
+  const bonus=BONUS_BY_RAR[rar];
+  if(bonus && (tipo==='arma'||tipo==='armatura')){
+    nome=nome+' '+bonus;
+    if(tipo==='arma' && danno){
+      // prepend bonus to damage string
+      const b=bonus.replace(' (leggendaria)','').replace(' (artefatto)','');
+      danno=danno+', '+b+' att/danno';
+    }
+    if(tipo==='armatura' && danno){
+      const b=bonus.replace(' (leggendaria)','').replace(' (artefatto)','');
+      danno=danno+', '+b+' CA';
+    }
+    if(rar!=='Comune') prop=(prop?prop+', ':'')+'sintonizzazione';
+  }
+  // Override value with rarity-appropriate range
+  const varTable=VALORE_BY_RAR[tipo]||{};
+  const valore=varTable[rar]||obj.v||'';
+  return {nome, danno, prop, peso, valore};
+}
+
+function genOggetti(){
+  const tipo=document.getElementById('o-tipo').value.toLowerCase();
+  const rar=document.getElementById('o-rar').value;
+  const pool=OGG[tipo];
+  const items=pickN(pool,3);
+  const useAI=RAR_AI.has(rar);
+  const bc=RAR_CLASS[rar]||'b-c';
+
+  // store in cache — no JSON in onclick
+  _aiCache={};  // reset on new generation
+  _ogcache=items.map(obj=>{
+    const a=applyRarToObj(obj,tipo,rar);
+    return {nome:a.nome, rar, tipo, danno:a.danno, prop:a.prop, peso:a.peso, valore:a.valore};
+  });
+
+  document.getElementById('o-res').innerHTML='<div class="list">'+
+    _ogcache.map((obj,i)=>`<div class="card" id="ocard-${i}">
+        <div class="card-big">${esc(obj.nome)}</div>
+        <div class="tags" style="margin-bottom:8px">
+          <span class="badge ${bc}">${esc(rar)}</span>
+          <span class="badge b-c">${esc(tipo)}</span>
+        </div>
+        <div class="stat-block">
+          ${obj.danno?statRow(tipo==='armatura'?UI[lang].st.ca:UI[lang].st.danno,obj.danno):''}
+          ${obj.prop?statRow(UI[lang].st.prop,obj.prop):''}
+          ${obj.peso?statRow(UI[lang].st.peso,obj.peso):''}
+          ${obj.valore?statRow(UI[lang].st.valore,obj.valore):''}
+        </div>
+        <div id="oai-${i}"></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+          ${useAI?`<button class="btn btn-ai" style="font-size:11px" onclick="genDettaglioOgg(${i})" style="font-size:11px">${UI[lang].ai_toggle}</button>`:''}
+          <button class="card-sav" onclick="saveOgg(${i})">${UI[lang].save}</button>
+        </div>
+      </div>`).join('')+
+  '</div>';
+}
+
+function saveOgg(i){
+  const o=_ogcache[i];
+  if(!o)return;
+  const ai=_aiCache['og'+i]||{};
+  saveItem({tipo:'oggetto',contenuto:o.nome,rarità:o.rar,sottotipo:o.tipo,
+    danno:o.danno,prop:o.prop,peso:o.peso,valore:o.valore,...ai});
+  toast('Salvato');
+}
+function saveLoot(){
+  const e=_lootcache;
+  if(!e)return;
+  const ai=_aiCache['loot']||{};
+  saveItem({tipo:'loot',contenuto:e.d,note:e.n,...ai});
+  toast('Salvato');
+}
+// genDettaglioOgg: see offline stub below
+
+// ── LOOT ──────────────────────────────────────────────────────────────────────
+function renderLoot(){
+  var u=UI[lang];
+  document.getElementById('panel-loot').innerHTML=`
+    <div class="ornament">${u.orn.loot}</div>
+    <div class="ctrl">
+      <select id="l-lv">${u.loot_lvls.map((l,i)=>`<option value="${i}">${l}</option>`).join('')}</select>
+    </div>
+    <button class="btn p btn-full" onclick="genLoot()">${u.loot_btn}</button>
+    <div id="l-res" style="margin-top:12px"></div>`;
+}
+function genLoot(){
+  const lv=parseInt(document.getElementById('l-lv').value);
+  const entry=pick(DATA.loot[lang][lv]);
+  const useAI=!!entry.ai;
+  delete _aiCache['loot'];  // reset on new generation
+  _lootcache=entry;
+  const saved=JSON.stringify(entry.d+' — '+entry.n);
+  document.getElementById('l-res').innerHTML=`<div class="card">
+    <div class="card-lbl">${UI[lang].loot_lbl}</div>
+    <div class="card-val" style="font-weight:600;margin-bottom:6px">${esc(entry.d)}</div>
+    <div class="stat-block" style="margin-bottom:8px">
+      ${statRow(UI[lang].st.note,entry.n)}
+    </div>
+    <div id="lai-detail"></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+      ${useAI?'<button class="btn btn-ai" style="font-size:11px" onclick="genDettaglioLoot()">✦ Dettaglio magico</button>':''}
+      <button class="card-sav" onclick="saveLoot()">${UI[lang].save}</button>
+    </div>
+  </div>`;
+}
+
+// genDettaglioLoot: see offline stub below
+
+// ── IMPREVISTI ────────────────────────────────────────────────────────────────
+function renderImprevisti(){
+  var u=UI[lang];
+  document.getElementById('panel-imprevisti').innerHTML=`
+    <div class="ornament">${u.orn.imp}</div>
+    <div class="ctrl">
+      <select id="i-zona">${Object.keys(u.imp_zones).map(k=>`<option value="${k}">${u.imp_zones[k]}</option>`).join('')}</select>
+    </div>
+    <button class="btn p btn-full" onclick="genImprevisto()">⚡ ${u.imp_btn}</button>
+    <div id="i-res" style="margin-top:12px"></div>`;
+}
+function genImprevisto(){
+  const zona=document.getElementById('i-zona').value;
+  const res=pick(DATA.imp[lang][zona]);
+  _cache.imprevisto={contenuto:res,zona};
+  document.getElementById('i-res').innerHTML=`<div class="card">
+    <div class="card-lbl">${UI[lang].imp_zones[zona]||zona}</div>
+    <div class="card-val">${esc(res)}</div>
+    <button class="card-sav" onclick="saveImprevisto()">${UI[lang].save}</button>
+  </div>`;
+}
+
+// ── PNG ───────────────────────────────────────────────────────────────────────
+function renderPNG(){
+  var u=UI[lang];
+  document.getElementById('panel-png').innerHTML=`
+    <div class="ornament">${u.orn.png}</div>
+    <div class="ctrl">
+      <select id="p-zona">${Object.keys(u.png_zones).map(k=>`<option value="${k}">${u.png_zones[k]}</option>`).join('')}</select>
+      <select id="p-ruolo">${Object.keys(u.ruoli).map(k=>`<option value="${k}">${u.ruoli[k]}</option>`).join('')}</select>
+    </div>
+    <div class="ctrl">
+      <select id="p-tono">${Object.keys(u.toni).map(k=>`<option value="${k}">${u.toni[k]}</option>`).join('')}</select>
+    </div>
+    <div class="ctrl" style="gap:6px">
+      <button class="btn p" style="flex:1" onclick="genPNG()">⚄ Locale</button>
+      <button class="btn btn-ai" style="flex:1" onclick="genPNGai()">✦ AI</button>
+    </div>
+    <div id="p-res" style="margin-top:12px"></div>`;
+}
+function genPNG(){
+  const zona=document.getElementById('p-zona').value;
+  const ruolo=document.getElementById('p-ruolo').value.toLowerCase();
+  const tono=document.getElementById('p-tono').value.toLowerCase();
+  const d=genPNGOffline(zona,ruolo,tono);
+  _cache.png=d;
+  document.getElementById('p-res').innerHTML=`<div class="card">
+    <div class="card-big">${esc(d.nome)}</div>
+    <div class="tags">
+      <span class="badge b-c">${esc(d.razza)}</span>
+      <span class="badge b-nc">${esc(d.ruolo)}</span>
+    </div>
+    <div class="png-detail" style="margin-top:10px">
+      <div class="png-row"><span class="fl">${UI[lang].fl.aspetto} </span>${esc(d.descrizione)}</div>
+      <div class="png-row"><span class="fl">${UI[lang].fl.obiettivi} </span>${esc(d.obiettivi)}</div>
+      <div class="png-row"><span class="fl">${UI[lang].fl.segreto} </span>${esc(d.segreto)}</div>
+      ${d.voce?`<div class="png-row"><span class="fl">${UI[lang].fl.voce||'voce:'} </span>${esc(d.voce)}</div>`:''}
+      ${d.fr?`<div class="png-row"><span class="fl">${UI[lang].fl.fr} </span>${esc(d.fr)}</div>`:''}
+    </div>
+    <button class="card-sav" onclick="savePNG()">${UI[lang].save}</button>
+  </div>`;
+}
+
+// ── AMBIENTE ──────────────────────────────────────────────────────────────────
+function renderAmbiente(){
+  var u=UI[lang];
+  document.getElementById('panel-ambiente').innerHTML=`
+    <div class="ornament">${u.orn.amb}</div>
+    <div class="ctrl">
+      <select id="a-zona">${Object.keys(u.amb_zones).map(k=>`<option value="${k}">${u.amb_zones[k]}</option>`).join('')}</select>
+      <select id="a-tipo">${Object.keys(u.amb_tipos).map(k=>`<option value="${k}">${u.amb_tipos[k]}</option>`).join('')}</select>
+    </div>
+    <div class="ctrl">
+      <input type="text" id="a-extra" placeholder="${u.amb_ph}">
+    </div>
+    <div class="ctrl" style="gap:6px">
+      <button class="btn p" style="flex:1" onclick="genAmbiente()">${u.amb_btn_loc}</button>
+      <button class="btn btn-ai" style="flex:1" onclick="genAmbienteAI()">${u.amb_btn_ai}</button>
+    </div>
+    <div id="a-res" style="margin-top:12px"></div>`;
+  document.getElementById('a-zona').value='sottomonte';
+  document.getElementById('a-tipo').value='sala';
+}
+function genAmbiente(){
+  const zona=document.getElementById('a-zona').value;
+  const tipo=document.getElementById('a-tipo').value.toLowerCase();
+  const extra=document.getElementById('a-extra').value;
+  const testo=genAmbienteOffline(zona,tipo,extra);
+  _cache.ambiente={contenuto:testo,sottotipo:tipo,zona};
+  document.getElementById('a-res').innerHTML=`<div class="card">
+    <div class="card-lbl">${esc(zona)} · ${esc(tipo)}</div>
+    <div class="card-val" style="font-style:italic;font-size:14px">${esc(testo)}</div>
+    <button class="card-sav" onclick="saveAmbiente()">+ Salva</button>
+  </div>`;
+}
+
+// ── IDEE ──────────────────────────────────────────────────────────────────────
+function renderIdee(){
+  var u=UI[lang];
+  document.getElementById('panel-idee').innerHTML=`
+    <div class="ornament">${u.orn.idee}</div>
+    <div class="ctrl">
+      <select id="id-zona">${Object.keys(u.idee_zones).map(k=>`<option value="${k}">${u.idee_zones[k]}</option>`).join('')}</select>
+    </div>
+    <div class="ctrl">
+      <input type="text" id="id-inp" placeholder="${u.idee_ph}" onkeydown="if(event.key==='Enter')genIdee()">
+      <button class="btn p" onclick="genIdee()">⚄</button>
+      <button class="btn btn-ai" onclick="genIdeeAI()">✦</button>
+    </div>
+    <div id="id-res" style="margin-top:12px"></div>`;
+}
+function genIdee(){
+  const inp=document.getElementById('id-inp').value.trim();
+  const zona=document.getElementById('id-zona').value;
+  const data=genIdeeOffline(inp,zona);
+  _cache.idee=data;
+  document.getElementById('id-res').innerHTML='<div class="grid2">'+
+    data.map((r,i)=>`<div class="card">
+      <div class="card-lbl">${esc(r.titolo)}</div>
+      <div class="card-val">${esc(r.idea)}</div>
+      <button class="card-sav" onclick="saveIdea(${i})">+ Salva</button>
+    </div>`).join('')+
+  '</div>';
+}
+
+// ── SALVATI ───────────────────────────────────────────────────────────────────
+function renderSalvati(){
+  const el=document.getElementById('panel-salvati');
+  var u=UI[lang];
+  var u=UI[lang];
+  if(saved.length===0){
+    el.innerHTML=`
+      <div class="ornament">${u.orn.salv}</div>
+      <div class="io-row">
+        <label class="file-btn">${u.salv_import}<input type="file" accept=".json" style="display:none" onchange="importJSON(this.files[0])"></label>
+      </div>
+      <div class="empty"><div class="big">📜</div>${u.salv_empty}</div>`;
+    return;
+  }
+  const grouped=saved.reduce((acc,item,i)=>{if(!acc[item.tipo])acc[item.tipo]=[];acc[item.tipo].push({...item,_i:i});return acc;},{});
+  let html=`
+    <div class="ornament">${u.orn.salv}</div>
+    <div class="io-row">
+      <span style="font-size:12px;color:var(--text2);flex:1">${saved.length}${u.salv_count}</span>
+      <button class="btn" onclick="exportJSON()">${u.salv_export}</button>
+      <label class="file-btn">${u.salv_import}<input type="file" accept=".json" style="display:none" onchange="importJSON(this.files[0])"></label>
+      <button class="btn" style="font-size:11px;color:var(--red2);border-color:var(--red)" onclick="if(confirm(UI[lang].salv_clear+'?')){saved=[];persist();updateSavedBadge();renderSalvati();}}">${u.salv_clear}</button>
+    </div>`;
+  for(const [tipo,items] of Object.entries(grouped)){
+    html+=`<div class="stit">${esc(tipo)}</div>`;
+    for(const item of items){
+      html+=`<div class="card" id="card-${item._i}">
+        <button class="card-del" onclick="deleteItem(${item._i})">×</button>`;
+      if(item.tipo==='png'&&item.nome){
+        let d=item;try{if(typeof item.contenuto==='string'&&item.contenuto.startsWith('{'))d={...item,...JSON.parse(item.contenuto)};}catch{}
+        html+=`<div class="card-big">${esc(d.nome||'')}</div>
+          <div class="tags">
+            ${d.razza?`<span class="badge b-c">${esc(d.razza)}</span>`:''}
+            ${d.ruolo?`<span class="badge b-nc">${esc(d.ruolo)}</span>`:''}
+          </div>
+          <div class="png-detail" style="margin-top:8px">
+            ${d.fr?`<div class="png-row"><span class="fl">${UI[lang].fl.fr} </span>${esc(d.fr)}</div>`:''}
+            ${d.segreto?`<div class="png-row"><span class="fl">${UI[lang].fl.segreto} </span>${esc(d.segreto)}</div>`:''}
+          </div>`;
+      } else {
+        if(item.zona)html+=`<div class="tags" style="margin-bottom:4px"><span class="badge b-zon">${esc(item.zona)}</span></div>`;
+        if(item.tipo==='nome')html+=`<div class="tags" style="margin-bottom:4px"><span class="badge b-c">${item.genere==='m'?'M':'F'}</span><span class="badge b-c">${esc(item.razza||'')}</span></div>`;
+
+        if(item.tipo==='oggetto'){
+          html+=`<div class="card-big" style="font-size:14px;margin-bottom:6px">${esc(item.contenuto)}</div>`;
+          html+=`<div class="tags" style="margin-bottom:8px"><span class="badge ${RAR_CLASS[item.rarità]||'b-c'}">${esc(item.rarità||'')}</span><span class="badge b-c">${esc(item.sottotipo||'')}</span></div>`;
+          const rows=[];
+          if(item.danno) rows.push([item.sottotipo==='armatura'?UI[lang].st.ca:UI[lang].st.danno, item.danno]);
+          if(item.prop)  rows.push([UI[lang].st.prop, item.prop]);
+          if(item.peso)  rows.push([UI[lang].st.peso, item.peso]);
+          if(item.valore)rows.push([UI[lang].st.valore, item.valore]);
+          if(rows.length) html+=`<div class="stat-block">${rows.map(([l,v])=>statRow(l,v)).join('')}</div>`;
+          // AI fields
+          const aiRows=[];
+          if(item.effetto)  aiRows.push([UI[lang].ai_lbl.effetto, item.effetto]);
+          if(item.aspetto)  aiRows.push([UI[lang].ai_lbl.aspetto, item.aspetto]);
+          if(item.lore||item.storia) aiRows.push([UI[lang].ai_lbl.lore, item.lore||item.storia]);
+          if(aiRows.length){const uid='sv'+item._i+'o';html+=aiDetailHTML(aiRows.map(([l,v])=>({lbl:l,val:v,lore:l==='Lore'})),uid);}
+        } else if(item.tipo==='loot'){
+          html+=`<div class="card-val" style="font-weight:600;margin-bottom:4px">${esc(item.contenuto)}</div>`;
+          if(item.note) html+=`<div class="stat-block">${statRow(UI[lang].st.note,item.note)}</div>`;
+          const aiLootRows=[];
+          if(item.effetto)  aiLootRows.push([UI[lang].ai_lbl.effetto, item.effetto]);
+          if(item.dettaglio)aiLootRows.push([UI[lang].ai_lbl.dettaglio, item.dettaglio]);
+          if(aiLootRows.length){const uid='sv'+item._i+'l';html+=aiDetailHTML(aiLootRows.map(([l,v])=>({lbl:l,val:v,lore:l==='Dettaglio'})),uid);}
+        } else {
+          html+=`<div class="card-val" style="${item.tipo==='nome'?"font-family:'Cinzel',serif;color:var(--gold)":''}">${esc(item.contenuto)}</div>`;
+        }
+      }
+      html+='</div>';
+    }
+  }
+  el.innerHTML=html;
+}
+
+// ── SAVE HELPERS ─────────────────────────────────────────────────────────────
+function saveNome(i){
+  const n=(_cache.nomi||[])[i];
+  if(!n)return;
+  saveItem({tipo:'nome',...n});
+  toast('Salvato');
+}
+function saveImprevisto(){
+  const c=_cache.imprevisto;
+  if(!c)return;
+  saveItem({tipo:'imprevisto',...c});
+  toast('Salvato');
+}
+function savePNG(){
+  const d=_cache.png;
+  if(!d)return;
+  saveItem({tipo:'png',contenuto:JSON.stringify(d),...d});
+  toast('Salvato');
+}
+function saveAmbiente(){
+  const c=_cache.ambiente;
+  if(!c)return;
+  saveItem({tipo:'ambiente',...c});
+  toast('Salvato');
+}
+function saveIdea(i){
+  const r=(_cache.idee||[])[i];
+  if(!r)return;
+  saveItem({tipo:'idea',contenuto:r.titolo+': '+r.idea});
+  toast('Salvato');
+}
+
+// ── EXPORT/IMPORT ─────────────────────────────────────────────────────────────
+function exportJSON(){
+  const d={version:'1.0',ambientazione:'Forgotten Realms — Waterdeep/Sottomonte',exportedAt:new Date().toISOString(),items:saved};
+  const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  const u=URL.createObjectURL(b);
+  const a=document.createElement('a');
+  a.href=u;a.download='dnd-sessione-'+new Date().toISOString().slice(0,10)+'.json';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  URL.revokeObjectURL(u);
+  toast('File scaricato!');
+}
+function importJSON(file){
+  if(!file)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    try{
+      const d=JSON.parse(e.target.result);
+      const arr=d.items||(Array.isArray(d)?d:[]);
+      if(!arr.length){showMsg('File vuoto o formato non riconosciuto.');return;}
+      if(confirm('Aggiungere '+arr.length+' elementi a quelli esistenti?\nAnnulla = sostituisce tutto')){
+        saved=[...arr,...saved];
+      }else{saved=arr;}
+      persist();updateSavedBadge();
+      showMsg(arr.length+' elementi importati.');
+      if(currentTab==='salvati')renderSalvati();
+    }catch{showMsg('Errore: JSON non valido.');}
+  };
+  r.readAsText(file);
+}
+
+
+
+// ── OFFLINE GENERATORS ───────────────────────────────────────────────────────
+
+function genPNGOffline(zona, ruolo, tono){
+  const razze=T.png.razzePerZona[zona]||T.png.razzePerZona.Waterdeep;
+  const razza=pick(razze);
+  const nomePool = razza==='Umano'    ? (pick([NM.umano,NF.umano]))
+                 : razza==='Elfo'     ? (pick([NM.elfo,NF.elfo]))
+                 : razza==='Nano'     ? (pick([NM.nano,NF.nano]))
+                 : razza==='Halfling' ? (pick([NM.halfling,NF.halfling]))
+                 : razza==='Tiefling' ? (pick([NM.tiefling,NF.tiefling]))
+                 : razza==='Orchide'  ? (pick([NM.orchide,NF.orchide]))
+                 : razza==='Draconide'? (pick([NM.draconide,NF.draconide]))
+                 : NM.umano;
+  const razzaKey=razza.toLowerCase();
+  const cogPool=COG[razzaKey]||COG.umano;
+  const nome=pick(nomePool)+' '+pick(cogPool);
+  const agg=pick((DATA.png.aggettivi[lang]||DATA.png.aggettivi.it)[tono]||(DATA.png.aggettivi[lang]||DATA.png.aggettivi.it).neutrale);
+  const fisico=pick(DATA.png.fisici[lang]||DATA.png.fisici.it);
+  const descrizione=agg.charAt(0).toUpperCase()+agg.slice(1)+', '+fisico+'.';
+  const obiObjs=(DATA.png.obiettivi[lang]||DATA.png.obiettivi.it)[ruolo]||(DATA.png.obiettivi[lang]||DATA.png.obiettivi.it).mercante;
+  const obiettivi=pick(obiObjs);
+  const segreto=pick(DATA.png.segreti[lang]||DATA.png.segreti.it);
+  const _cFR=DATA.png.connFR[lang]||DATA.png.connFR.it; const connPool=_cFR[zona]||_cFR.waterdeep;
+  const fr=pick(connPool);
+  const _vp=DATA.png.voce||{}; const vocePool=_vp[lang]||_vp.it||[];
+  const voce=vocePool.length?pick(vocePool):'';
+  return {nome,razza,descrizione,ruolo:UI[lang].ruoli[ruolo]||ruolo,obiettivi,segreto,fr,voce};
+}
+
+// ── VOCABOLARIO SEMANTICO ─────────────────────────────────────────────────────
+// Mappa parola → temi. I temi corrispondono a tag sui pool.
+const VOCAB = {
+  // ── PERICOLO / CONFLITTO ──────────────────────────────────────────────────
+  trappola:['pericolo','oscuro'],      trabocchetto:['pericolo'],
+  lama:['pericolo','arma'],            dardo:['pericolo','arma'],
+  veleno:['pericolo','buio'],          caduta:['pericolo'],
+  agguato:['pericolo','minaccia'],     imboscata:['pericolo','minaccia'],
+  combattimento:['pericolo','arma'],   scontro:['pericolo','minaccia'],
+  ferita:['pericolo','morte'],         cicatrice:['pericolo','storia'],
+  laccio:['pericolo'],                 trabocchetto:['pericolo'],
+  insidia:['pericolo','mistero'],      ostacolo:['pericolo'],
+
+  // ── ACQUA / UMIDITÀ ───────────────────────────────────────────────────────
+  acqua:['umido','freddo'],            lago:['umido','profondo'],
+  fiume:['umido'],                     palude:['umido','oscuro'],
+  pioggia:['umido'],                   umido:['umido'],
+  fango:['umido','marcio'],            ghiaccio:['freddo','umido'],
+  neve:['freddo'],                     nebbia:['umido','oscuro'],
+  bruma:['umido','oscuro'],            vapore:['umido','calore'],
+  marea:['umido'],                     gorgo:['umido','profondo'],
+  pozza:['umido','oscuro'],            cisterna:['umido'],
+  goccia:['umido'],                    stillicidio:['umido','oscuro'],
+  alghe:['umido','marcio'],            muffa:['umido','abbandono'],
+
+  // ── FUOCO / CALORE ────────────────────────────────────────────────────────
+  fuoco:['calore','luce'],             fiamma:['calore','luce'],
+  brace:['calore'],                    cenere:['calore','distruzione'],
+  bruciato:['calore','distruzione'],   forgia:['calore','arma'],
+  calore:['calore'],                   ember:['calore','luce'],
+  torcia:['luce','calore'],            braciere:['calore','luce'],
+  vulcano:['calore','pericolo'],       lava:['calore','pericolo'],
+
+  // ── OSCURITÀ / MISTERO ────────────────────────────────────────────────────
+  buio:['oscuro','silenzio'],          oscuro:['oscuro'],
+  ombra:['oscuro','minaccia'],         tenebre:['oscuro','profondo'],
+  crepuscolo:['oscuro'],               penombra:['oscuro'],
+  invisibile:['oscuro','mistero'],     nascosto:['mistero'],
+  segreto:['mistero'],                 cifrato:['mistero'],
+  enigma:['mistero'],                  velo:['mistero','oscuro'],
+  sussurro:['mistero','silenzio'],     bisbiglio:['mistero','silenzio'],
+  indizio:['mistero'],                 traccia:['mistero','storia'],
+  impronta:['mistero'],                segno:['mistero','magico'],
+  anomalia:['mistero','magico'],       presagio:['mistero','magico'],
+  profezia:['mistero','storia'],       oracolo:['mistero','magico'],
+
+  // ── MAGIA / ARCANO ────────────────────────────────────────────────────────
+  magia:['magico'],                    arcano:['magico'],
+  incantesimo:['magico'],              portale:['magico','profondo'],
+  sigillo:['magico','mistero'],        runa:['mistero','magico'],
+  pergamena:['magico','mistero'],      cristallo:['magico','luce'],
+  evocazione:['magico'],               conjura:['magico'],
+  necromanzia:['magico','morte'],      illusione:['magico','mistero'],
+  trasmutazione:['magico'],            divinazione:['magico','mistero'],
+  aura:['magico','luce'],              emanazione:['magico'],
+  vortice:['magico','pericolo'],       nexus:['magico','profondo'],
+  artefatto:['magico','storia'],       reliquia:['magico','storia'],
+  tomo:['magico','storia'],            grimorio:['magico','mistero'],
+  alchimia:['magico'],                 alambicco:['magico'],
+  filtro:['magico','mistero'],         pozione:['magico'],
+  amuleto:['magico'],                  talismano:['magico','mistero'],
+  effigie:['magico','morte'],          golem:['magico','pericolo'],
+  costrutto:['magico'],                demone:['magico','pericolo'],
+  entità:['magico','mistero'],         spirito:['magico','morte'],
+  larva:['magico','morte'],            lich:['magico','morte'],
+  vampiro:['magico','morte'],          non_morto:['magico','morte'],
+
+  // ── MORTE / DECADENZA ─────────────────────────────────────────────────────
+  morte:['morte','oscuro'],            scheletro:['morte'],
+  osso:['morte'],                      cadavere:['morte'],
+  tomba:['morte','silenzio'],          cripta:['morte','silenzio'],
+  sangue:['morte','pericolo'],         marcio:['morte','umido'],
+  rovina:['distruzione','morte'],      decadente:['distruzione'],
+  putrefazione:['morte','umido'],      decomposizione:['morte'],
+  teschio:['morte'],                   carcassa:['morte','umido'],
+  urna:['morte','storia'],             sarcofago:['morte','storia'],
+  ossario:['morte'],                   necropoli:['morte','storia'],
+  funerale:['morte','storia'],         lutto:['morte'],
+  maledizione:['morte','magico'],      anatema:['morte','magico'],
+  pestilenza:['morte','pericolo'],     contagio:['morte','pericolo'],
+
+  // ── SILENZIO / ABBANDONO ──────────────────────────────────────────────────
+  silenzio:['silenzio','abbandono'],   vuoto:['silenzio','abbandono'],
+  abbandonato:['abbandono'],           deserto:['abbandono'],
+  dimenticato:['abbandono','mistero'], antico:['abbandono','storia'],
+  vecchio:['abbandono','storia'],      rovinato:['abbandono','distruzione'],
+  desolato:['abbandono'],              sterile:['abbandono'],
+  quiete:['silenzio'],                 immobile:['silenzio'],
+  stasi:['silenzio','magico'],         pietrificato:['silenzio','magico'],
+  congelato:['silenzio','freddo'],     cristallizzato:['silenzio','magico'],
+
+  // ── MINACCIA / NEMICI ─────────────────────────────────────────────────────
+  nemico:['minaccia','pericolo'],      guardia:['minaccia'],
+  mostro:['minaccia','pericolo'],      bestia:['minaccia'],
+  predatore:['minaccia','pericolo'],   cacciatore:['minaccia'],
+  inseguitore:['minaccia','pericolo'], spia:['minaccia','mistero'],
+  assassino:['minaccia','pericolo'],   sicario:['minaccia'],
+  traditore:['minaccia','storia'],     corruzione:['minaccia','oscuro'],
+  infestazione:['minaccia'],           sciame:['minaccia','pericolo'],
+  orda:['minaccia','pericolo'],        legione:['minaccia'],
+  tiranno:['minaccia','storia'],       oppressore:['minaccia'],
+
+  // ── LUCE / SPLENDORE ──────────────────────────────────────────────────────
+  luce:['luce'],                       candela:['luce'],
+  luminoso:['luce'],                   splendore:['luce'],
+  oro:['luce','ricchezza'],            gemma:['luce','ricchezza'],
+  mosaico:['luce','storia'],           affresco:['luce','storia'],
+  alba:['luce'],                       aurora:['luce','magico'],
+  bagliore:['luce','magico'],          fosforescenza:['luce','magico'],
+  bioluminescenza:['luce','magico'],   incandescenza:['luce','calore'],
+  riflesso:['luce','mistero'],         scintilla:['luce','magico'],
+  alone:['luce','magico'],             nimbo:['luce','magico'],
+
+  // ── RICCHEZZA / COMMERCIO ────────────────────────────────────────────────
+  tesoro:['ricchezza'],                monete:['ricchezza'],
+  argento:['ricchezza'],               gioiello:['ricchezza','luce'],
+  merce:['ricchezza'],                 commercio:['ricchezza'],
+  contrabbando:['ricchezza','mistero'],gilda:['ricchezza','storia'],
+  mercante:['ricchezza'],              banchiere:['ricchezza'],
+  debito:['ricchezza','minaccia'],     usura:['ricchezza','minaccia'],
+  riscatto:['ricchezza','pericolo'],   corruzione:['ricchezza','minaccia'],
+
+  // ── FREDDO / NORD ────────────────────────────────────────────────────────
+  freddo:['freddo'],                   gelo:['freddo'],
+  vento:['freddo'],                    corrente:['freddo','umido'],
+  brina:['freddo'],                    gelata:['freddo'],
+  tormenta:['freddo','pericolo'],      bufera:['freddo','pericolo'],
+
+  // ── PROFONDO / ABISSALE ──────────────────────────────────────────────────
+  profondo:['profondo'],               abisso:['profondo','oscuro'],
+  precipizio:['profondo','pericolo'],  voragine:['profondo','pericolo'],
+  sottosuolo:['profondo'],             caverna:['profondo','umido'],
+  grotta:['profondo','umido'],         cunicolo:['profondo'],
+  labirinto:['profondo','mistero'],    dedalo:['profondo','mistero'],
+  catacomba:['profondo','morte'],      cripta:['profondo','morte'],
+  galleria:['profondo'],               tunnel:['profondo'],
+
+  // ── STORIA / LORE FR ─────────────────────────────────────────────────────
+  storia:['storia'],                   antenato:['storia'],
+  nobile:['storia','ricchezza'],       casata:['storia'],
+  stemma:['storia'],                   blasone:['storia'],
+  guerra:['storia','pericolo'],        battaglia:['storia','pericolo'],
+  caduta:['storia','distruzione'],     fondazione:['storia'],
+  imperatore:['storia'],               conquistatore:['storia','pericolo'],
+  esilio:['storia','abbandono'],       profugo:['storia'],
+  eredità:['storia','ricchezza'],      discendente:['storia'],
+  profezia:['storia','mistero'],       destino:['storia','mistero'],
+  waterdeep:['storia','luce'],         baldur:['storia'],
+  luskan:['storia','minaccia'],        neverwinter:['storia'],
+  zhentarim:['minaccia','mistero'],    xanathar:['minaccia','oscuro'],
+  arpisti:['mistero','storia'],        halaster:['magico','profondo'],
+  mano_nera:['minaccia','oscuro'],     ordine:['storia'],
+  conclave:['storia','magico'],        confraternita:['storia','mistero'],
+
+  // ── TERMINI INSOLITI / EVOCATIVI ─────────────────────────────────────────
+  effluvio:['umido','marcio'],         miasma:['umido','morte'],
+  penombra:['oscuro'],                 orrore:['pericolo','oscuro'],
+  sgomento:['pericolo','silenzio'],    malevolenza:['minaccia','oscuro'],
+  eco:['silenzio','mistero'],          risonanza:['magico','mistero'],
+  palinsesto:['storia','mistero'],     limen:['magico','mistero'],
+  vespro:['oscuro','silenzio'],        crepitio:['calore','pericolo'],
+  anelito:['mistero','silenzio'],      nimbo:['luce','magico'],
+  chiaroscuro:['luce','oscuro'],       umbra:['oscuro','morte'],
+  vertigine:['profondo','pericolo'],   labirinto:['mistero','profondo'],
+  cronaca:['storia'],                  codice:['mistero','storia'],
+  epitaffio:['morte','storia'],        cenotafio:['morte','storia'],
+  talpa:['minaccia','mistero'],        eretico:['mistero','storia'],
+};
+
+// Tag sui pool di frasi ambiente
+
+// Tag sui pool di frasi ambiente — ogni variante ha un array di tag
+const AMB_TAGS = {
+  corridoio: [
+    ['oscuro','silenzio','abbandono','storia'],
+    ['mistero','pericolo','magico'],
+    ['pericolo','morte','magico'],
+    ['abbandono','mistero','pericolo'],
+  ],
+  stanza: [
+    ['morte','silenzio','magico'],
+    ['storia','mistero','abbandono'],
+    ['ricchezza','pericolo','abbandono'],
+    ['morte','magico','pericolo'],
+  ],
+  caverna: [
+    ['profondo','umido','mistero','morte'],
+    ['luce','magico','morte','storia'],
+    ['storia','abbandono','umido'],
+    ['pericolo','calore','morte','profondo'],
+  ],
+  bosco: [
+    ['oscuro','silenzio','morte','mistero'],
+    ['storia','abbandono','mistero'],
+    ['mistero','abbandono','magico'],
+    ['storia','luce','mistero'],
+  ],
+  'vicolo waterdeep': [
+    ['oscuro','pericolo','minaccia'],
+    ['mistero','minaccia','ricchezza'],
+    ['pericolo','mistero'],
+    ['ricchezza','pericolo','minaccia'],
+  ],
+  'locale/locanda': [
+    ['minaccia','mistero','storia'],
+    ['mistero','abbandono','storia'],
+    ['minaccia','ricchezza','mistero'],
+    ['abbandono','mistero','pericolo'],
+  ],
+  'sala di sottomonte': [
+    ['silenzio','morte','mistero'],
+    ['magico','pericolo','mistero'],
+    ['storia','magico','abbandono'],
+    ['magico','silenzio','storia'],
+  ],
+};
+
+// Tag sulle idee
+const IDEE_TAGS = {
+  trame: [
+    ['mistero','storia'],['storia','ricchezza'],['mistero','abbandono'],
+    ['ricchezza','storia'],['mistero'],['minaccia','ricchezza'],
+    ['mistero','pericolo'],['minaccia','abbandono'],['mistero','minaccia'],
+    ['minaccia','storia'],['mistero','magico'],['morte','storia'],
+  ],
+  oggetti: [
+    ['mistero','pericolo'],['mistero','abbandono'],['mistero','magico'],
+    ['storia','morte'],['mistero','pericolo'],['magico','pericolo'],
+    ['morte','mistero'],
+  ],
+  luoghi: [
+    ['mistero','abbandono'],['morte','pericolo'],['abbandono','storia'],
+    ['calore','pericolo'],['magico','minaccia'],
+  ],
+  personaggi: [
+    ['mistero','minaccia'],['storia','mistero'],['mistero'],
+    ['abbandono','mistero'],['storia','mistero'],
+  ],
+};
+
+// ── SEMANTIC ENGINE ────────────────────────────────────────────────────────────
+function parseInput(input){
+  if(!input) return [];
+  const words = input.toLowerCase()
+    .replace(/[.,;:!?]/g,'')
+    .split(/\s+/)
+    .filter(w=>w.length>2);
+  const temi = new Set();
+  words.forEach(w=>{
+    if(VOCAB[w]) VOCAB[w].forEach(t=>temi.add(t));
+    // partial match
+    Object.keys(VOCAB).forEach(k=>{
+      if(k.length>3 && (w.includes(k)||k.includes(w)))
+        VOCAB[k].forEach(t=>temi.add(t));
+    });
+  });
+  return [...temi];
+}
+
+function scoreVariant(tags, temi){
+  if(!temi.length) return Math.random(); // no input = pure random
+  let score = tags.filter(t=>temi.includes(t)).length;
+  return score + Math.random()*0.4; // small random factor to avoid monotony
+}
+
+function pickByTemi(pool, tagPool, temi){
+  if(!tagPool || !temi.length) return pick(pool);
+  const scored = pool.map((v,i)=>({v, score: scoreVariant(tagPool[i]||[], temi)}));
+  scored.sort((a,b)=>b.score-a.score);
+  // pick from top 2 with some randomness
+  const topN = Math.min(2, scored.length);
+  return scored[Math.floor(Math.random()*topN)].v;
+}
+
+// ── OFFLINE GENERATORS ────────────────────────────────────────────────────────
+const TIPO_ALIASES = {vicolo:'vicolo waterdeep', locale:'locale/locanda', sala:'sala di sottomonte'};
+function genAmbienteOffline(zona, tipo, extra){
+  const tipoKey = (TIPO_ALIASES[tipo] || tipo).toLowerCase();
+  const pool    = T.amb[tipoKey] || T.amb.corridoio;
+  const tagPool = AMB_TAGS[tipoKey] || null;
+  const temi    = parseInput(extra);
+
+  // Pick best-matching variant
+  const variante = pickByTemi(pool, tagPool, temi);
+  const frasi    = variante.filter(f=>f.trim());
+
+  // Slot injection: if extra provided, replace one phrase with injected one
+  let result;
+  if(extra && extra.trim().length > 2){
+    const injectPool = AMB_INJECT[tipoKey] || AMB_INJECT.corridoio;
+    const injected   = pick(injectPool).replace('{extra}', extra.trim().toLowerCase());
+    // Replace the last (least important) phrase with the injected one
+    const modified   = [...frasi];
+    modified[modified.length-1] = injected;
+    result = modified.join('. ');
+  } else {
+    result = frasi.join('. ');
+  }
+  return result.replace(/\.\./g,'.').replace(/\.$/,'') + '.';
+}
+
+function genIdeeOffline(spunto, zona){
+  const temi = parseInput(spunto);
+
+  const _id=DATA.idee[lang]||DATA.idee.it;
+  const allPools = [
+    {pool: _id.trame,       tags: IDEE_TAGS.trame,       w: 3},
+    {pool: _id.oggetti,     tags: IDEE_TAGS.oggetti,     w: 2},
+    {pool: _id.luoghi,      tags: IDEE_TAGS.luoghi,      w: 2},
+    {pool: _id.personaggi,  tags: IDEE_TAGS.personaggi,  w: 2},
+  ];
+
+  // Score every idea
+  const candidates = [];
+  allPools.forEach(({pool,tags,w})=>{
+    pool.forEach((item,i)=>{
+      const base  = scoreVariant(tags[i]||[], temi);
+      candidates.push({item, score: base * w});
+    });
+  });
+
+  // Sort by score, pick top 8, then randomize 4 from those
+  candidates.sort((a,b)=>b.score-a.score);
+  const top = candidates.slice(0, Math.min(8, candidates.length));
+  const selected = [...top].sort(()=>Math.random()-.5).slice(0,4);
+
+  // If spunto provided, inject it into at least one idea's text
+  const result = selected.map(({item})=>({titolo:item[0], idea:item[1]}));
+  if(spunto && spunto.trim().length>2 && result.length>0){
+    // Append spunto as a contextual hook to the first idea
+    const hook = spunto.trim().charAt(0).toUpperCase()+spunto.trim().slice(1);
+    result[0] = {
+      titolo: result[0].titolo,
+      idea:   result[0].idea + ' (contesto: '+hook+')',
+    };
+  }
+  return result;
+}
+
+
+async function genDettaglioOgg(i){
+  const obj=_ogcache[i]||{};
+  const el=document.getElementById('oai-'+i);
+  if(!el)return;
+  el.innerHTML='<div style="margin:8px 0"><span class="loading" style="font-size:12px;color:var(--text2)">Generando</span></div>';
+  try{
+    const t=await ai(
+      `Sei un esperto di D&D 5e nei Forgotten Realms. Oggetto: "${obj.nome}" (rarità: ${obj.rar}, tipo: ${obj.tipo}${obj.danno?', base: '+obj.danno:''}${obj.prop?', proprietà: '+obj.prop:''}).
+Genera:
+1. effetto: effetto magico speciale, meccaniche D&D 5e precise, 1-2 frasi
+2. aspetto: dettaglio visivo/sensoriale evocativo, 1 frase
+3. storia: frammento di lore FR (Waterdeep, Sottomonte, fazione), 1 frase
+Rispondi SOLO con JSON: {"effetto":"...","aspetto":"...","storia":"..."}`,
+      'Rispondi SOLO con JSON valido. Niente markdown.'
+    );
+    const d=JSON.parse(t.replace(/```json|```/g,'').trim());
+    const rows=[
+      {lbl:'Effetto',val:d.effetto||''},
+      {lbl:'Aspetto',val:d.aspetto||''},
+      {lbl:'Lore',val:d.storia||'',lore:true},
+    ];
+    _aiCache['og'+i]={effetto:d.effetto||'',aspetto:d.aspetto||'',lore:d.storia||''};
+    el.outerHTML=`<div id="oai-${i}">${aiDetailHTML(rows,'og'+i)}</div>`;
+  }catch(e){
+    el.innerHTML='<div style="color:#e05040;font-size:12px;margin:6px 0">Errore generazione. Riprova.</div>';
+  }
+}
+
+async function genDettaglioLoot(){
+  const entry=_lootcache||{};
+  const el=document.getElementById('lai-detail');
+  if(!el)return;
+  el.innerHTML='<div style="margin:8px 0"><span class="loading" style="font-size:12px;color:var(--text2)">Generando</span></div>';
+  try{
+    const t=await ai(
+      `Sei un esperto di D&D 5e nei Forgotten Realms. Bottino: "${entry.d}". Note: ${entry.n}.
+Genera un dettaglio per l'oggetto più prezioso o misterioso:
+1. effetto: proprietà magica o utilità speciale (meccanica D&D 5e, 1-2 frasi)
+2. dettaglio: particolare fisico o storico notevole, ambientato nei FR (1 frase)
+Rispondi SOLO con JSON: {"effetto":"...","dettaglio":"..."}`,
+      'Rispondi SOLO con JSON valido. Niente markdown.'
+    );
+    const d=JSON.parse(t.replace(/```json|```/g,'').trim());
+    const lrows=[
+      {lbl:'Effetto',val:d.effetto||''},
+      {lbl:'Dettaglio',val:d.dettaglio||'',lore:true},
+    ];
+    _aiCache['loot']={effetto:d.effetto||'',dettaglio:d.dettaglio||''};
+    el.outerHTML=`<div id="lai-detail" style="margin-bottom:8px">${aiDetailHTML(lrows,'loot')}</div>`;
+  }catch{
+    el.innerHTML='<div style="color:#e05040;font-size:12px;margin:6px 0">Errore generazione. Riprova.</div>';
+  }
+}
+
+// ── AI VARIANTS ───────────────────────────────────────────────────────────────
+async function genPNGai(){
+  const zona=document.getElementById('p-zona').value;
+  const ruolo=document.getElementById('p-ruolo').value.toLowerCase();
+  const tono=document.getElementById('p-tono').value.toLowerCase();
+  document.getElementById('p-res').innerHTML='<div class="card"><span class="loading">Creando personaggio (AI)</span></div>';
+  try{
+    const t=await ai(
+      `Crea un PNG D&D 5e per ${zona}, Forgotten Realms. Ruolo: ${ruolo}. Tono: ${tono}.\nRispondi SOLO con JSON:\n{"nome":"...","razza":"...","descrizione":"...","ruolo":"...","obiettivi":"...","segreto":"...","fr":"..."}\nMax 15 parole per campo. fr = connessione FR nota.`,
+      'Rispondi SOLO con JSON valido.'
+    );
+    const d=JSON.parse(t.replace(/```json|```/g,'').trim());
+    _cache.png=d;
+    document.getElementById('p-res').innerHTML=`<div class="card">
+      <div class="card-big">${esc(d.nome)}</div>
+      <div class="tags"><span class="badge b-c">${esc(d.razza)}</span><span class="badge b-nc">${esc(d.ruolo)}</span></div>
+      <div class="png-detail" style="margin-top:10px">
+        <div class="png-row"><span class="fl">aspetto: </span>${esc(d.descrizione)}</div>
+        <div class="png-row"><span class="fl">obiettivi: </span>${esc(d.obiettivi)}</div>
+        <div class="png-row"><span class="fl">segreto: </span>${esc(d.segreto)}</div>
+        ${d.fr?`<div class="png-row"><span class="fl">${UI[lang].fl.fr} </span>${esc(d.fr)}</div>`:''}
+      </div>
+      <button class="card-sav" onclick="savePNG()">+ Salva</button>
+    </div>`;
+  }catch{document.getElementById('p-res').innerHTML='<div class="card"><span style="color:var(--red2)">Errore AI. Riprova.</span></div>';}
+}
+
+async function genAmbienteAI(){
+  const zona=document.getElementById('a-zona').value;
+  const tipo=document.getElementById('a-tipo').value.toLowerCase();
+  const extra=document.getElementById('a-extra').value;
+  const det=pick(AMB_MOD[tipo]||AMB_MOD.corridoio);
+  document.getElementById('a-res').innerHTML='<div class="card"><span class="loading">Evocando atmosfera (AI)</span></div>';
+  try{
+    const testo=await ai(`Descrivi un/una ${tipo} D&D 5e. Zona: ${zona}, Forgotten Realms. Caratteristica: ${det}. ${extra?'Contesto: '+extra:''}\n3-4 frasi evocative in italiano. Includi un dettaglio specifico FR. Sintetico e immediato.`);
+    _cache.ambiente={contenuto:testo,sottotipo:tipo,zona};
+    document.getElementById('a-res').innerHTML=`<div class="card">
+      <div class="card-lbl">${UI[lang].amb_zones[zona]||zona} · ${UI[lang].amb_tipos[tipo]||tipo}</div>
+      <div class="card-val" style="font-style:italic;font-size:14px">${esc(testo)}</div>
+      <button class="card-sav" onclick="saveAmbiente()">${UI[lang].save}</button>
+    </div>`;
+  }catch{document.getElementById('a-res').innerHTML='<div class="card"><span style="color:var(--red2)">Errore AI.</span></div>';}
+}
+
+async function genIdeeAI(){
+  const inp=document.getElementById('id-inp').value.trim();
+  const zona=document.getElementById('id-zona').value;
+  document.getElementById('id-res').innerHTML='<div class="card"><span class="loading">Tessendo trame (AI)</span></div>';
+  try{
+    const t=await ai(
+      `Narratore D&D 5e, Forgotten Realms (${zona}). Spunto: "${inp||'generico'}".\n4 idee brevi e originali. JSON: [{"titolo":"...","idea":"..."},...] Max 25 parole per idea.`,
+      'Rispondi SOLO con array JSON valido.'
+    );
+    const data=JSON.parse(t.replace(/```json|```/g,'').trim());
+    _cache.idee=data;
+    document.getElementById('id-res').innerHTML='<div class="grid2">'+
+      data.map((r,i)=>`<div class="card">
+        <div class="card-lbl">${esc(r.titolo)}</div>
+        <div class="card-val">${esc(r.idea)}</div>
+        <button class="card-sav" onclick="saveIdea(${i})">${UI[lang].save}</button>
+      </div>`).join('')+
+    '</div>';
+  }catch{document.getElementById('id-res').innerHTML='<div class="card"><span style="color:var(--red2)">Errore AI.</span></div>';}
+}
+
+
+// ── I18N ──────────────────────────────────────────────────────────────────────
+var lang = (function(){
+  try{ var s=localStorage.getItem('dnd_lang'); if(s==='en'||s==='it') return s; }catch{}
+  return navigator.language&&navigator.language.startsWith('it') ? 'it' : 'en';
+})();
+
+// UI strings indexed by lang
+var UI = {
+  it: {
+    nav:    ['Nomi','Oggetti','Loot','Imprev.','PNG','Luogo','Idee','Salvati'],
+    sub:    'Waterdeep · Sottomonte · Costa della Spada · Smart JSON',
+    export: '↓ Esporta',
+    // nomi
+    male:'Maschile', female:'Femminile', gen:'Genera',
+    races:{umano:'Umano',elfo:'Elfo',nano:'Nano',halfling:'Halfling',tiefling:'Tiefling',orchide:'Orchide',draconide:'Draconide'},
+    // oggetti
+    tipos:{arma:'Arma',armatura:'Armatura',magico:'Magico',consumabile:'Consumabile',misc:'Vario'},
+    // loot
+    loot_lbl:'Trovi addosso — Costa della Spada',
+    loot_btn:'Lancia i dadi',
+    loot_lvls:['Liv 1-4 (scarso)','Liv 5-8 (medio)','Liv 9-12 (ricco)','Liv 13+ (epico)'],
+    // imprevisti zone labels
+    imp_zones:{wt_strade:'Waterdeep — strade',wt_taverna:'Waterdeep — taverna',sm_alti:'Sottomonte — alti',sm_profondi:'Sottomonte — profondità',costa:'Costa della Spada',neverwinter:'Foresta di Neverwinter'},
+    imp_btn:'Imprevisto!',
+    // png
+    ruoli:{mercante:'Mercante',guardia:'Guardia',spia:'Spia',nobile:'Nobile',mago:'Mago',chierico:'Chierico',assassino:'Assassino',fabbro:'Fabbro',bardo:'Bardo',contrabbandiere:'Contrabbandiere',avventuriero:'Avventuriero',informatore:'Informatore',cultista:'Cultista',broker:'Broker'},
+    toni:{neutrale:'Neutrale',amichevole:'Amichevole',ostile:'Ostile',ambiguo:'Ambiguo',misterioso:'Misterioso',corrotto:'Corrotto',disperato:'Disperato',arrogante:'Arrogante',timoroso:'Timoroso',fanatico:'Fanatico'},
+    png_zones:{waterdeep:'Waterdeep',sottomonte:'Sottomonte',dock:'Dock Ward',castle:'Castle Ward',luskan:'Luskan',costa:'Costa della Spada'},
+    fl:{aspetto:'aspetto:',obiettivi:'obiettivi:',segreto:'segreto:',fr:'FR:',voce:'voce:'},
+    // ambiente
+    amb_zones:{waterdeep:'Waterdeep',sottomonte:'Sottomonte',costa:'Costa della Spada',neverwinter:'Foresta di Neverwinter',baldur:"Baldur's Gate"},
+    amb_tipos:{corridoio:'Corridoio',stanza:'Stanza',caverna:'Caverna',bosco:'Bosco',vicolo:'Vicolo Waterdeep',locale:'Locale/Locanda',sala:'Sala di Sottomonte'},
+    amb_ph:'dettaglio opzionale...',
+    amb_btn_loc:'⚄ Locale', amb_btn_ai:'✦ AI',
+    // idee
+    idee_ph:'spunto (oggetto, luogo, fazione, evento)...',
+    idee_zones:{waterdeep:'Waterdeep',sottomonte:'Sottomonte',costa:'Costa della Spada',generico:'Generico FR'},
+    // salvati
+    salv_empty:'Nessun elemento salvato.',
+    salv_count:' elementi · sessione D&D',
+    salv_export:'↓ Esporta JSON', salv_import:'↑ Importa', salv_clear:'Cancella tutto',
+    del_q:'Eliminare?', del_y:'Sì', del_n:'No',
+    save:'+ Salva',
+    // stat labels
+    st:{danno:'Danno',ca:'CA',prop:'Proprietà',peso:'Peso',valore:'Valore',note:'Note'},
+    ai_toggle:'Dettaglio magico',
+    ai_lbl:{effetto:'Effetto',aspetto:'Aspetto',lore:'Lore',dettaglio:'Dettaglio'},
+    // ornaments
+    orn:{nomi:'— Nomi dei Reami —',oggetti:'— Armeria dei Reami —',loot:'— Tesori Nemici —',imp:'— Colpi di Scena —',png:'— Personaggi dei Reami —',amb:'— Luoghi dei Reami —',idee:'— Ispirazione Arcana —',salv:'— Archivio di Sessione —'},
+  },
+  en: {
+    nav:    ['Names','Items','Loot','Events','PNG','Place','Ideas','Saved'],
+    sub:    'Waterdeep · Undermountain · Sword Coast · Smart JSON',
+    export: '↓ Export',
+    male:'Male', female:'Female', gen:'Generate',
+    races:{umano:'Human',elfo:'Elf',nano:'Dwarf',halfling:'Halfling',tiefling:'Tiefling',orchide:'Orc',draconide:'Dragonborn'},
+    tipos:{arma:'Weapon',armatura:'Armor',magico:'Magic',consumabile:'Consumable',misc:'Misc'},
+    loot_lbl:'Found on the body — Sword Coast',
+    loot_btn:'Roll the dice',
+    loot_lvls:['Lvl 1-4 (poor)','Lvl 5-8 (common)','Lvl 9-12 (rich)','Lvl 13+ (epic)'],
+    imp_zones:{wt_strade:'Waterdeep — streets',wt_taverna:'Waterdeep — tavern',sm_alti:'Undermountain — upper',sm_profondi:'Undermountain — depths',costa:'Sword Coast',neverwinter:'Neverwinter Wood'},
+    imp_btn:'Random Event!',
+    ruoli:{mercante:'Merchant',guardia:'Guard',spia:'Spy',nobile:'Noble',mago:'Wizard',chierico:'Cleric',assassino:'Assassin',fabbro:'Blacksmith',bardo:'Bard',contrabbandiere:'Smuggler',avventuriero:'Adventurer',informatore:'Informant',cultista:'Cultist',broker:'Broker'},
+    toni:{neutrale:'Neutral',amichevole:'Friendly',ostile:'Hostile',ambiguo:'Ambiguous',misterioso:'Mysterious',corrotto:'Corrupt',disperato:'Desperate',arrogante:'Arrogant',timoroso:'Fearful',fanatico:'Fanatical'},
+    png_zones:{waterdeep:'Waterdeep',sottomonte:'Undermountain',dock:'Dock Ward',castle:'Castle Ward',luskan:'Luskan',costa:'Sword Coast'},
+    fl:{aspetto:'appearance:',obiettivi:'goals:',segreto:'secret:',fr:'FR:',voce:'voice:'},
+    amb_zones:{waterdeep:'Waterdeep',sottomonte:'Undermountain',costa:'Sword Coast',neverwinter:'Neverwinter Wood',baldur:"Baldur's Gate"},
+    amb_tipos:{corridoio:'Corridor',stanza:'Room',caverna:'Cave',bosco:'Forest',vicolo:'Waterdeep Alley',locale:'Tavern/Inn',sala:'Undermountain Hall'},
+    amb_ph:'optional detail...',
+    amb_btn_loc:'⚄ Local', amb_btn_ai:'✦ AI',
+    idee_ph:'hook (object, place, faction, event)...',
+    idee_zones:{waterdeep:'Waterdeep',sottomonte:'Undermountain',costa:'Sword Coast',generico:'Generic FR'},
+    salv_empty:'No saved items.',
+    salv_count:' items · D&D session',
+    salv_export:'↓ Export JSON', salv_import:'↑ Import', salv_clear:'Clear all',
+    del_q:'Delete?', del_y:'Yes', del_n:'No',
+    save:'+ Save',
+    st:{danno:'Damage',ca:'AC',prop:'Properties',peso:'Weight',valore:'Value',note:'Notes'},
+    ai_toggle:'Magic detail',
+    ai_lbl:{effetto:'Effect',aspetto:'Look',lore:'Lore',dettaglio:'Detail'},
+    orn:{nomi:'— Realms Names —',oggetti:'— Realms Armory —',loot:'— Enemy Treasure —',imp:'— Plot Twists —',png:'— Realms Characters —',amb:'— Realms Locations —',idee:'— Arcane Inspiration —',salv:'— Session Archive —'},
+  }
+};
+
+function toggleLang(){
+  lang = lang==='it' ? 'en' : 'it';
+  try{ localStorage.setItem('dnd_lang', lang); }catch{}
+  applyLang();
+}
+
+function applyLang(){
+  var u = UI[lang];
+  // header
+  document.getElementById('htmlroot').lang = lang;
+  document.getElementById('btn-lang').textContent = lang==='it' ? 'EN' : 'IT';
+  document.querySelector('.hdr-sub').textContent = u.sub;
+  document.getElementById('btn-export').textContent = u.export;
+  // nav labels
+  var navBtns = document.querySelectorAll('.nav-btn');
+  u.nav.forEach(function(lbl,i){ if(navBtns[i]) navBtns[i].lastChild.textContent = lbl; });
+  // re-render current panel
+  var fn = {nomi:renderNomi,oggetti:renderOggetti,loot:renderLoot,imprevisti:renderImprevisti,png:renderPNG,ambiente:renderAmbiente,idee:renderIdee,salvati:renderSalvati};
+  if(fn[currentTab]) fn[currentTab]();
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+async function initData(){
+  const overlay=document.getElementById('loading-overlay');
+  const bar=document.getElementById('load-bar');
+  const msg=document.getElementById('load-msg');
+  const errDiv=document.getElementById('load-err');
+  try{
+    msg.textContent='Caricamento dnd-data.json...';
+    bar.style.width='20%';
+    const resp=await fetch('./dnd-data.json');
+    if(!resp.ok) throw new Error('HTTP '+resp.status+': il file dnd-data.json non e raggiungibile.');
+    bar.style.width='60%';
+    const json=await resp.json();
+    bar.style.width='80%';
+    NM=json.nomi.m; NF=json.nomi.f; COG=json.nomi.cognomi;
+    OGG=json.oggetti;
+    const r=json.rarita;
+    RAR=r.lista; RAR_CLASS=r.classe; BONUS_BY_RAR=r.bonus; VALORE_BY_RAR=r.valore_per_tipo;
+    AMB_INJECT=json.ambiente_inject||{};
+    T.png.razzePerZona=json.png.razzePerZona||{};
+    T.amb=json.ambiente||{};
+    DATA.imp=json.imprevisti||{};
+    DATA.loot=json.loot||{};
+    DATA.png=json.png||{};
+    DATA.idee=json.idee||{};
+    bar.style.width='100%';
+    msg.textContent='Pronto!';
+    setTimeout(()=>{
+      overlay.style.opacity='0';
+      overlay.style.transition='opacity .3s';
+      setTimeout(()=>{overlay.style.display='none';},300);
+    },150);
+    renderNomi(); renderOggetti(); renderLoot(); renderImprevisti();
+    renderPNG(); renderAmbiente(); renderIdee();
+    updateSavedBadge(); updateKeyStatus();
+  }catch(err){
+    bar.style.width='100%';
+    bar.style.background='#8b2020';
+    msg.style.display='none';
+    errDiv.style.display='block';
+    const isFile=location.protocol==='file:';
+    errDiv.innerHTML='<strong>Impossibile caricare i dati</strong><br><br>'+
+      (isFile?'Apri il file con file://, per Smart serve un server HTTP. Soluzioni: GitHub Pages oppure python3 -m http.server<br><br>':'Errore: ')+
+      err.message+'<br><br><a href="dnd-toolbox-offline.html" style="color:#d4b05a">Versione Offline</a>';
+  }
+}
+initData();
+</script>
+</body>
+</html>
