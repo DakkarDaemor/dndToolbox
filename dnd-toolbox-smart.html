@@ -1187,6 +1187,17 @@ function pickByTemi(pool, tagPool, temi){
   return scored[Math.floor(Math.random()*topN)].v;
 }
 
+// ── AMBIENTE MODIFIERS (used by genAmbienteAI) ────────────────────────────────
+const AMB_MOD={
+  corridoio:['stretto con pareti di pietra viva — Sottomonte','largo con pilastri scolpiti da Halaster','curvo, umido, odore di muschio e sangue','con torce magiche che ardono blu'],
+  stanza:['circolare con altare di divinità dimenticata','quadrata con trappola nel pavimento','con pozzo centrale senza fondo','con mosaico della Città degli Splendori'],
+  caverna:['con lago sotterraneo nero come inchiostro','con cristalli che emettono luce fioca','stretta, poi si allarga improvvisamente','con scheletri di avventurieri recenti'],
+  bosco:['fitto e oscuro con rovi','con alberi centenari e facce nei nodi','avvolto in nebbia bassa innaturale','con rovine elfiche tra le radici'],
+  vicolo:['stretto e puzzolente del Dock Ward','con simbolo xanathar graffiato sul muro','con casse di merce di dubbia provenienza','con botola verso le fogne'],
+  locale:['fumoso e rumoroso, pieno di marinai','con zona riservata oltre una tenda pesante','con barista che sembra ricordare tutto','con palco per musica — menestrello stonato'],
+  sala:['con soffitto a volta irraggiungibile','con trono di pietra e ossa','piena di alchimia abbandonata — ancora attiva?','con portale arcano spento... o quasi'],
+};
+
 // ── OFFLINE GENERATORS ────────────────────────────────────────────────────────
 const TIPO_ALIASES = {vicolo:'vicolo waterdeep', locale:'locale/locanda', sala:'sala di sottomonte'};
 function genAmbienteOffline(zona, tipo, extra){
