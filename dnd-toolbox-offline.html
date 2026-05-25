@@ -1728,12 +1728,14 @@ async function genPNGai(){
 
 async function genAmbienteAI(){
   const zona=document.getElementById('a-zona').value;
-  const tipo=document.getElementById('a-tipo').value.toLowerCase();
+  const tipo=document.getElementById('a-tipo').value;
   const extra=document.getElementById('a-extra').value;
   const det=pick(AMB_MOD[tipo]||AMB_MOD.corridoio);
+  const tipoLabel=(UI[lang].amb_tipos[tipo]||tipo).toLowerCase();
+  const zonaLabel=UI[lang].amb_zones[zona]||zona;
   document.getElementById('a-res').innerHTML='<div class="card"><span class="loading">Evocando atmosfera (AI)</span></div>';
   try{
-    const testo=await ai(`Descrivi un/una ${tipo} D&D 5e. Zona: ${zona}, Forgotten Realms. Caratteristica: ${det}. ${extra?'Contesto: '+extra:''}\n3-4 frasi evocative in italiano. Includi un dettaglio specifico FR. Sintetico e immediato.`);
+    const testo=await ai(`Descrivi un/una ${tipoLabel} D&D 5e. Zona: ${zonaLabel}, Forgotten Realms. Caratteristica: ${det}. ${extra?'Contesto: '+extra:''}\n3-4 frasi evocative in italiano. Includi un dettaglio specifico FR. Sintetico e immediato.`);
     _cache.ambiente={contenuto:testo,sottotipo:tipo,zona};
     document.getElementById('a-res').innerHTML=`<div class="card">
       <div class="card-lbl">${UI[lang].amb_zones[zona]||zona} · ${UI[lang].amb_tipos[tipo]||tipo}</div>

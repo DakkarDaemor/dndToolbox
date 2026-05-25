@@ -925,7 +925,7 @@ function renderAmbiente(){
     <div class="ornament">— Luoghi dei Reami ✦ —</div>
     <div class="ctrl">
       <select id="a-zona">${['Waterdeep','Sottomonte','Costa della Spada','Foresta di Neverwinter',"Baldur's Gate"].map(z=>`<option>${z}</option>`).join('')}</select>
-      <select id="a-tipo">${Object.keys(AMB_MOD).map(t=>`<option>${t.charAt(0).toUpperCase()+t.slice(1)}</option>`).join('')}</select>
+      <select id="a-tipo">${Object.keys(AMB_MOD).map(t=>`<option value="${t}">${t.charAt(0).toUpperCase()+t.slice(1)}</option>`).join('')}</select>
     </div>
     <div class="ctrl">
       <input type="text" id="a-extra" placeholder="dettaglio opzionale...">
@@ -933,11 +933,11 @@ function renderAmbiente(){
     <button class="btn p btn-full" id="a-btn" onclick="genAmbiente()">✦ Descrivi luogo</button>
     <div id="a-res" style="margin-top:12px"></div>`;
   document.getElementById('a-zona').value='Sottomonte';
-  document.getElementById('a-tipo').value='Sala di Sottomonte';
+  document.getElementById('a-tipo').value='sala di Sottomonte';
 }
 async function genAmbiente(){
   const zona=document.getElementById('a-zona').value;
-  const tipo=document.getElementById('a-tipo').value.toLowerCase();
+  const tipo=document.getElementById('a-tipo').value;
   const extra=document.getElementById('a-extra').value;
   const det=pick(AMB_MOD[tipo]||AMB_MOD.corridoio);
   const btn=document.getElementById('a-btn');
