@@ -939,7 +939,8 @@ async function genAmbiente(){
   const zona=document.getElementById('a-zona').value;
   const tipo=document.getElementById('a-tipo').value.toLowerCase();
   const extra=document.getElementById('a-extra').value;
-  const det=pick(AMB_MOD[tipo]||AMB_MOD.corridoio);
+  const _ambKey=Object.keys(AMB_MOD).find(k=>k.toLowerCase()===tipo)||tipo;
+  const det=pick(AMB_MOD[_ambKey]||AMB_MOD.corridoio);
   const btn=document.getElementById('a-btn');
   btn.disabled=true;btn.textContent='Descrivendo...';
   document.getElementById('a-res').innerHTML='<div class="card"><span class="loading">Evocando atmosfera</span></div>';
@@ -951,7 +952,10 @@ async function genAmbiente(){
       <div class="card-val" style="font-style:italic">${esc(testo)}</div>
       <button class="card-sav" onclick="saveAmbiente()">+ Salva</button>
     </div>`;
-  }catch{document.getElementById('a-res').innerHTML='<div class="card"><span style="color:var(--red2)">Generazione fallita.</span></div>';}
+  }catch(e){
+    if(e&&e.message==='API Key mancante'){document.getElementById('a-res').innerHTML='';btn.disabled=false;btn.textContent='✦ Descrivi luogo';return;}
+    document.getElementById('a-res').innerHTML='<div class="card"><span style="color:var(--red2)">Generazione fallita.</span></div>';
+  }
   btn.disabled=false;btn.textContent='✦ Descrivi luogo';
 }
 

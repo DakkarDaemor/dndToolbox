@@ -1723,7 +1723,10 @@ async function genPNGai(){
       </div>
       <button class="card-sav" onclick="savePNG()">+ Salva</button>
     </div>`;
-  }catch{document.getElementById('p-res').innerHTML='<div class="card"><span style="color:var(--red2)">Errore AI. Riprova.</span></div>';}
+  }catch(e){
+    if(e&&e.message==='API Key mancante'){document.getElementById('p-res').innerHTML='';return;}
+    document.getElementById('p-res').innerHTML='<div class="card"><span style="color:var(--red2)">Errore AI. Riprova.</span></div>';
+  }
 }
 
 async function genAmbienteAI(){
@@ -1740,7 +1743,10 @@ async function genAmbienteAI(){
       <div class="card-val" style="font-style:italic;font-size:14px">${esc(testo)}</div>
       <button class="card-sav" onclick="saveAmbiente()">${UI[lang].save}</button>
     </div>`;
-  }catch{document.getElementById('a-res').innerHTML='<div class="card"><span style="color:var(--red2)">Errore AI.</span></div>';}
+  }catch(e){
+    if(e&&e.message==='API Key mancante'){document.getElementById('a-res').innerHTML='';return;}
+    document.getElementById('a-res').innerHTML='<div class="card"><span style="color:var(--red2)">Errore AI.</span></div>';
+  }
 }
 
 async function genIdeeAI(){
@@ -1761,7 +1767,10 @@ async function genIdeeAI(){
         <button class="card-sav" onclick="saveIdea(${i})">${UI[lang].save}</button>
       </div>`).join('')+
     '</div>';
-  }catch{document.getElementById('id-res').innerHTML='<div class="card"><span style="color:var(--red2)">Errore AI.</span></div>';}
+  }catch(e){
+    if(e&&e.message==='API Key mancante'){document.getElementById('id-res').innerHTML='';return;}
+    document.getElementById('id-res').innerHTML='<div class="card"><span style="color:var(--red2)">Errore AI.</span></div>';
+  }
 }
 
 
