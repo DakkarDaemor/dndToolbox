@@ -628,7 +628,10 @@ function renderImprevisti(){
     <div class="ctrl">
       <select id="i-zona">${Object.keys(u.imp_zones).map(k=>`<option value="${k}">${u.imp_zones[k]}</option>`).join('')}</select>
     </div>
-    <button class="btn p btn-full" onclick="genImprevisto()">⚡ ${u.imp_btn}</button>
+    <div class="ctrl" style="gap:6px">
+      <button class="btn p" style="flex:1" onclick="genImprevisto()">⚡ ${u.imp_btn}</button>
+      <button class="btn btn-ai" style="flex:1" onclick="genImprevistoAI()">${u.imp_btn_ai}</button>
+    </div>
     <div id="i-res" style="margin-top:12px"></div>`;
 }
 function genImprevisto(){
@@ -1383,6 +1386,23 @@ async function genIdeeAI(){
   }catch{document.getElementById('id-res').innerHTML='<div class="card"><span style="color:var(--red2)">Errore AI.</span></div>';}
 }
 
+async function genImprevistoAI(){
+  const zona=document.getElementById('i-zona').value;
+  const zonaLabel=UI[lang].imp_zones[zona]||zona;
+  document.getElementById('i-res').innerHTML='<div class="card"><span class="loading">Generando imprevisto (AI)</span></div>';
+  try{
+    const testo=await ai(
+      `Sei un DM esperto di D&D 5e, Forgotten Realms. Zona: ${zonaLabel}.\nCrea un imprevisto narrativo breve e originale per questa zona (1-2 frasi, max 40 parole). Deve essere inaspettato, evocativo e immediatamente utilizzabile al tavolo. Non iniziare con "I personaggi" o "Gli avventurieri".`
+    );
+    _cache.imprevisto={contenuto:testo,zona};
+    document.getElementById('i-res').innerHTML=`<div class="card">
+      <div class="card-lbl">${esc(zonaLabel)}</div>
+      <div class="card-val">${esc(testo)}</div>
+      <button class="card-sav" onclick="saveImprevisto()">${UI[lang].save}</button>
+    </div>`;
+  }catch{document.getElementById('i-res').innerHTML='<div class="card"><span style="color:var(--red2)">Errore AI.</span></div>';}
+}
+
 
 // ── I18N ──────────────────────────────────────────────────────────────────────
 var lang = (function(){
@@ -1407,7 +1427,7 @@ var UI = {
     loot_lvls:['Liv 1-4 (scarso)','Liv 5-8 (medio)','Liv 9-12 (ricco)','Liv 13+ (epico)'],
     // imprevisti zone labels
     imp_zones:{wt_strade:'Waterdeep — strade',wt_taverna:'Waterdeep — taverna',sm_alti:'Sottomonte — alti',sm_profondi:'Sottomonte — profondità',costa:'Costa della Spada',neverwinter:'Foresta di Neverwinter'},
-    imp_btn:'Imprevisto!',
+    imp_btn:'Imprevisto!', imp_btn_ai:'✦ AI',
     // png
     ruoli:{mercante:'Mercante',guardia:'Guardia',spia:'Spia',nobile:'Nobile',mago:'Mago',chierico:'Chierico',assassino:'Assassino',fabbro:'Fabbro',bardo:'Bardo',contrabbandiere:'Contrabbandiere',avventuriero:'Avventuriero',informatore:'Informatore',cultista:'Cultista',broker:'Broker'},
     toni:{neutrale:'Neutrale',amichevole:'Amichevole',ostile:'Ostile',ambiguo:'Ambiguo',misterioso:'Misterioso',corrotto:'Corrotto',disperato:'Disperato',arrogante:'Arrogante',timoroso:'Timoroso',fanatico:'Fanatico'},
@@ -1445,7 +1465,7 @@ var UI = {
     loot_btn:'Roll the dice',
     loot_lvls:['Lvl 1-4 (poor)','Lvl 5-8 (common)','Lvl 9-12 (rich)','Lvl 13+ (epic)'],
     imp_zones:{wt_strade:'Waterdeep — streets',wt_taverna:'Waterdeep — tavern',sm_alti:'Undermountain — upper',sm_profondi:'Undermountain — depths',costa:'Sword Coast',neverwinter:'Neverwinter Wood'},
-    imp_btn:'Random Event!',
+    imp_btn:'Random Event!', imp_btn_ai:'✦ AI',
     ruoli:{mercante:'Merchant',guardia:'Guard',spia:'Spy',nobile:'Noble',mago:'Wizard',chierico:'Cleric',assassino:'Assassin',fabbro:'Blacksmith',bardo:'Bard',contrabbandiere:'Smuggler',avventuriero:'Adventurer',informatore:'Informant',cultista:'Cultist',broker:'Broker'},
     toni:{neutrale:'Neutral',amichevole:'Friendly',ostile:'Hostile',ambiguo:'Ambiguous',misterioso:'Mysterious',corrotto:'Corrupt',disperato:'Desperate',arrogante:'Arrogant',timoroso:'Fearful',fanatico:'Fanatical'},
     png_zones:{waterdeep:'Waterdeep',sottomonte:'Undermountain',dock:'Dock Ward',castle:'Castle Ward',luskan:'Luskan',costa:'Sword Coast'},
